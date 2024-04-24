@@ -3,9 +3,14 @@
 
 // TODO Убрать цвета в константы, добавить
 .button{
-
+  border: none;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 500;
+  width: 280px;
+  height: 37px;
   &_main {
-    @include form-button;
+
 
     background-color: global.$main-color;
     color: white;
@@ -14,7 +19,7 @@
   }
 
   &_transparent{
-    @include form-button;
+
 
     background-color: transparent;
     color: global.$main-color;

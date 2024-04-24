@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const template = Handlebars.compile(Button);
 
-  const result = template({ class: `button_main`, text: 'Нажми мне' });
+  const result = template({ class: `button button_main`, text: 'Нажми мне' });
 
   root.innerHTML = result;
 })
