@@ -2,7 +2,7 @@
 @import '../../../styles/mixins.scss';
 
 // TODO Убрать цвета в константы, добавить
-.button{
+.button {
   border: none;
   text-align: center;
   border-radius: 8px;
@@ -10,17 +10,13 @@
   width: 280px;
   height: 37px;
   &_main {
-
-
     background-color: global.$main-color;
     color: white;
     font-size: 13px;
     line-height: 13px;
   }
 
-  &_transparent{
-
-
+  &_transparent {
     background-color: transparent;
     color: global.$main-color;
     font-size: 11px;
