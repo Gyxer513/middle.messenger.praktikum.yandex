@@ -1,0 +1,29 @@
+@use '../../../index' as global;
+@import '../../../styles/mixins.scss';
+
+// TODO Убрать цвета в константы, добавить
+.button{
+
+  &_main {
+    @include form-button;
+
+    background-color: global.$main-color;
+    color: white;
+    font-size: 13px;
+    line-height: 13px;
+  }
+
+  &_transparent{
+    @include form-button;
+
+    background-color: transparent;
+    color: global.$main-color;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 11px;
+  }
+}
+
+.button:hover {
+  cursor: pointer;
+}

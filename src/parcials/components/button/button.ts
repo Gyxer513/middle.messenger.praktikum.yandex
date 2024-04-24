@@ -1,3 +1,3 @@
 // language=hbs
 
-export default `<button>{{some}}</button>`
+export default `<button class={{class}}>{{text}}</button>`

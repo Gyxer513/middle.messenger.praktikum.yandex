@@ -1,12 +1,12 @@
 import Handlebars from 'handlebars';
-import button from './parcials/components/button/button.ts'
+import { Button }from '../src/parcials/components/button/index.ts'
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.querySelector('#app');
 
-  const template = Handlebars.compile(button);
+  const template = Handlebars.compile(Button);
 
-  const result = template({ some: 'Нажми мне' });
+  const result = template({ class: `button_main`, text: 'Нажми мне' });
 
   root.innerHTML = result;
 })
