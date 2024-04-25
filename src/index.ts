@@ -1,13 +1,21 @@
 import Handlebars from 'handlebars';
-import { Button } from '../src/parcials/components/button/index.ts';
-import  { Error } from '../src/pages/Error/index.ts'
+import * as Components from './parcials/components/index.ts'
+import * as Pages from './parcials/pages/index.ts'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const root: HTMLElement | null = document.querySelector('#app');
-  if (root !== null) {
-    const template = Handlebars.compile(Error);
 
-    const result = template({ class: `button button_transparent`,errorStatus: '500', text: 'Не туда попали' });
+  const root: HTMLElement | null = document.querySelector('#app');
+
+    Object.entries(Components).forEach(([name, template]) => {
+      Handlebars.registerPartial(name.toLowerCase(), template);
+    })
+
+
+  if (root !== null) {
+    const template = Handlebars.compile(Pages.LoginPage);
+
+
+    const result = template({ });
 
     root.innerHTML = result;
   } else {

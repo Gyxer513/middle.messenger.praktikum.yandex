@@ -9,14 +9,16 @@
   font-weight: 500;
   width: 280px;
   height: 37px;
-  &_main {
+  margin: 0;
+
+  &__main {
     background-color: global.$main-color;
     color: white;
     font-size: 13px;
     line-height: 13px;
   }
 
-  &_transparent {
+  &__transparent {
     background-color: transparent;
     color: global.$main-color;
     font-size: 11px;
@@ -27,4 +29,5 @@
 
 .button:hover {
   cursor: pointer;
+  opacity: 0.7;
 }

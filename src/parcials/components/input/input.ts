@@ -1,3 +1,0 @@
-// language=hbs
-
-export default ``;
