@@ -18,6 +18,20 @@
       color: global.$error-color;
       border-bottom: 1px solid global.$error-color;
     }
+
+    &_profile {
+      width: 510px;
+      border: none;
+      outline: none;
+      padding: 5px;
+      display: flex;
+      text-align: right;
+    }
+
+    &_border {
+      border-bottom: 1px solid global.$secondary-text-color;
+    }
+
   }
 
   & div {

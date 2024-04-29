@@ -21,4 +21,5 @@ export const pages: IPages = {
   ],
   login: [Pages.LoginPage],
   register: [Pages.RegisterPage],
+  profile: [Pages.ProfilePage]
 };

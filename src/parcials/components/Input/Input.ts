@@ -8,7 +8,9 @@ export default `
                   id='{{id}}' 
                   name='{{name}}'
                   placeholder=''
-                  type='{{type}}' />
+                  type='{{type}}' 
+                  value='{{value}}'
+          />
           <div class='input__labelline'>{{placeholder}}</div>
       </div>
       <span class="text__error">{{error-text}}</span>

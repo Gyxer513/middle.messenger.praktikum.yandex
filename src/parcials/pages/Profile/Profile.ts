@@ -1,14 +1,19 @@
 // language=hbs
 
 export default `
-<section class='login__page'>
-  <form class="login__form">
-    <h2 class='login__title'>Вход</h2>
-    {{> input class='input' placeholder='Логин' type='text'}}
-    {{> input class='input' placeholder='Пароль' type='password' }}
-    <div class="login__button-box">
-      {{> button class='button button__main' text='Заоегистрироваться' type='submit' }}
-      {{> button class='button button__transparent' text='Войти' type='button' onclick=''}}
+<section class='profile__page'>
+    {{> avatar src='../../../assets/images/avatar.jpg' alt='аватар' }}
+    <h2 class='login__title'>Иван</h2>
+  <form class="profile__form">
+    {{> input class='input_profile input_border' placeholder='Почта' type='text' name='email' value='email' disabled='true'}}
+    {{> input class='input_profile input_border' placeholder='Логин' type='text' name='login' value='ivan'}}
+    {{> input class='input_profile input_border' placeholder='Имя' type='text' name='name' value='Иван'}}
+    {{> input class='input_profile input_border' placeholder='Фамилия' type='text' name='surname' value='Пирожков'}}
+    {{> input class='input_profile input_border' placeholder='Телефон' type='text' name='phone' value='+ 7 999 99 99'}}
+    <div class="profile__button-box">
+      {{> button class='button button__transparent button__transparent_border' text='Заоегистрироваться' type='submit' }}
+      {{> button class='button button__transparent button__transparent_border' text='Войти' type='button' onclick=''}}
+      {{> button class='button button__transparent button__transparent_red' text='Выйти' type='button' onclick=''}}
     </div>
   </form>
 </section>`;
