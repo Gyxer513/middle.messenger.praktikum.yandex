@@ -19,5 +19,6 @@ export const pages: IPages = {
       text: 'Мы уже фиксим'
     }
   ],
-  login: [Pages.LoginPage]
+  login: [Pages.LoginPage],
+  register: [Pages.RegisterPage],
 };

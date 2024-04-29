@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if (root !== null) {
-
     function navigate(page: string) {
       const [source, context] = pages[page];
       const container = document.getElementById('app')!;
@@ -27,8 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   } else {
-
     console.warn('#app не найден');
-
   }
 });
