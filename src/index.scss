@@ -21,3 +21,25 @@ $main-color: #3369f3;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.main_page {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.main_link-box {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.main_link {
+  text-decoration: none;
+  font-size: 24px;
+  color: $main-color
+}
+
+.main_link:hover {
+  opacity: 0.5;
+}

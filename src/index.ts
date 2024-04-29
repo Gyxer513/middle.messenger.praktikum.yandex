@@ -1,24 +1,34 @@
 import Handlebars from 'handlebars';
-import * as Components from './parcials/components/index.ts'
-import * as Pages from './parcials/pages/index.ts'
+import * as Components from './parcials/components/index.ts';
+import { pages } from './data/pages.ts';
 
 document.addEventListener('DOMContentLoaded', () => {
-
   const root: HTMLElement | null = document.querySelector('#app');
 
-    Object.entries(Components).forEach(([name, template]) => {
-      Handlebars.registerPartial(name.toLowerCase(), template);
-    })
-
+  Object.entries(Components).forEach(([name, template]) => {
+    Handlebars.registerPartial(name.toLowerCase(), template);
+  });
 
   if (root !== null) {
-    const template = Handlebars.compile(Pages.LoginPage);
 
+    function navigate(page: string) {
+      const [source, context] = pages[page];
+      const container = document.getElementById('app')!;
+      container.innerHTML = Handlebars.compile(source)(context);
+    }
 
-    const result = template({ });
+    document.addEventListener('click', e => {
+      const page = (e.target as Element)?.getAttribute('navigate');
 
-    root.innerHTML = result;
+      if (page) {
+        navigate(page);
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    });
   } else {
-    console.error('#app не найден');
+
+    console.warn('#app не найден');
+
   }
 });
