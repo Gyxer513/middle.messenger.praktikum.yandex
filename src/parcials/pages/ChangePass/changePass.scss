@@ -1,4 +1,4 @@
-.profile {
+.change-pass {
   &__page {
     position: relative;
     height: calc(100vh - 20px);
@@ -7,9 +7,5 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-
-  &__form {
-    box-shadow: none;
   }
 }

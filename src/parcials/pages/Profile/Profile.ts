@@ -9,7 +9,7 @@ export default `
     {{> input class='input_profile input_border' placeholder='Логин' type='text' name='login' value='ivan'}}
     {{> input class='input_profile input_border' placeholder='Имя' type='text' name='name' value='Иван'}}
     {{> input class='input_profile input_border' placeholder='Фамилия' type='text' name='surname' value='Пирожков'}}
-    {{> input class='input_profile input_border' placeholder='Телефон' type='text' name='phone' value='+ 7 999 99 99'}}
+    {{> input class='input_profile' placeholder='Телефон' type='text' name='phone' value='+ 7 999 99 99'}}
     <div class="profile__button-box">
       {{> button class='button button__transparent button__transparent_border' text='Заоегистрироваться' type='submit' }}
       {{> button class='button button__transparent button__transparent_border' text='Войти' type='button' onclick=''}}
