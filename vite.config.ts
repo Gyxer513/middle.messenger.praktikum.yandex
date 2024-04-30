@@ -10,3 +10,4 @@ export default defineConfig({
     outDir: resolve(__dirname, 'dist')
   }
 });
+
