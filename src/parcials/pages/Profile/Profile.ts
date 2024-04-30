@@ -2,7 +2,7 @@
 
 export default `
 <section class='profile__page'>
-    {{> avatar src='../../../assets/images/avatar.jpg' alt='аватар' }}
+    {{> avatar class='avatar__container' src='../../../assets/images/avatar.jpg' alt='аватар' }}
     <h2 class='login__title'>Иван</h2>
   <form class="profile__form">
     {{> input class='input_profile input_border' placeholder='Почта' type='text' name='email' value='email' disabled='true'}}
@@ -11,8 +11,8 @@ export default `
     {{> input class='input_profile input_border' placeholder='Фамилия' type='text' name='surname' value='Пирожков'}}
     {{> input class='input_profile' placeholder='Телефон' type='text' name='phone' value='+ 7 999 99 99'}}
     <div class="profile__button-box">
-      {{> button class='button button__transparent button__transparent_border' text='Заоегистрироваться' type='submit' }}
-      {{> button class='button button__transparent button__transparent_border' text='Войти' type='button' onclick=''}}
+      {{> button class='button button__transparent button__transparent_border' text='Изменить данные' type='submit'}}
+      {{> button class='button button__transparent button__transparent_border' text='Изменить пароль' type='button'}}
       {{> button class='button button__transparent button__transparent_red' text='Выйти' type='button' onclick=''}}
     </div>
   </form>

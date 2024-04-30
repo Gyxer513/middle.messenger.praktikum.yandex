@@ -5,7 +5,6 @@ export default `
       <div class='container'>
           <input
                   class='{{class}}'
-                  id='{{id}}' 
                   name='{{name}}'
                   placeholder=''
                   type='{{type}}' 

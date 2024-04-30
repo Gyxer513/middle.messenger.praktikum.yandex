@@ -22,5 +22,6 @@ export const pages: IPages = {
   login: [Pages.LoginPage],
   register: [Pages.RegisterPage],
   profile: [Pages.ProfilePage],
-  changePass: [Pages.ChangePassPage]
+  changePass: [Pages.ChangePassPage],
+  chats: [Pages.ChatsPage],
 };
