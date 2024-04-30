@@ -8,3 +8,4 @@ export default `
             <a class="error__link" href="/static">Назад к чатам</a>
         </div>
     </section>`;
+

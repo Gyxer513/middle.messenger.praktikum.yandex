@@ -16,3 +16,4 @@ export default `
     <div class="chats__message-box"></div>
 </section>
 `;
+

@@ -6,3 +6,4 @@ export default `
         <p class='avatar__text'>Сменить аватар</p>
     </div>
 `;
+

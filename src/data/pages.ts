@@ -25,3 +25,4 @@ export const pages: IPages = {
   changePass: [Pages.ChangePassPage],
   chats: [Pages.ChatsPage],
 };
+

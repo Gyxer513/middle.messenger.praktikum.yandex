@@ -29,3 +29,4 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('#app не найден');
   }
 });
+
