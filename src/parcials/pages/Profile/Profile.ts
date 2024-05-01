@@ -7,8 +7,9 @@ export default `
   <form class="profile__form">
     {{> input class='input_profile input_border' placeholder='Почта' type='text' name='email' value='email' disabled='true'}}
     {{> input class='input_profile input_border' placeholder='Логин' type='text' name='login' value='ivan'}}
-    {{> input class='input_profile input_border' placeholder='Имя' type='text' name='name' value='Иван'}}
-    {{> input class='input_profile input_border' placeholder='Фамилия' type='text' name='surname' value='Пирожков'}}
+    {{> input class='input_profile input_border' placeholder='Имя' type='text' name='first_name' value='Иван'}}
+    {{> input class='input_profile input_border' placeholder='Фамилия' type='text' name='second_name' value='Пирожков'}}
+    {{> input class='input_profile input_border' placeholder='Имя в чате' type='text' name='display_name' value='pirozhok'}}
     {{> input class='input_profile' placeholder='Телефон' type='text' name='phone' value='+ 7 999 99 99'}}
     <div class="profile__button-box">
       {{> button class='button button__transparent button__transparent_border' text='Изменить данные' type='submit'}}
