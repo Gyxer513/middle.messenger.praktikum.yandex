@@ -1,0 +1,62 @@
+// #Colors
+$main-background: #ffffff;
+$main-color: #3369f3;
+$main-text-color: #1e1e1e;
+$secondary-text-color: #999999;
+$error-color: #ff2f2f;
+
+:root {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-decoration: none;
+  outline: none;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  box-sizing: border-box;
+
+  color-scheme: light;
+  color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main {
+  &__page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  &__link-box {
+    padding: 20px;
+    border: 1px solid $secondary-text-color;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  &__title {
+    color: $main-color;
+  }
+
+  &__link {
+    text-decoration: none;
+    font-size: 24px;
+    color: $main-color;
+  }
+
+  &__link:hover {
+    opacity: 0.5;
+  }
+}
+

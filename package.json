@@ -1,0 +1,28 @@
+{
+  "name": "yandex.chat",
+  "private": true,
+  "version": "0.0.0",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "start": "tsc && vite build && vite preview --port 3000"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "globals": "^15.0.0",
+    "prettier": "^3.2.5",
+    "sass": "^1.75.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "vite-plugin-handlebars": "^2.0.0"
+  }
+}
+

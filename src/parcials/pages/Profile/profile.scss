@@ -1,0 +1,16 @@
+.profile {
+  &__page {
+    position: relative;
+    height: calc(100vh - 20px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__form {
+    box-shadow: none;
+  }
+}
+

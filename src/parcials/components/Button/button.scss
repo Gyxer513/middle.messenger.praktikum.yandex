@@ -1,0 +1,45 @@
+@use '../../../index' as global;
+@import '../../../styles/mixins.scss';
+
+// TODO Убрать цвета в константы, добавить
+.button {
+  border: none;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 500;
+  width: 280px;
+  height: 37px;
+  margin: 0;
+
+  &__main {
+    background-color: global.$main-color;
+    color: global.$main-background;
+    font-size: 13px;
+    line-height: 13px;
+  }
+
+  &__transparent {
+    background-color: transparent;
+    color: global.$main-color;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 11px;
+
+    &_border {
+      border-bottom: 1px solid global.$secondary-text-color;
+      text-align: start;
+      border-radius: 0;
+    }
+
+    &_red {
+      color: global.$error-color;
+      text-align: start;
+    }
+  }
+}
+
+.button:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
