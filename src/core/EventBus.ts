@@ -1,16 +1,13 @@
-interface EventMap {
-  [event: string]: any;
-}
 
-class EventBus<T extends EventMap> {
-  private readonly listeners
+export default class EventBus {
+  private readonly listeners: Record<string, Array<() => void>> = {}
 
   constructor() {
     this.listeners = {};
   }
 
   // Подписка на событие
-  on(event, callback) {
+  on(event: string, callback: ()=> void) {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -19,24 +16,21 @@ class EventBus<T extends EventMap> {
   }
 
   // Отписка от события
-  off(event, callback) {
+  off(event: string, callback: ()=> void) {
     if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+      throw new Error(`События ${event} не существует`);
     }
 
-    this.listeners[event] = this.listeners[event].filter(
-      listener => listener !== callback
-    );
+    this.listeners[event] = this.listeners[event]!
+      .filter(listener => listener !== callback);
   }
 
   // Генерация события
-  emit(event, ...args) {
+  emit(event: string, ...args: any[]): void {
     if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+      throw new Error(`События ${event} не существует`);
     }
 
-    this.listeners[event].forEach(listener => {
-      listener(...args);
-    });
+    this.listeners[event].forEach(listener => listener(...(args as [])));
   }
 }
