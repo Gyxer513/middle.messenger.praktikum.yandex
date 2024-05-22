@@ -115,6 +115,14 @@ export default class Block<Props extends {}> {
     return { children, props };
   }
 
+  public setProps = (nextProps: Props) => {
+    if (!nextProps) {
+      return;
+    }
+
+    Object.assign(this.props, nextProps);
+  };
+
   get element() {
     return this._element;
   }
@@ -172,6 +180,10 @@ export default class Block<Props extends {}> {
 
   protected render(): string {
     return '';
+  }
+
+  public dispatchComponentDidMount() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
   show() {
