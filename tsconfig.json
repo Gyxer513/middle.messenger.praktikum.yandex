@@ -12,8 +12,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "baseUrl": "./src",
-    "outDir": "dist",
+    "baseUrl": ".", // Укажите базовую директорию, обычно это корневая директория проекта
+    "paths": {
+      // Пути до алиаса
+      "@/*": ["src/*"],
+      "@core/*": ["src/@core/*"]
+    },
 
     /* Linting */
     "strict": true,

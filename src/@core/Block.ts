@@ -1,5 +1,5 @@
-import { randomIdGenerator } from '../services/randomIdGenerator.ts';
-import EventBus from './EventBus';
+import { randomIdGenerator } from '@/services/randomIdGenerator.ts';
+import EventBus from "./EventBus.ts";
 
 export default class Block<Props extends {}> {
   static EVENTS = {
