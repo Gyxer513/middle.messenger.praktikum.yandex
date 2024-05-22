@@ -7,6 +7,11 @@ export default defineConfig({
   },
   root: resolve(__dirname, 'src'),
   build: {
-    emptyOutDir: resolve(__dirname, 'dist')
+   outDir: resolve(__dirname, 'dist')
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    }
   }
 });
