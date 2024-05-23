@@ -1,5 +1,6 @@
 import { randomIdGenerator } from '@/services/randomIdGenerator.ts';
 import EventBus from "./EventBus.ts";
+import Handlebars from 'handlebars';
 
 export default class Block<Props extends {}> {
   static EVENTS = {
@@ -128,7 +129,6 @@ export default class Block<Props extends {}> {
   }
 
   _makePropsProxy(props: any) {
-    // Ещё один способ передачи this, но он больше не применяется с приходом ES6+
     const self = this;
 
     return new Proxy(props, {
@@ -141,19 +141,25 @@ export default class Block<Props extends {}> {
 
         target[prop] = value;
 
-        // Запускаем обновление компоненты
-        // Плохой cloneDeep, в следующей итерации нужно заставлять добавлять cloneDeep им самим
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
       deleteProperty() {
         throw new Error('Нет доступа');
       }
-    });
+    })
   }
 
-  public getContent(): HTMLElement | null {
-    return this.element;
+  public getContent(): HTMLElement {
+    if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+      setTimeout(() => {
+        if (this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
+          this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+        }
+      }, 100)
+    }
+
+    return this.element!;
   }
 
   private _createDocumentElement(tagName: string) {

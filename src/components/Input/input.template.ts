@@ -1,6 +1,6 @@
 // language=hbs
 
-export default `
+const template = `
   <div class="box">
       <div class='container'>
           <input
@@ -16,3 +16,4 @@ export default `
   </div>  
 `;
 
+export default template;

@@ -1,5 +1,5 @@
-@use '../../../index' as global;
-@import '../../../styles/mixins.scss';
+@use '../../index' as global;
+@import '../../styles/mixins';
 
 // TODO Убрать цвета в константы, добавить
 .button {

@@ -1,4 +1,4 @@
-import * as Pages from '../parcials/pages/index.ts';
+/*
 
 interface IPages {
   [key: string]: unknown[];
@@ -26,3 +26,4 @@ export const pages: IPages = {
   chats: [Pages.ChatsPage],
 };
 
+*/

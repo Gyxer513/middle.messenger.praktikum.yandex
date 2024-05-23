@@ -1,6 +1,6 @@
 // language=hbs
 
-export default `
+export const template = `
     <section class="error__page">
         <div class="error__container">
             <h1 class="error__title">{{ error_status }}</h1>
