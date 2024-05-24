@@ -20,8 +20,8 @@ export default class Router {
     }
     this.appElement = appElement;
 
-    window.addEventListener('hashchange', this.onHashChange.bind(this));
-    window.addEventListener('load', this.onHashChange.bind(this));
+    window.addEventListener('popstate', this.onPopState.bind(this));
+    window.addEventListener('load', this.onPopState.bind(this));
   }
 
   // Добавляем роут в список
@@ -35,9 +35,9 @@ export default class Router {
   }
 
   // Проверяем изменение хэша
-  private onHashChange(): void {
-    const currentHash = window.location.hash.slice(1);
-    const route = this.routes.find(route => route.path === currentHash);
+  private onPopState(): void {
+    const currentPath = window.location.pathname;
+    const route = this.routes.find(route => route.path === currentPath);
 
     if (route) {
       route.handler();
@@ -47,14 +47,16 @@ export default class Router {
   }
 
   // Управляемый редирект
-  public redirectTo(path: string): void {
-    window.location.hash = `${path}`;
+  public navigateTo(path: string): void {
+    history.pushState(null, '', path);
+    this.onPopState();
   }
 
   // Инициализация редиректа на 404
-  private redirectToNotFound(): void {
+  public redirectToNotFound(): void {
     if (this.notFoundHandler) {
       this.notFoundHandler();
+      history.pushState(null, '', '/404');
     } else {
       console.log("Такого адреса нет или перенаправление не задано");
     }

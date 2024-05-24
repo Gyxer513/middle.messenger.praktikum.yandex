@@ -5,7 +5,7 @@ export const template = `
         <div class="error__container">
             <h1 class="error__title">{{ error_status }}</h1>
             <p class="error__text">{{ text }}</p>
-            <a class="error__link" href="/static">Назад к чатам</a>
+            <a class="error__link" href="/">Назад к чатам</a>
         </div>
     </section>`;
 

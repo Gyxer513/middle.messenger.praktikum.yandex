@@ -1,0 +1,35 @@
+@use '@/index' as global;
+
+.home {
+  &__page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  &__link-box {
+    padding: 20px;
+    border: 1px solid global.$secondary-text-color;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  &__title {
+    color: global.$main-color;
+  }
+
+  &__link {
+    text-decoration: none;
+    font-size: 24px;
+    color: global.$main-color;
+  }
+
+  &__link:hover {
+    opacity: 0.5;
+  }
+}
