@@ -1,10 +1,10 @@
 // language=hbs
 
-const template = `
+export const template = `
   <div class="box">
       <div class='container'>
           <input
-                  class='{{class}}'
+                  class_name='{{class}}'
                   name='{{name}}'
                   placeholder=''
                   type='{{type}}' 

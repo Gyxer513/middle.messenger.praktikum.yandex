@@ -165,6 +165,7 @@ export default class Block<Props extends {}> {
   private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
+
   compile(templateString: string, context: Record<string, any>) {
     const fragment = this._createDocumentElement(
       'template'
