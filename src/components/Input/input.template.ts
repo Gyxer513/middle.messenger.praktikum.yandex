@@ -4,7 +4,7 @@ export const template = `
   <div class="box">
       <div class='container'>
           <input
-                  class_name='{{class}}'
+                  class='{{class_name}}'
                   name='{{name}}'
                   placeholder=''
                   type='{{type}}' 

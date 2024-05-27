@@ -7,13 +7,13 @@ type TErrorProps = {
   error_status: number;
 };
 
-export class Error extends Block<Object> {
+export class Error extends Block {
 
   constructor({text, error_status}: TErrorProps) {
     super({text, error_status});
   }
 
-  protected render(): string {
-    return template;
+  render(): HTMLElement {
+    return this.compile(template, this.props);
   }
 }

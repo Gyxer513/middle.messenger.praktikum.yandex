@@ -1,16 +1,7 @@
-//import * as Components from '@/components/index.ts';
 import * as Pages from '@/pages/index.ts'
-import Router from '@core/Router.ts'
-//import { registerComponent } from '@core/RegisterComponent.ts';
-//import Block from '@core/Block.ts';
+import Router from '@core/Router.ts';
 
 const router = new Router('app');
-
-
-/*Object.values(Components).forEach((Component) => {
-  console.log(Component)
-  //registerComponent(Component);
-});*/
 
 router.addRoute('/', () => {
   console.log("Home page");

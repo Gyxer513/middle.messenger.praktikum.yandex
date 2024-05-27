@@ -28,4 +28,8 @@
     display: flex;
     flex-direction: column;
   }
+
+  &__link {
+    z-index: 100;
+  }
 }

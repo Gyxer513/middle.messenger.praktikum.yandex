@@ -2,11 +2,12 @@
 
 export const template = `
 <button 
+        id='{{id}}'
         class='{{class_name}}'
         type='{{type}}'
-        disabled='{{disabled}}' 
-        onClick='{{onClick}}' 
-        onSubmit='{{onSubmit}}'
+        disabled='{{disabled}}'
+        click="{{{ onClick }}}"
+        submit="{{{ onSubmit }}}"
 >
-   '{{text}}'
+   {{text}}
 </button>`

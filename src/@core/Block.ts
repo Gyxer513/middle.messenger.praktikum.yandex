@@ -1,8 +1,13 @@
 import { randomIdGenerator } from '@/services/randomIdGenerator.ts';
-import EventBus from "./EventBus.ts";
+import EventBus from './EventBus.ts';
 import Handlebars from 'handlebars';
 
-export default class Block<Props extends {}> {
+export type Props = {
+  [key: string]: any;
+  events?: Record<string, (e: Event) => void>;
+};
+
+export default abstract class Block {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -12,7 +17,7 @@ export default class Block<Props extends {}> {
 
   public id = randomIdGenerator();
   private _element: HTMLElement | null = null;
-  protected children: Record<string, any>;
+  protected children: Record<string, Block>;
   protected props: Props;
   private eventBus: () => EventBus;
 
@@ -57,15 +62,14 @@ export default class Block<Props extends {}> {
   }
 
   private _render() {
-    const templateString = this.render();
-    const fragment = this.compile(templateString, { ...this.props });
-    const newElement = fragment.firstElementChild as HTMLElement;
+    const element = this.render();
 
     if (this._element) {
       this._removeEvents();
-      this._element.replaceWith(newElement);
+      this._element.replaceWith(element);
+      this._element = element;
     }
-    this._element = newElement;
+    this._element = element;
     this._addEvents();
   }
 
@@ -95,24 +99,16 @@ export default class Block<Props extends {}> {
   }
 
   private _extractPropsAndChildren(propsAndChildren: Object) {
-    const children: Record<string, unknown> = {};
+    const children: Record<string, Block> = {};
     const props: Record<string, unknown> = {};
 
-    for (const [key, value] of Object.entries(propsAndChildren)) {
-      switch (true) {
-        case value instanceof Block:
-          children[key] = value;
-          break;
-        case Array.isArray(value) &&
-          value.some(item => Object.values(item)[0] instanceof Block):
-          children[key] = value;
-          break;
-        default:
-          props[key] = value;
-          break;
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else {
+        props[key] = value;
       }
-    }
-
+    });
     return { children, props };
   }
 
@@ -147,57 +143,51 @@ export default class Block<Props extends {}> {
       deleteProperty() {
         throw new Error('Нет доступа');
       }
-    })
+    });
   }
 
   public getContent(): HTMLElement {
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
-        if (this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
+        if (
+          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+        ) {
           this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         }
-      }, 100)
+      }, 100);
     }
 
     return this.element!;
   }
 
-  private _createDocumentElement(tagName: string) {
-    return document.createElement(tagName);
-  }
+  compile(template: string, props: Props): HTMLElement {
+    const propsAndStubs = { ...props };
 
-  compile(templateString: string, context: Record<string, any>) {
-    const fragment = this._createDocumentElement(
-      'template'
-    ) as HTMLTemplateElement;
-    const template = Handlebars.compile(templateString);
-
-    fragment.innerHTML = template({ ...context, children: this.children });
-    Object.entries(this.children).forEach(([, child]) => {
-      const stub = fragment.content.querySelector(`[data-id="id-${child.id}"]`);
-
-      if (!stub) {
-        return;
-      }
-      stub.replaceWith(child.getContent()!);
+    Object.entries(this.children).forEach(([key, child]) => {
+      propsAndStubs[key] = `<div data-id='id-${child.id}'></div>`;
     });
 
-    return fragment.content;
+    const fragment = document.createElement('template');
+    fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
+
+    if (!fragment.content.firstElementChild) {
+      throw new Error('Шаблон пуст');
+    }
+
+    Object.values(this.children).forEach((child) => {
+      const stub = fragment.content.querySelector(`[data-id='id-${child.id}']`);
+      if (stub) {
+        stub.replaceWith(child.getContent() ?? document.createElement('div'));
+      }
+    });
+
+    return fragment.content.firstElementChild as HTMLElement;
   }
 
-  protected render(): string {
-    return '';
-  }
+  abstract render(): HTMLElement;
 
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  show() {
-    this.getContent()!.style.display = 'block';
-  }
-
-  hide() {
-    this.getContent()!.style.display = 'none';
-  }
 }

@@ -10,13 +10,13 @@ type TInputProps = {
   placeholder?: string;
 }
 
-export class Input extends Block<Object> {
+export class Input extends Block {
 
-  constructor({ class_name, name, type, placeholder = '', value }: TInputProps) {
-    super({ class_name, name, type, placeholder, value });
+  constructor(props: TInputProps) {
+    super(props);
   }
 
-  protected render(): string {
-    return template;
+  render(): HTMLElement {
+    return this.compile(template, this.props);
   }
 }
