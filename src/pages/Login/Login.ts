@@ -36,6 +36,11 @@ export class Login extends Block {
         class_name: 'button button__main',
         text: 'Войти',
         type: 'submit',
+        events: {
+          click: () => {
+            console.log('clced')
+          }
+        }
       }),
 
       linkButton: new Button({
@@ -45,7 +50,7 @@ export class Login extends Block {
         type: 'button',
       }),
       events: {
-        click: (e: Event) => this.checkForm(e),
+        onsubmit: (e: Event) => this.checkForm(e),
       },
     });
   }

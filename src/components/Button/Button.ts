@@ -8,6 +8,7 @@ type TButtonProps = {
   type: string;
   disabled?: boolean;
   text: string;
+  events?: Record<string, (event?: Event) => void>;
 };
 
 export class Button extends Block {
@@ -22,6 +23,11 @@ export class Button extends Block {
       text,
       class_name,
       type,
+      events: {
+        click: () => {
+          console.log('click')
+        }
+      }
     });
   }
 
