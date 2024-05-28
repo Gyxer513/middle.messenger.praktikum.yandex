@@ -50,6 +50,7 @@ export default class Router {
   public navigateTo(path: string): void {
     history.pushState(null, '', path);
     this.onPopState();
+    location.reload()
   }
 
   // Инициализация редиректа на 404

@@ -2,6 +2,7 @@ import Block from '@core/Block.ts';
 import { template } from '@/pages/Login/login.template.ts';
 import './login.scss';
 import { Button, Input } from '@/components';
+import { router } from '@/index.ts';
 
 interface ILoginProps {
   loginInput?: Input;
@@ -13,6 +14,8 @@ interface ILoginProps {
   passwordError?: string;
   navigateTo?: Function;
 }
+
+
 
 export class Login extends Block {
   constructor(props: ILoginProps) {
@@ -37,13 +40,13 @@ export class Login extends Block {
         class_name: 'button button__main',
         text: 'Войти',
         type: 'submit',
-        click: (e: Event) =>  {
-          console.log('login');
-          this.handleSubmit(e);
+        onClick: (e: Event) =>  {
+          e.preventDefault()
+          this.handleSubmit();
         },
         submit: (e: Event) => {
           e.preventDefault();
-          this.handleSubmit(e);
+          this.handleSubmit();
         }
       }),
 
@@ -52,13 +55,15 @@ export class Login extends Block {
         class_name: 'button button__main button__transparent',
         text: 'Зарегистрироваться',
         type: 'button',
-        click: () => console.log("click"),
+        onClick: (e: Event) =>  {
+          console.log(e.target)
+          router.navigateTo('/')
+        },
       }),
     });
   }
 
-  handleSubmit(e: Event): void | string{
-    e.preventDefault();
+  handleSubmit(): void | string{
 
     const form = document.querySelector('#loginForm')
 

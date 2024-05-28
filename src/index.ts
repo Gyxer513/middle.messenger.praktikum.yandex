@@ -1,7 +1,7 @@
 import * as Pages from '@/pages/index.ts'
 import Router from '@core/Router.ts';
 
-const router = new Router('app');
+export const router = new Router('app');
 
 router.addRoute('/', () => {
   console.log("Home page");
