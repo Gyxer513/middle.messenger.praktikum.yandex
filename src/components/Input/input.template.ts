@@ -12,7 +12,7 @@ export const template = `
           />
           <div class='input__labelline'>{{placeholder}}</div>
       </div>
-      <span class="text__error">{{error-text}}</span>
+      <span id="{{id}}" class="text__error">{{error_text}}</span>
   </div>  
 `;
 

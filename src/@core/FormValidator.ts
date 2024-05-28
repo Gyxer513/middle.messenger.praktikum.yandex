@@ -1,4 +1,4 @@
-class Validator {
+export default class FormValidator {
   private rules: { [key: string]: (value: string) => [boolean, string] } = {
     'login': this.validateLogin,
     'password': this.validatePassword
@@ -37,4 +37,3 @@ class Validator {
     return [true, "Пароль валиден."];
   }
 }
-

@@ -8,6 +8,8 @@ type TInputProps = {
   type: string;
   value?: string;
   placeholder?: string;
+  error_text?: string;
+  id?: string;
 }
 
 export class Input extends Block {

@@ -17,6 +17,7 @@
     &_error {
       color: global.$error-color;
       border-bottom: 1px solid global.$error-color;
+      letter-spacing: .1em;
     }
 
     &_profile {

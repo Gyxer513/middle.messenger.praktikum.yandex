@@ -3,6 +3,9 @@ import { template } from '@/pages/Login/login.template.ts';
 import './login.scss';
 import { Button, Input } from '@/components';
 import { router } from '@/index.ts';
+import FormValidator from '@core/FormValidator.ts'
+
+const validator = new FormValidator();
 
 interface ILoginProps {
   loginInput?: Input;
@@ -10,9 +13,9 @@ interface ILoginProps {
   submitButton?: Button;
   linkButton?: Button;
   addEvents?: Function;
+  navigateTo?: Function;
   loginError?: string;
   passwordError?: string;
-  navigateTo?: Function;
 }
 
 
@@ -25,14 +28,18 @@ export class Login extends Block {
         class_name: 'input',
         name: 'login',
         type: 'text',
-        placeholder: 'Логин'
+        placeholder: 'Логин',
+        id: 'login',
+        error_text: props.loginError
       }),
 
       passwordInput: new Input({
         class_name: 'input',
         name: 'password',
         type: 'password',
-        placeholder: 'Пароль'
+        placeholder: 'Пароль',
+        error_text: props.passwordError,
+        id: 'password'
       }),
 
       submitButton: new Button({
@@ -71,7 +78,19 @@ export class Login extends Block {
       const formData = new FormData(form as HTMLFormElement);
       const entries = Object.fromEntries(formData.entries());
 
-      console.log(entries);
+      for (const [field, value] of Object.entries(entries)) {
+        const [isValid, message] = validator.validate(field, value as string);
+        if (!isValid) {
+          const errorField = document.querySelector(`#${field}`);
+
+          errorField!.textContent = message
+
+          console.log(`Ошибка валидации поля "${field}": ${message}`);
+          return message;  // Возвращаем сообщение об ошибке
+        }
+      }
+
+      console.log("Все поля валидны:", entries);
 
     }
     return 'Элмент формы не найден'
