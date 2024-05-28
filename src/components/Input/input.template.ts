@@ -9,6 +9,7 @@ export const template = `
                   placeholder=''
                   type='{{type}}' 
                   value='{{value}}'
+                  disabled='{{disabled}}'
           />
           <div class='input__labelline'>{{placeholder}}</div>
       </div>

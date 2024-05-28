@@ -14,8 +14,6 @@ interface ILoginProps {
   linkButton?: Button;
   addEvents?: Function;
   navigateTo?: Function;
-  loginError?: string;
-  passwordError?: string;
 }
 
 
@@ -30,7 +28,6 @@ export class Login extends Block {
         type: 'text',
         placeholder: 'Логин',
         id: 'login',
-        error_text: props.loginError
       }),
 
       passwordInput: new Input({
@@ -38,7 +35,6 @@ export class Login extends Block {
         name: 'password',
         type: 'password',
         placeholder: 'Пароль',
-        error_text: props.passwordError,
         id: 'password'
       }),
 
@@ -80,18 +76,17 @@ export class Login extends Block {
 
       for (const [field, value] of Object.entries(entries)) {
         const [isValid, message] = validator.validate(field, value as string);
+        const errorField = document.querySelector(`#${field}`);
         if (!isValid) {
-          const errorField = document.querySelector(`#${field}`);
 
           errorField!.textContent = message
 
           console.log(`Ошибка валидации поля "${field}": ${message}`);
-          return message;  // Возвращаем сообщение об ошибке
+        } else {
+          errorField!.textContent = ""
+          console.log("Все поля валидны:", entries);
         }
       }
-
-      console.log("Все поля валидны:", entries);
-
     }
     return 'Элмент формы не найден'
   }

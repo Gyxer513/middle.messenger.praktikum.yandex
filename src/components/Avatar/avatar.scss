@@ -1,10 +1,11 @@
-@use '../../index' as global;
+@use '@/index' as global;
 
 .avatar {
   &__container {
     display: flex;
     flex-direction: column;
     align-items: center;
+
 
     & img {
       z-index: 102;

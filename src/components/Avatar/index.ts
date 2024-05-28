@@ -1,3 +1,2 @@
-import './avatar.scss';
-export { default as Avatar } from './Avatar.ts';
+export { Avatar } from './Avatar.ts';
 

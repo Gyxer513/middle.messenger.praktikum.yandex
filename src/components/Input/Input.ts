@@ -10,6 +10,7 @@ type TInputProps = {
   placeholder?: string;
   error_text?: string;
   id?: string;
+  disabled?: boolean;
 }
 
 export class Input extends Block {

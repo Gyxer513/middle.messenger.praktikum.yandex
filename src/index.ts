@@ -13,6 +13,11 @@ router.addRoute('/login', () => {
   router.render(new Pages.LoginPage({}));
 });
 
+router.addRoute('/profile', () => {
+  console.log("profile page");
+  router.render(new Pages.ProfilePage({}));
+});
+
 router.addRoute('/404', () => {
   console.log("404 page");
   router.render(new Pages.ErrorPage({error_status: 404, text: 'Not Found'}));

@@ -1,2 +1,1 @@
-import './profile.scss'
-export { default as Profile} from './Profile'
+export { Profile } from './Profile.ts'

@@ -1,9 +1,19 @@
-// language=hbs
+import Block from '@core/Block.ts';
+import { template } from './avatar.template.ts';
+import './avatar.scss'
+import '../../assets/images/avatar.jpg'
 
-export default `
-    <div class='{{class}}'>
-        <img class='avatar__image' src='{{src}}' alt='{{alt}}'>
-        <p class='avatar__text'>Сменить аватар</p>
-    </div>
-`;
+interface IAvatarProps {
+  class: string;
+  src: string;
+  alt: string;
+}
+export class Avatar extends Block {
+constructor(props: IAvatarProps) {
+  super(props);
+}
 
+  render(): HTMLElement {
+    return this.compile(template, this.props);
+  }
+}
