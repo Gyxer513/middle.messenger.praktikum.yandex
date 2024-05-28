@@ -5,6 +5,9 @@ export const template = `
         id='{{id}}'
         class='{{class_name}}'
         type='{{type}}'
+    {{#if disabled}}
+        disabled
+    {{/if}}
 >
    {{text}}
 </button>`

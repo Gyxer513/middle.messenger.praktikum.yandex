@@ -3,9 +3,9 @@ import { template } from '@/pages/Login/login.template.ts';
 import './login.scss';
 import { Button, Input } from '@/components';
 import { router } from '@/index.ts';
-import FormValidator from '@core/FormValidator.ts'
+import { FormHandler } from '@core/FormValidator.ts';
 
-const validator = new FormValidator();
+const formHandler = new FormHandler();
 
 interface ILoginProps {
   loginInput?: Input;
@@ -15,8 +15,6 @@ interface ILoginProps {
   addEvents?: Function;
   navigateTo?: Function;
 }
-
-
 
 export class Login extends Block {
   constructor(props: ILoginProps) {
@@ -28,6 +26,7 @@ export class Login extends Block {
         type: 'text',
         placeholder: 'Логин',
         id: 'login',
+        disabled: false
       }),
 
       passwordInput: new Input({
@@ -35,7 +34,8 @@ export class Login extends Block {
         name: 'password',
         type: 'password',
         placeholder: 'Пароль',
-        id: 'password'
+        id: 'password',
+        disabled: false
       }),
 
       submitButton: new Button({
@@ -43,13 +43,13 @@ export class Login extends Block {
         class_name: 'button button__main',
         text: 'Войти',
         type: 'submit',
-        onClick: (e: Event) =>  {
-          e.preventDefault()
-          this.handleSubmit();
+        onClick: (e: Event) => {
+          e.preventDefault();
+          formHandler.handleSubmit();
         },
         submit: (e: Event) => {
           e.preventDefault();
-          this.handleSubmit();
+          formHandler.handleSubmit();
         }
       }),
 
@@ -58,42 +58,16 @@ export class Login extends Block {
         class_name: 'button button__main button__transparent',
         text: 'Зарегистрироваться',
         type: 'button',
-        onClick: (e: Event) =>  {
-          console.log(e.target)
-          router.navigateTo('/')
-        },
-      }),
+        onClick: (e: Event) => {
+          console.log(e.target);
+          router.navigateTo('/');
+        }
+      })
     });
   }
 
-  handleSubmit(): void | string{
-
-    const form = document.querySelector('#loginForm')
-
-    if (form) {
-      const formData = new FormData(form as HTMLFormElement);
-      const entries = Object.fromEntries(formData.entries());
-
-      for (const [field, value] of Object.entries(entries)) {
-        const [isValid, message] = validator.validate(field, value as string);
-        const errorField = document.querySelector(`#${field}`);
-        if (!isValid) {
-
-          errorField!.textContent = message
-
-          console.log(`Ошибка валидации поля "${field}": ${message}`);
-        } else {
-          errorField!.textContent = ""
-          console.log("Все поля валидны:", entries);
-        }
-      }
-    }
-    return 'Элмент формы не найден'
-  }
 
   render(): HTMLElement {
     return this.compile(template, this.props);
   }
 }
-
-

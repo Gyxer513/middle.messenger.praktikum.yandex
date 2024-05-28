@@ -12,5 +12,12 @@
   &__form {
     box-shadow: none;
   }
+
+  &__button-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
