@@ -8,7 +8,8 @@ type TButtonProps = {
   type: string;
   disabled?: boolean;
   text: string;
-  events?: Record<string, (event?: Event) => void>;
+  click?: (e: Event) => void;
+  submit?: (e: Event) => void;
 };
 
 export class Button extends Block {
@@ -17,6 +18,8 @@ export class Button extends Block {
     text,
     class_name,
     type = 'submit',
+    click,
+    submit
   }: TButtonProps) {
     super({
       id,
@@ -24,9 +27,9 @@ export class Button extends Block {
       class_name,
       type,
       events: {
-        click: () => {
-          console.log('click')
-        }
+        //@ts-ignore
+        click: click,
+        submit: submit,
       }
     });
   }

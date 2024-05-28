@@ -29,6 +29,8 @@ export default abstract class Block {
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
+    console.warn(props);
+    console.warn(children)
   }
 
   private _registerEvents(eventBus: EventBus) {

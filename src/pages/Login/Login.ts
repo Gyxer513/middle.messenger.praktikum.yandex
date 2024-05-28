@@ -11,6 +11,7 @@ interface ILoginProps {
   addEvents?: Function;
   loginError?: string;
   passwordError?: string;
+  navigateTo?: Function;
 }
 
 export class Login extends Block {
@@ -36,10 +37,13 @@ export class Login extends Block {
         class_name: 'button button__main',
         text: 'Войти',
         type: 'submit',
-        events: {
-          click: () => {
-            console.log('clced')
-          }
+        click: (e: Event) =>  {
+          console.log('login');
+          this.handleSubmit(e);
+        },
+        submit: (e: Event) => {
+          e.preventDefault();
+          this.handleSubmit(e);
         }
       }),
 
@@ -48,21 +52,24 @@ export class Login extends Block {
         class_name: 'button button__main button__transparent',
         text: 'Зарегистрироваться',
         type: 'button',
+        click: () => console.log("click"),
       }),
-      events: {
-        onsubmit: (e: Event) => this.checkForm(e),
-      },
     });
   }
 
-  checkForm = (e: Event) => {
+  handleSubmit(e: Event): void | string{
     e.preventDefault();
-    console.log(e);
 
-    // @ts-ignore
-    const values = Object.fromEntries(new FormData(e.target));
-    console.log(values);
+    const form = document.querySelector('#loginForm')
 
+    if (form) {
+      const formData = new FormData(form as HTMLFormElement);
+      const entries = Object.fromEntries(formData.entries());
+
+      console.log(entries);
+
+    }
+    return 'Элмент формы не найден'
   }
 
   render(): HTMLElement {
