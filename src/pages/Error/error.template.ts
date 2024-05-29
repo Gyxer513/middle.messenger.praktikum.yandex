@@ -8,4 +8,3 @@ export const template = `
             <a class="error__link" href="/">Назад к чатам</a>
         </div>
     </section>`;
-

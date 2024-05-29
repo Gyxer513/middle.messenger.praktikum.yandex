@@ -10,4 +10,4 @@ export const template = `
     {{/if}}
 >
    {{text}}
-</button>`
+</button>`;

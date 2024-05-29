@@ -28,7 +28,7 @@ export class Button extends Block {
       type,
       events: {
         click: onClick,
-        submit: submit,
+        submit: submit
       }
     });
   }

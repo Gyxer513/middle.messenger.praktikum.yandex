@@ -66,7 +66,6 @@ export class Login extends Block {
     });
   }
 
-
   render(): HTMLElement {
     return this.compile(template, this.props);
   }

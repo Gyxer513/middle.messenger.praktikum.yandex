@@ -6,7 +6,7 @@ import '../../assets/images/avatar.jpg';
 import { router } from '@/index.ts';
 import { FormValidator } from '@core/FormValidator.ts';
 
- const formHandler = new FormValidator();
+const formHandler = new FormValidator();
 
 interface iProfileProps {
   profileAvatar?: Avatar;
@@ -23,7 +23,6 @@ export class Profile extends Block {
   constructor(props: iProfileProps) {
     super({
       ...props,
-      disabledInput: true,
       profileAvatar: new Avatar({
         class: 'avatar__container',
         src: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png',
@@ -35,7 +34,7 @@ export class Profile extends Block {
         type: 'text',
         id: 'email',
         value: 'ivan-pirizjok@gmail.com',
-        placeholder: 'E-mail',
+        placeholder: 'E-mail'
       }),
       loginInput: new Input({
         class_name: 'input input_profile input_border',
@@ -43,7 +42,7 @@ export class Profile extends Block {
         name: 'login',
         id: 'login',
         placeholder: 'Логин',
-        value: 'ivan336',
+        value: 'ivan336'
       }),
       firstNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -51,7 +50,7 @@ export class Profile extends Block {
         name: 'first_name',
         id: 'first_name',
         placeholder: 'Имя',
-        value: 'Иван',
+        value: 'Иван'
       }),
       secondNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -60,7 +59,7 @@ export class Profile extends Block {
         id: 'second_name',
         placeholder: 'Фамилия',
         value: 'Пирожков',
-        disabled: props.disabledInput,
+        disabled: props.disabledInput
       }),
       displayNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -68,7 +67,7 @@ export class Profile extends Block {
         name: 'message',
         id: 'message',
         placeholder: 'Ник в чате',
-        value: 'Pirojok12',
+        value: 'Pirojok12'
       }),
       phoneNumberInput: new Input({
         class_name: 'input input_profile input_border',
@@ -76,7 +75,7 @@ export class Profile extends Block {
         name: 'phone',
         id: 'phone',
         placeholder: 'Телефон',
-        value: '+7 999 123 55 13',
+        value: '+7 999 123 55 13'
       }),
 
       // Кнопки
@@ -112,12 +111,11 @@ export class Profile extends Block {
         type: 'button',
         onClick: (e: Event) => {
           console.log(e.target);
-          console.warn(`exit`)
+          console.warn(`exit`);
         }
       })
     });
   }
-
 
   render(): HTMLElement {
     return this.compile(template, this.props);

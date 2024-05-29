@@ -18,6 +18,11 @@ router.addRoute('/profile', () => {
   router.render(new Pages.ProfilePage({}));
 });
 
+router.addRoute('/change-password', () => {
+  console.log("change password page");
+  router.render(new Pages.ChangePassPage({}));
+});
+
 router.addRoute('/404', () => {
   console.log("404 page");
   router.render(new Pages.ErrorPage({error_status: 404, text: 'Not Found'}));

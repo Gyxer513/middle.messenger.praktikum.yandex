@@ -1,13 +1,12 @@
-
 export default class EventBus {
-  private readonly listeners: Record<string, Array<() => void>> = {}
+  private readonly listeners: Record<string, Array<() => void>> = {};
 
   constructor() {
     this.listeners = {};
   }
 
   // Подписка на событие
-  on(event: string, callback: ()=> void) {
+  on(event: string, callback: () => void) {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -16,13 +15,14 @@ export default class EventBus {
   }
 
   // Отписка от события
-  off(event: string, callback: ()=> void) {
+  off(event: string, callback: () => void) {
     if (!this.listeners[event]) {
       throw new Error(`События ${event} не существует`);
     }
 
-    this.listeners[event] = this.listeners[event]!
-      .filter(listener => listener !== callback);
+    this.listeners[event] = this.listeners[event]!.filter(
+      listener => listener !== callback
+    );
   }
 
   // Генерация события

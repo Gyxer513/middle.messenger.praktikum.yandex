@@ -1,1 +1,1 @@
-export { Home } from './Home.ts'
+export { Home } from './Home.ts';

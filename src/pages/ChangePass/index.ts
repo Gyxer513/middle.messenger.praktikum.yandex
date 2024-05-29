@@ -1,1 +1,1 @@
-export { ChangePass } from './ChangePass.ts'
+export { ChangePass } from './ChangePass.ts';

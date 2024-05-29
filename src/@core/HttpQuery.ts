@@ -15,12 +15,11 @@ type TOptions = {
 
 const toStringify = (data: Record<string, any>) => {
   return `?${new URLSearchParams(data).toString()}`;
-}
+};
 
 type HTTPMethod = (url: string, options: TOptions) => Promise<unknown>;
 
 export class HTTPTransport {
-
   get: HTTPMethod = (url, options) =>
     this.request(url, { ...options, method: METHODS.GET }, options.timeout);
 

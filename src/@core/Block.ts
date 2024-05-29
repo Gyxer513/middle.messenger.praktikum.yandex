@@ -29,8 +29,6 @@ export default abstract class Block {
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
-    console.warn(props);
-    console.warn(children)
   }
 
   private _registerEvents(eventBus: EventBus) {
@@ -176,7 +174,7 @@ export default abstract class Block {
       throw new Error('Шаблон пуст');
     }
 
-    Object.values(this.children).forEach((child) => {
+    Object.values(this.children).forEach(child => {
       const stub = fragment.content.querySelector(`[data-id='id-${child.id}']`);
       if (stub) {
         stub.replaceWith(child.getContent() ?? document.createElement('div'));
@@ -191,5 +189,4 @@ export default abstract class Block {
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
-
 }

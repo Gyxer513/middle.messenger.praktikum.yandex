@@ -7,7 +7,9 @@ export class FormValidator {
     const target = event.target as HTMLInputElement;
     const fieldName = target.name;
     const value = target.value;
-    const errorSpan = document.querySelector(`#${fieldName}_error`) as HTMLElement;
+    const errorSpan = document.querySelector(
+      `#${fieldName}_error`
+    ) as HTMLElement;
 
     const [isValid, message] = this.validator.validate(fieldName, value);
     if (!isValid) {
@@ -17,7 +19,7 @@ export class FormValidator {
     }
   }
 
- public handleSubmit(formId: string): void | string {
+  public handleSubmit(formId: string): void | string {
     const form = document.querySelector(`#${formId}`);
 
     if (form) {
@@ -28,7 +30,10 @@ export class FormValidator {
       const errors: { [key: string]: string } = {};
 
       for (const [field, value] of Object.entries(entries)) {
-        const [isValid, message] = this.validator.validate(field, value as string);
+        const [isValid, message] = this.validator.validate(
+          field,
+          value as string
+        );
         const errorField = document.querySelector(`#${field}_error`);
 
         if (!isValid) {
@@ -41,10 +46,10 @@ export class FormValidator {
       }
       if (Object.keys(errors).length > 0) {
         // Можно также вернуть объект с ошибками
-        console.log("Ошибки валидации:", errors);
+        console.log('Ошибки валидации:', errors);
       } else {
         // Возвращаем объект с валидными данными формы
-        console.log("Все поля валидны:", result);
+        console.log('Все поля валидны:', result);
       }
     } else {
       return 'Элемент формы не найден';

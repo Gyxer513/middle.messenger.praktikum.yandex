@@ -2,7 +2,7 @@
 
 export const template = `
   <div class="box">
-      <div class='container'>
+      <label class='container'>
           <input
                   class='{{class_name}}'
                   name='{{name}}'
@@ -14,7 +14,7 @@ export const template = `
   {{/if}}
           />
           <div class='input__labelline'>{{placeholder}}</div>
-      </div>
+      </label>
       <span id="{{id}}_error" class="text__error">{{error_text}}</span>
   </div>  
 `;
