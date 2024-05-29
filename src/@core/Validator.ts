@@ -2,6 +2,8 @@ export default class Validator {
   private rules: { [key: string]: (value: string) => [boolean, string] } = {
     'login': this.validateLogin,
     'password': this.validatePassword,
+    'old-password': this.validatePassword,
+    'repeat-password': this.validatePassword,
     'phone': this.validatePhone,
     'email': this.validateEmail,
     'first_name': this.validateName,

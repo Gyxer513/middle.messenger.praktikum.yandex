@@ -1,2 +1,1 @@
-import './changePass.scss'
-export { default as ChangePass } from './ChangePass.ts'
+export { ChangePass } from './ChangePass.ts'
