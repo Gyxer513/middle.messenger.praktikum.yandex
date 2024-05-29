@@ -7,10 +7,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
   }
 
   &__form {
     box-shadow: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   &__button-box {

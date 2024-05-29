@@ -1,6 +1,9 @@
 import Block from '@core/Block.ts';
 import template from './input.template.ts';
 import './input.scss'
+import { FormValidator } from '@core/FormValidator.ts';
+
+const formValidator = new FormValidator()
 
 type TInputProps = {
   class_name: string;
@@ -8,7 +11,6 @@ type TInputProps = {
   type: string;
   value?: string;
   placeholder?: string;
-  error_text?: string;
   id?: string;
   disabled?: boolean;
 }
@@ -16,7 +18,9 @@ type TInputProps = {
 export class Input extends Block {
 
   constructor(props: TInputProps) {
-    super(props);
+    super({
+      ...props, events: { input: (e: Event) => formValidator.handleInputChange(e)},
+    })
   }
 
   render(): HTMLElement {

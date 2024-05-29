@@ -3,10 +3,10 @@ import { Avatar, Button, Input } from '@/components';
 import { template } from './profile.template.ts';
 import './profile.scss';
 import '../../assets/images/avatar.jpg';
-import { FormHandler } from '@core/FormValidator.ts';
 import { router } from '@/index.ts';
+import { FormValidator } from '@core/FormValidator.ts';
 
- const formHandler = new FormHandler();
+ const formHandler = new FormValidator();
 
 interface iProfileProps {
   profileAvatar?: Avatar;
@@ -16,12 +16,14 @@ interface iProfileProps {
   secondNameInput?: Input;
   displayNameInput?: Input;
   phoneInput?: Input;
+  disabledInput?: boolean;
 }
 
 export class Profile extends Block {
   constructor(props: iProfileProps) {
     super({
       ...props,
+      disabledInput: true,
       profileAvatar: new Avatar({
         class: 'avatar__container',
         src: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png',
@@ -34,7 +36,6 @@ export class Profile extends Block {
         id: 'email',
         value: 'ivan-pirizjok@gmail.com',
         placeholder: 'E-mail',
-        disabled: true
       }),
       loginInput: new Input({
         class_name: 'input input_profile input_border',
@@ -43,7 +44,6 @@ export class Profile extends Block {
         id: 'login',
         placeholder: 'Логин',
         value: 'ivan336',
-        disabled: true
       }),
       firstNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -52,7 +52,6 @@ export class Profile extends Block {
         id: 'first_name',
         placeholder: 'Имя',
         value: 'Иван',
-        disabled: true
       }),
       secondNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -61,16 +60,15 @@ export class Profile extends Block {
         id: 'second_name',
         placeholder: 'Фамилия',
         value: 'Пирожков',
-        disabled: true
+        disabled: props.disabledInput,
       }),
       displayNameInput: new Input({
         class_name: 'input input_profile input_border',
         type: 'text',
-        name: 'display_name',
-        id: 'display_name',
+        name: 'message',
+        id: 'message',
         placeholder: 'Ник в чате',
-        value: 'Piropzjok12',
-        disabled: true
+        value: 'Pirojok12',
       }),
       phoneNumberInput: new Input({
         class_name: 'input input_profile input_border',
@@ -79,20 +77,22 @@ export class Profile extends Block {
         id: 'phone',
         placeholder: 'Телефон',
         value: '+7 999 123 55 13',
-        disabled: true
       }),
+
+      // Кнопки
+
       submitButton: new Button({
         id: 'submitButton',
         class_name: 'button button__main',
-        text: 'Войти',
+        text: 'Изменить данные',
         type: 'submit',
         onClick: (e: Event) => {
           e.preventDefault();
-         console.warn('click')
+          formHandler.handleSubmit('profileForm');
         },
         submit: (e: Event) => {
           e.preventDefault();
-          formHandler.handleSubmit();
+          formHandler.handleSubmit('profileForm');
         }
       }),
       linkButton: new Button({
@@ -108,7 +108,7 @@ export class Profile extends Block {
       exitButton: new Button({
         id: 'exitButton',
         class_name: 'button button__transparent button__transparent_red',
-        text: 'Выйти',
+        text: 'Изменить данные',
         type: 'button',
         onClick: (e: Event) => {
           console.log(e.target);

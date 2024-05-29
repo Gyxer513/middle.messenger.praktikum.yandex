@@ -63,7 +63,7 @@ export default class Router {
     }
 }
 
-// Рендер компонента
+  // Рендер компонента
   public render(component: Block): void {
     this.appElement!.appendChild(component.getContent());
   }

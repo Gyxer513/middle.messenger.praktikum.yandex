@@ -4,15 +4,15 @@ export const template = `
 <section class='profile__page'>
     {{{ profileAvatar }}}
     <h2 class='login__title'>Иван</h2>
-  <form class="profile__form">
+    <form class="profile__form" id="profileForm">
     {{{ emailInput }}}
     {{{ loginInput }}}
     {{{ firstNameInput }}}
     {{{  secondNameInput }}}
     {{{ displayNameInput }}}
     {{{ phoneNumberInput }}}
-    <div class="profile__button-box">
       {{{ submitButton }}}
+    <div class="profile__button-box">
       {{{ linkButton }}}
       {{{ exitButton  }}}
     </div>

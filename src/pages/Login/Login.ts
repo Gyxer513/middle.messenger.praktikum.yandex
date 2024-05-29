@@ -3,9 +3,9 @@ import { template } from '@/pages/Login/login.template.ts';
 import './login.scss';
 import { Button, Input } from '@/components';
 import { router } from '@/index.ts';
-import { FormHandler } from '@core/FormValidator.ts';
+import { FormValidator } from '@core/FormValidator.ts';
 
-const formHandler = new FormHandler();
+const formHandler = new FormValidator();
 
 interface ILoginProps {
   loginInput?: Input;
@@ -45,11 +45,11 @@ export class Login extends Block {
         type: 'submit',
         onClick: (e: Event) => {
           e.preventDefault();
-          formHandler.handleSubmit();
+          formHandler.handleSubmit('loginForm');
         },
         submit: (e: Event) => {
           e.preventDefault();
-          formHandler.handleSubmit();
+          formHandler.handleSubmit('loginForm');
         }
       }),
 

@@ -1,80 +1,71 @@
-export default class FormValidator {
-  private rules: { [key: string]: (value: string) => [boolean, string] } = {
-    'login': this.validateLogin,
-    'password': this.validatePassword,
-    'phone': this.validatePhone
-  };
+import Validator from '@core/Validator.ts';
 
-  validate(fieldName: string, value: string): [boolean, string] {
-    if (fieldName in this.rules) {
-      return this.rules[fieldName](value);
+export class FormValidator {
+  private validator = new Validator();
+
+  public handleInputChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const fieldName = target.name;
+    const value = target.value;
+    const errorSpan = document.querySelector(`#${fieldName}_error`) as HTMLElement;
+
+    const [isValid, message] = this.validator.validate(fieldName, value);
+    if (!isValid) {
+      errorSpan.textContent = message;
     } else {
-      throw new Error(`Не определено правило валидации для поля: ${fieldName}`);
+      errorSpan.textContent = '';
     }
   }
 
-  private validateLogin(value: string): [boolean, string] {
-    // Правило для логина: минимум 5 символов, только буквы и цифры
-    if (value.length < 5) {
-      return [false, "Логин должен содержать минимум 5 символов."];
-    }
-    if (!/^[a-zA-Z0-9]+$/.test(value)) {
-      return [false, "Логин может содержать только буквы и цифры."];
-    }
-    return [true, "Логин валиден."];
-  }
-
-  private validatePassword(value: string): [boolean, string] {
-    // Правило для пароля: минимум 8 символов, минимум одна цифра и одна буква
-    if (value.length < 8) {
-      return [false, "Пароль должен содержать минимум 8 символов."];
-    }
-    if (!/\d/.test(value)) {
-      return [false, "Пароль должен содержать как минимум одну цифру."];
-    }
-    if (!/[a-zA-Z]/.test(value)) {
-      return [false, "Пароль должен содержать как минимум одну букву."];
-    }
-    return [true, "Пароль валиден."];
-  }
-
-  private validatePhone(value: string): [boolean, string] {
-    // Правило для телефона +79999999999, принимает занчения с пробелоами (например +7 985 123 12 16)
-    const sanitizedValue = value.replace(/\s+/g, ''); // Удаляем пробелы
-    if (!/^\+7\d{10}$/.test(sanitizedValue)) {
-      return [false, "Телефон должен быть в формате +79999999999."];
-    }
-    return [true, "Телефон валиден."];
-  }
-
-}
-
-export class FormHandler {
-  private validator = new FormValidator();
-
-  handleSubmit(): void | string {
-    const form = document.querySelector('#loginForm');
+ public handleSubmit(formId: string): void | string {
+    const form = document.querySelector(`#${formId}`);
 
     if (form) {
       const formData = new FormData(form as HTMLFormElement);
       const entries = Object.fromEntries(formData.entries());
 
+      const result: { [key: string]: string | string[] } = {};
+      const errors: { [key: string]: string } = {};
+
       for (const [field, value] of Object.entries(entries)) {
         const [isValid, message] = this.validator.validate(field, value as string);
-        const errorField = document.querySelector(`#${field}`);
+        const errorField = document.querySelector(`#${field}_error`);
+
         if (!isValid) {
           errorField!.textContent = message;
-
-          console.log(`Ошибка валидации поля "${field}": ${message}`);
+          errors[field] = message;
         } else {
           errorField!.textContent = '';
-          console.log('Все поля валидны:', entries);
+          result[field] = value as string;
         }
       }
-
-      console.log("Все поля валидны:", entries);
+      if (Object.keys(errors).length > 0) {
+        // Можно также вернуть объект с ошибками
+        console.log("Ошибки валидации:", errors);
+      } else {
+        // Возвращаем объект с валидными данными формы
+        console.log("Все поля валидны:", result);
+      }
     } else {
       return 'Элемент формы не найден';
+    }
+  }
+
+  public validateFieldById(id: string, ruleName: string): void {
+    const input = document.getElementById(id) as HTMLInputElement;
+    const errorSpan = document.querySelector(`#${id}_error`) as HTMLElement;
+
+    if (input) {
+      const value = input.value;
+      const [isValid, message] = this.validator.validate(ruleName, value);
+
+      if (!isValid) {
+        errorSpan.textContent = message;
+      } else {
+        errorSpan.textContent = '';
+      }
+    } else {
+      console.error(`Элемент с id "${id}" не найден.`);
     }
   }
 }
