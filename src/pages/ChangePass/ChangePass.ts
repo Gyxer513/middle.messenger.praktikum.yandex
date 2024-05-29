@@ -5,7 +5,7 @@ import { Avatar, Button, Input } from '@/components';
 import { FormValidator } from '@core/FormValidator.ts';
 
 interface IChangePassProps {
-  profileAvatar?: Avatar
+  profileAvatar?: Avatar;
   oldPasswordInput?: Input;
   passwordInput?: Input;
   repeatPasswordInput?: Input;
