@@ -1,15 +1,22 @@
+
+
 // language=hbs
 export const template = `
     <section class="chat">
-        <div class="chat-container">
-            <div class="message sender">Hello, how are you?</div>
-            <div class="message receiver">I'm good, thanks! How about you?</div>
-            <div class="message sender">I'm doing well. What are you up to?</div>
-            <div class="message receiver">Just working on a project. You?</div>
+        <div class="chat__header">
+        <img src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png" alt="аватар" class="chat__avatar">
+            <h4 class="chat__name">Иван</h4>
         </div>
-        <div class="input-container">
-            <input type="text" class="message-input" placeholder="Type your message...">
-            <button class="send-button">&#10145;</button>
+        <div class="chat__container">
+            <div class="chat__message chat__sender">Привет, как твои дела, уже сдал проект?</div>
+            <div class="chat__message chat__receiver">Еще нет, но я почти закончил.</div>
+            <div class="chat__message chat__sender">Были проблемы?</div>
+            <div class="chat__message chat__receiver">Да, заказчик несколько раз вносил правки в макет, но теперь все хорошо.</div>
         </div>
+        <form class="chat__input-container" id="chatForm">
+            <input name="message" type="text" class="chat__message-input" placeholder="Введите свое сообщение">
+           <span id="message_error" class="text__error"></span>
+            {{{ submitButton }}}
+        </form>
     </section>
 `;

@@ -25,7 +25,7 @@ export class FormValidator {
     if (form) {
       const formData = new FormData(form as HTMLFormElement);
       const entries = Object.fromEntries(formData.entries());
-
+console.log(entries)
       const result: { [key: string]: string | string[] } = {};
       const errors: { [key: string]: string } = {};
 
