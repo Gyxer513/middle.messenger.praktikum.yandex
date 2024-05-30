@@ -1,3 +1,2 @@
-import './chatItem.scss';
-export { default as ChatItem } from './ChatItem.ts';
+export { ChatItem } from './ChatItem.ts';
 

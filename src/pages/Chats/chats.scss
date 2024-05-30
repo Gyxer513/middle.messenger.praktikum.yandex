@@ -1,4 +1,4 @@
-@use '../../../index' as global;
+@use '@/index' as global;
 
 .chats {
   &__page {
@@ -6,7 +6,7 @@
     height: calc(100vh - 20px);
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   &__message-box {

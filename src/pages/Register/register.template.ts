@@ -13,7 +13,7 @@ export const template = `
     {{{ repeatPasswordInput }}}
     <div class="login__button-box">
         {{{ submitButton }}}
-        {{{  linkButton }}}
+        {{{ linkButton }}}
     </div>
   </form>
 </section>

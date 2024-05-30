@@ -23,10 +23,14 @@ router.addRoute('/register', () => {
   router.render(new Pages.RegisterPage({}));
 });
 
-
 router.addRoute('/change-password', () => {
   console.log("change password page");
   router.render(new Pages.ChangePassPage({}));
+});
+
+router.addRoute('/chats', () => {
+  console.log("chats page");
+  router.render(new Pages.ChatsPage({}));
 });
 
 router.addRoute('/404', () => {
