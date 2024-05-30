@@ -3,7 +3,7 @@
 .container {
   position: relative;
 
-  & .input {
+  .input {
     width: 280px;
     height: 45px;
     background: global.$main-background;
@@ -35,7 +35,7 @@
     }
   }
 
-  & div {
+  .div {
     font-size: 0.9em;
     color: global.$secondary-text-color;
     position: absolute;
@@ -46,7 +46,7 @@
     transition: 0.3s;
   }
 
-  & input:focus ~ div {
+  .input:focus ~ div {
     font-size: 15px;
     transform: translateY(-50%);
     padding: 2px;
@@ -55,7 +55,7 @@
     letter-spacing: 3px;
   }
 
-  & input:invalid ~ div {
+  .input:invalid ~ div {
     color: global.$error-color;
     border-bottom: global.$error-color;
   }
@@ -67,7 +67,7 @@
   margin-bottom: 25px;
 }
 
-.text__error {
+.text-error {
   margin-top: 5px;
   font-weight: 400;
   font-size: 10px;

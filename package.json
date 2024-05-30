@@ -11,7 +11,8 @@
     "build": "tsc && vite build --emptyOutDir",
     "preview": "vite preview",
     "start": "tsc && vite build --emptyOutDir  && vite preview --port 3000 && eslint . --ext .js,.ts --fix",
-    "stylelint": "npx stylelint \"**/*.scss\" --fix"
+    "stylelint": "npx stylelint \"**/*.scss\" --fix",
+    "eslint": "eslint . --fix"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
