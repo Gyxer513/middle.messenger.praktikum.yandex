@@ -18,6 +18,12 @@ router.addRoute('/profile', () => {
   router.render(new Pages.ProfilePage({}));
 });
 
+router.addRoute('/register', () => {
+  console.log("register page");
+  router.render(new Pages.RegisterPage({}));
+});
+
+
 router.addRoute('/change-password', () => {
   console.log("change password page");
   router.render(new Pages.ChangePassPage({}));

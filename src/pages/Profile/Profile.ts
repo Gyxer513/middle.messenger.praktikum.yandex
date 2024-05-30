@@ -17,6 +17,9 @@ interface iProfileProps {
   displayNameInput?: Input;
   phoneInput?: Input;
   disabledInput?: boolean;
+  submitButton?: Button;
+  linkButton?: Button;
+  exitButton?: Button;
 }
 
 export class Profile extends Block {

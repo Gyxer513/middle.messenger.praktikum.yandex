@@ -60,7 +60,7 @@ export class Login extends Block {
         type: 'button',
         onClick: (e: Event) => {
           console.log(e.target);
-          router.navigateTo('/');
+          router.navigateTo('/register');
         }
       })
     });
