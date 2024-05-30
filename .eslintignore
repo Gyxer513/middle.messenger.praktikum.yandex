@@ -3,5 +3,11 @@ dist
 node_modules
 server.js
 vite.config.js
-*.css
-*.hbs
+*.scss
+src/@core/*
+src/components/Avatar/Avatar.ts
+src/components/Chat/Chat.ts
+src/components/Input/Input.ts
+src/pages/Profile/Profile.ts
+
+

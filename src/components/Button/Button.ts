@@ -1,5 +1,5 @@
-import Block from '@core/Block.ts';
 import { template } from '@/components/Button/button.template.ts';
+import Block from '@core/Block.ts';
 import './button.scss';
 
 type TButtonProps = {
@@ -13,27 +13,29 @@ type TButtonProps = {
 };
 
 export class Button extends Block {
-  constructor({
-    id,
-    text,
-    class_name,
-    type = 'submit',
-    onClick,
-    submit
-  }: TButtonProps) {
-    super({
-      id,
-      text,
-      class_name,
-      type,
-      events: {
-        click: onClick,
-        submit: submit
-      }
-    });
-  }
+    constructor({
+        id,
+        text,
+        // eslint-disable-next-line no-use-before-define
+        class_name,
+        type = 'submit',
+        onClick,
+        submit,
+    }: TButtonProps) {
+        super({
+            id,
+            text,
+            // eslint-disable-next-line no-use-before-define
+            class_name,
+            type,
+            events: {
+                click: onClick,
+                submit,
+            },
+        });
+    }
 
-  render(): HTMLElement {
-    return this.compile(template, this.props);
-  }
+    render(): HTMLElement {
+        return this.compile(template, this.props);
+    }
 }

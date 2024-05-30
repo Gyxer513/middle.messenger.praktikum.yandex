@@ -1,4 +1,5 @@
 import Block from '@core/Block.ts';
+
 import './error.scss';
 import { template } from './error.template.ts';
 
@@ -8,11 +9,11 @@ type TErrorProps = {
 };
 
 export class Error extends Block {
-  constructor({ text, error_status }: TErrorProps) {
-    super({ text, error_status });
-  }
+    constructor({ text, error_status }: TErrorProps) {
+        super({ text, error_status });
+    }
 
-  render(): HTMLElement {
-    return this.compile(template, this.props);
-  }
+    render(): HTMLElement {
+        return this.compile(template, this.props);
+    }
 }
