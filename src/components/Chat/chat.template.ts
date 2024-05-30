@@ -1,5 +1,3 @@
-
-
 // language=hbs
 export const template = `
     <section class="chat">
