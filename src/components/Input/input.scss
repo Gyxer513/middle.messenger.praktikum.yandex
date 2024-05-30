@@ -1,4 +1,5 @@
 @use '@/index' as global;
+
 .container {
   position: relative;
 
@@ -6,7 +7,7 @@
     width: 280px;
     height: 45px;
     background: global.$main-background;
-    padding: 15px 15px 0 15px;
+    padding: 15px 15px 0;
     border: none;
     outline: none;
     border-bottom: 1px solid global.$main-color;

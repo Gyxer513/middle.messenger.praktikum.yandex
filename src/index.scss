@@ -1,8 +1,8 @@
 // #Colors
-$main-background: #ffffff;
-$main-color: #3369f3;
-$main-text-color: #1e1e1e;
-$secondary-text-color: #999999;
+$main-background: #fff;#Colors$main-background#Colors$main-background#Colors$main-background#Colors$main-background
+$main-color: #3369f3;$main-color$main-color$main-color
+$main-text-color: #1e1e1e;$main-text-color$main-text-color
+$secondary-text-color: #999;$secondary-text-color
 $error-color: #ff2f2f;
 $message-color: #E4EDFD;
 
@@ -15,17 +15,12 @@ $message-color: #E4EDFD;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   box-sizing: border-box;
-
   color-scheme: light;
-  color: rgba(255, 255, 255, 0.87);
-
+  color: rgb(255 255 255 / 87%);
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-
 

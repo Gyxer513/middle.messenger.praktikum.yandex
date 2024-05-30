@@ -13,14 +13,17 @@
     font-weight: 500;
     gap: 1rem;
   }
+
   &__name {
     color: global.$main-text-color;
     margin: 0;
   }
+
   &__message {
     color: global.$secondary-text-color;
     margin: 0;
   }
+
   &__time-box {
     display: flex;
     flex-direction: column;

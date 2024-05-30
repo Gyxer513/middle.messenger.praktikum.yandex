@@ -1,5 +1,6 @@
 @use '../../index' as global;
-@import '../../styles/mixins';
+
+@import url('../../styles/mixins');
 
 .button {
   border: none;
