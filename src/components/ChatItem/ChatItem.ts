@@ -1,7 +1,6 @@
-import { template } from './chatitem.template.ts'
+import { template } from './chatitem.template.ts';
 import Block from '@core/Block.ts';
-import './chatItem.scss'
-
+import './chatItem.scss';
 
 interface IChatItemProps {
   src: string;
@@ -16,14 +15,10 @@ interface IChatItemProps {
 export class ChatItem extends Block {
   constructor(props: IChatItemProps) {
     super({
-      ...props});
+      ...props
+    });
   }
   render(): HTMLElement {
     return this.compile(template, this.props);
   }
-
 }
-
-
-
-

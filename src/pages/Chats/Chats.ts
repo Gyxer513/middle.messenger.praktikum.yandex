@@ -1,5 +1,5 @@
 import { template } from '@/pages/Chats/chats.template.ts';
-import './chats.scss'
+import './chats.scss';
 import Block from '@core/Block.ts';
 import { ChatItem } from '@/components';
 import { Chat } from '@/components/Chat/Chat.ts';
@@ -46,6 +46,6 @@ export class Chats extends Block {
   }
 
   render(): HTMLElement {
-    return this.compile(template, this.props)
+    return this.compile(template, this.props);
   }
 }

@@ -1,5 +1,5 @@
 // language=hbs
-export const template =  `
+export const template = `
 <div class="card">
     <div class="card__body">
         <img class='card__image' alt='{{alt}}' src='{{src}}' />
@@ -13,4 +13,4 @@ export const template =  `
         <p class='{{counter_class}}'>{{counter_number}}</p>
     </div>
 </div>
-`
+`;
