@@ -13,7 +13,7 @@ export const template = `
         </div>
         <form class="chat__input-container" id="chatForm">
             <input name="message" type="text" class="chat__message-input" placeholder="Введите свое сообщение">
-           <span id="message_error" class="text__error"></span>
+           <span id="message_error" class="text-error"></span>
             {{{ submitButton }}}
         </form>
     </section>

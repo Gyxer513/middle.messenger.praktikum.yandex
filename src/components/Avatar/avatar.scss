@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
 
-    .img {
+    img {
       z-index: 102;
       position: relative;
       top: -70px;
@@ -22,7 +22,7 @@
       }
     }
 
-    .p {
+    p {
       z-index: 101;
       position: absolute;
       text-align: center;
@@ -37,13 +37,13 @@
     height: 47px;
     width: 47px;
 
-    .img {
+    img {
       height: 47px;
       width: 47px;
       border-radius: 50%;
     }
 
-    .p {
+    p {
       display: none;
     }
   }

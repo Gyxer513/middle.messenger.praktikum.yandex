@@ -3,7 +3,7 @@
 .container {
   position: relative;
 
-   input {
+   .input {
     width: 280px;
     height: 45px;
     background: global.$main-background;
@@ -55,7 +55,7 @@
     letter-spacing: 3px;
   }
 
-  .input:invalid ~ div {
+  input:invalid ~ div {
     color: global.$error-color;
     border-bottom: global.$error-color;
   }
