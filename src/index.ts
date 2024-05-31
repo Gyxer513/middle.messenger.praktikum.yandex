@@ -1,32 +1,48 @@
-import Handlebars from 'handlebars';
-import * as Components from './parcials/components/index.ts';
-import { pages } from './data/pages.ts';
+import * as Pages from '@/pages/index.ts';
+import Router from '@core/Router.ts';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const root: HTMLElement | null = document.querySelector('#app');
+export const router = new Router('app');
 
-  Object.entries(Components).forEach(([name, template]) => {
-    Handlebars.registerPartial(name.toLowerCase(), template);
-  });
-
-  if (root !== null) {
-    function navigate(page: string) {
-      const [source, context] = pages[page];
-      const container = document.getElementById('app')!;
-      container.innerHTML = Handlebars.compile(source)(context);
-    }
-
-    document.addEventListener('click', e => {
-      const page = (e.target as Element)?.getAttribute('navigate');
-
-      if (page) {
-        navigate(page);
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-    });
-  } else {
-    console.warn('#app не найден');
-  }
+router.addRoute('/', () => {
+    router.render(new Pages.HomePage({}));
 });
 
+router.addRoute('/login', () => {
+    router.render(new Pages.LoginPage({}));
+});
+
+router.addRoute('/profile', () => {
+    router.render(new Pages.ProfilePage({}));
+});
+
+router.addRoute('/register', () => {
+    router.render(new Pages.RegisterPage({}));
+});
+
+router.addRoute('/change-password', () => {
+    console.log('change password page');
+    router.render(new Pages.ChangePassPage({}));
+});
+
+router.addRoute('/chats', () => {
+    console.log('chats page');
+    router.render(new Pages.ChatsPage({}));
+});
+
+router.addRoute('/404', () => {
+    console.log('404 page');
+    router.render(new Pages.ErrorPage({ error_status: 404, text: 'Not Found' }));
+});
+
+router.addRoute('/500', () => {
+    console.log('500 page');
+    router.render(
+        new Pages.ErrorPage({ error_status: 500, text: 'Server error' }),
+    );
+});
+
+router.setNotFoundHandler(() => {
+    console.log('404 page');
+    router.render(new Pages.ErrorPage({ error_status: 404, text: 'Not Found' }));
+    history.pushState(null, '', '/404');
+});
