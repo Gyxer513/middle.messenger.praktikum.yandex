@@ -14,7 +14,14 @@ export default class Router {
 
     private appElement: HTMLElement;
 
+    private static _instance: Router;
+
     constructor(appElementId: string) {
+
+        if (Router._instance) {
+            return Router._instance;
+        }
+
     // Находим root элемент
         const appElement = document.getElementById(appElementId);
         if (!appElement) {
@@ -24,6 +31,8 @@ export default class Router {
 
         window.addEventListener('popstate', this.onPopState.bind(this));
         window.addEventListener('load', this.onPopState.bind(this));
+
+        Router._instance = this;
     }
 
     // Добавляем роут в список
