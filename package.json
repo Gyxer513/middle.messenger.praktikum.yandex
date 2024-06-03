@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "tsc && vite build --emptyOutDir",
     "preview": "vite preview",
-    "start": "tsc && vite build --emptyOutDir  && vite preview --port 3000 && eslint . --ext .js,.ts --fix",
+    "start": "tsc && vite build --emptyOutDir  && vite --port 3000 && eslint . --ext .js,.ts --fix",
     "stylelint": "npx stylelint \"**/*.scss\" --fix",
     "eslint": "eslint \"**/*.{ts,js}\" --fix"
   },

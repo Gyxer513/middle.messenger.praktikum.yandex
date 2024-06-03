@@ -1,5 +1,5 @@
 import Block from '@core/Block.ts';
-import { Avatar, Button, Input } from '@/components';
+import { Avatar, Button, Input, Link } from '@/components';
 
 import { template } from './profile.template.ts';
 
@@ -99,20 +99,14 @@ export class Profile extends Block {
                     formHandler.handleSubmit('profileForm');
                 },
             }),
-            linkButton: new Button({
-                id: 'linkButton',
-                class_name: 'button button__main button__transparent',
+            linkToChangePass: new Link({
+                path: '/change-password',
                 text: 'Изменить пароль',
-                type: 'button',
-                onClick: (e: Event) => {
-                    console.log(e.target);
-                    router.navigateTo('/change-password');
-                },
             }),
             exitButton: new Button({
                 id: 'exitButton',
                 class_name: 'button button__transparent button__transparent_red',
-                text: 'Изменить данные',
+                text: 'Выйти',
                 type: 'button',
                 onClick: (e: Event) => {
                     console.log(e.target);

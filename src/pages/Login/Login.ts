@@ -1,9 +1,8 @@
 import { template } from '@/pages/Login/login.template.ts';
 import Block from '@core/Block.ts';
 import './login.scss';
-import { router } from '@/index.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Button, Input } from '@/components';
+import { Button, Input, Link } from '@/components';
 
 const formHandler = new FormValidator();
 
@@ -53,15 +52,9 @@ export class Login extends Block {
                 },
             }),
 
-            linkButton: new Button({
-                id: 'linkButton',
-                class_name: 'button button__main button__transparent',
-                text: 'Зарегистрироваться',
-                type: 'button',
-                onClick: (e: Event) => {
-                    console.log(e.target);
-                    router.navigateTo('/register');
-                },
+            linkToRegister: new Link({
+                path: '/register',
+                text: 'Регистрация',
             }),
         });
     }

@@ -2,7 +2,7 @@ import './register.scss';
 import { router } from '@/index.ts';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Button, Input } from '@/components';
+import { Button, Input, Link } from '@/components';
 
 import { template } from './register.template.ts';
 
@@ -88,15 +88,9 @@ export class Register extends Block {
                     formHandler.handleSubmit('profileForm');
                 },
             }),
-            linkButton: new Button({
-                id: 'linkButton',
-                class_name: 'button button__main button__transparent',
+            linkToLogin: new Link({
+                path: '/login',
                 text: 'Войти',
-                type: 'button',
-                onClick: (e: Event) => {
-                    console.log(e.target);
-                    router.navigateTo('/login');
-                },
             }),
         });
     }

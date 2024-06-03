@@ -13,7 +13,7 @@ export const template = `
     {{{ phoneNumberInput }}}
       {{{ submitButton }}}
     <div class="profile__button-box">
-      {{{ linkButton }}}
+      {{{ linkToChangePass }}}
       {{{ exitButton  }}}
     </div>
   </form>

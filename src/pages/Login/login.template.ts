@@ -6,7 +6,7 @@ export const template = `
     {{{ passwordInput }}}
     <div class="login__button-box">
         {{{ submitButton }}}
-        {{{ linkButton }}}
+        {{{ linkToRegister }}}
     </div>
   </form>
 </section>

@@ -12,15 +12,11 @@ export default class Router {
 
     private notFoundHandler: RouteHandler | null = null;
 
-    private appElement: HTMLElement;
-
     private static _instance: Router;
 
-    constructor(appElementId: string) {
+    private appElement: HTMLElement;
 
-        if (Router._instance) {
-            return Router._instance;
-        }
+    constructor(appElementId: string) {
 
     // Находим root элемент
         const appElement = document.getElementById(appElementId);
@@ -31,6 +27,10 @@ export default class Router {
 
         window.addEventListener('popstate', this.onPopState.bind(this));
         window.addEventListener('load', this.onPopState.bind(this));
+
+        if (Router._instance) {
+            return Router._instance;
+        }
 
         Router._instance = this;
     }
