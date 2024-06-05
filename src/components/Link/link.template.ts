@@ -6,4 +6,4 @@ export const template = `
     class='link'>
     {{ text }}
     </a>
-`
+`;

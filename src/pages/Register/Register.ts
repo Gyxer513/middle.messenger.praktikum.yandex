@@ -1,5 +1,4 @@
 import './register.scss';
-import { router } from '@/index.ts';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
 import { Button, Input, Link } from '@/components';
