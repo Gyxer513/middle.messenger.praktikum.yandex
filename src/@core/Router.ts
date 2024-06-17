@@ -5,6 +5,7 @@ type RouteHandler = () => void;
 interface IRoute {
   path: string;
   handler: RouteHandler;
+  isPrivate: boolean;
 }
 
 export default class Router {
@@ -34,8 +35,8 @@ export default class Router {
     }
 
     // Добавляем роут в список
-    public addRoute(path: string, handler: RouteHandler): void {
-        this.routes.push({ path, handler });
+    public addRoute(path: string, handler: RouteHandler, isPrivate: boolean = false): void {
+        this.routes.push({ path, handler, isPrivate });
     }
 
     // Устанавливаем переключатель для неизвестной страницы
@@ -60,11 +61,17 @@ export default class Router {
         this.renderRoute(path);
     }
 
+    // Дополнительный метод проверки приветная ссылка или нет
     private renderRoute(path: string): void {
         const route = this.routes.find(route => route.path === path);
 
         if (route) {
-            route.handler();
+            if (route.isPrivate && !this.isAuthenticated) {
+                alert('You are not authorized to view this page');
+                this.navigateTo('/');
+            } else {
+                route.handler();
+            }
         } else {
             this.redirectToNotFound();
         }

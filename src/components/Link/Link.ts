@@ -7,17 +7,18 @@ interface ILinkProps {
   path: string;
   text: string;
   onClick?: (e: Event) => void;
+  isPrivate: boolean;
 }
 
 export class Link extends Block {
-    constructor({ path, text }: ILinkProps) {
+    constructor({ path, text, isPrivate }: ILinkProps) {
         super({
             path,
             text,
             events: {
                 click: (e: Event) => {
                   e.preventDefault();
-                  router.navigateTo(path)
+                  router.navigateTo(path, isPrivate)
                 }
             },
         });

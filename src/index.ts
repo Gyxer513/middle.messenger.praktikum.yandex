@@ -13,7 +13,7 @@ router.addRoute('/login', () => {
 
 router.addRoute('/profile', () => {
     router.render(new Pages.ProfilePage({}));
-});
+}, true);
 
 router.addRoute('/register', () => {
     router.render(new Pages.RegisterPage({}));
@@ -22,12 +22,12 @@ router.addRoute('/register', () => {
 router.addRoute('/change-password', () => {
     console.log('change password page');
     router.render(new Pages.ChangePassPage({}));
-});
+}, true);
 
 router.addRoute('/chats', () => {
     console.log('chats page');
     router.render(new Pages.ChatsPage({}));
-});
+}, true);
 
 router.addRoute('/404', () => {
     console.log('404 page');
@@ -40,6 +40,9 @@ router.addRoute('/500', () => {
         new Pages.ErrorPage({ error_status: 500, text: 'Server error' }),
     );
 });
+
+// Метод для проверки авторизации.
+router.setAuthenticationStatus(true);
 
 router.setNotFoundHandler(() => {
     console.log('404 page');
