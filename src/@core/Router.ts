@@ -9,12 +9,10 @@ interface IRoute {
 
 export default class Router {
     private routes: IRoute[] = [];
-
     private notFoundHandler: RouteHandler | null = null;
-
     private static _instance: Router;
-
     private appElement: HTMLElement;
+    private isAuthenticated: boolean = false;
 
     constructor(appElementId: string) {
 
@@ -45,10 +43,25 @@ export default class Router {
         this.notFoundHandler = handler;
     }
 
-    // Проверяем изменение хэша
     private onPopState(): void {
         const currentPath = window.location.pathname;
-        const route = this.routes.find((route) => route.path === currentPath);
+        this.renderRoute(currentPath);
+    }
+
+    // Управляемый редирект
+    public navigateTo(path: string, protectedRoute: boolean = false): void {
+        this.appElement.innerHTML = '';
+        if (protectedRoute && !this.isAuthenticated) {
+            alert('You are not authorized to view this page');
+            path = '/';
+        }
+
+        history.pushState(null, '', path);
+        this.renderRoute(path);
+    }
+
+    private renderRoute(path: string): void {
+        const route = this.routes.find(route => route.path === path);
 
         if (route) {
             route.handler();
@@ -57,12 +70,6 @@ export default class Router {
         }
     }
 
-    // Управляемый редирект
-    public navigateTo(path: string): void {
-        history.pushState(null, '', path);
-        this.onPopState();
-        location.reload();
-    }
 
     // Инициализация редиректа на 404
     public redirectToNotFound(): void {
@@ -72,6 +79,11 @@ export default class Router {
         } else {
             console.log('Такого адреса нет или перенаправление не задано');
         }
+    }
+
+    // Меняем статус авторизации
+    public setAuthenticationStatus(status: boolean): void {
+        this.isAuthenticated = status;
     }
 
     // Рендер компонента
