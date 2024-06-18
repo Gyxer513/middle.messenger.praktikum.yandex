@@ -2,7 +2,6 @@ enum METHODS {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
-  PATCH = 'PATCH',
   DELETE = 'DELETE'
 }
 
@@ -17,7 +16,7 @@ const toStringify = (data: Record<string, any>) => `?${new URLSearchParams(data)
 
 type HTTPMethod = (url: string, options: TOptions) => Promise<unknown>;
 
-export class HTTPTransport {
+class HTTPQuery {
     get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
 
     put: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
@@ -60,4 +59,12 @@ export class HTTPTransport {
             }
         });
     };
+}
+
+class BaseQuery {
+  http: HTTPQuery;
+
+  constructor(APIBasePath: string) {
+    this.http = new HTTPQuery(`https://ya-praktikum.tech/api/v2${APIBasePath}`);
+  }
 }

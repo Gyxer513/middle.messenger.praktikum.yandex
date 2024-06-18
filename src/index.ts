@@ -42,7 +42,7 @@ router.addRoute('/500', () => {
 });
 
 // Метод для проверки авторизации.
-router.setAuthenticationStatus(true);
+router.setAuthenticationStatus(false);
 
 router.setNotFoundHandler(() => {
     console.log('404 page');
