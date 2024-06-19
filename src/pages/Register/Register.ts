@@ -2,7 +2,7 @@ import './register.scss';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
 import { Button, Input, Link } from '@/components';
-
+import { AuthService } from '@core/api/services'
 import { template } from './register.template.ts';
 
 const formHandler = new FormValidator();
@@ -80,11 +80,13 @@ export class Register extends Block {
                 type: 'submit',
                 onClick: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('profileForm');
+                    const data = formHandler.handleSubmit('profileForm');
+                    AuthService.createUser(data)
                 },
                 submit: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('profileForm');
+                    const data = formHandler.handleSubmit('profileForm');
+                  //  AuthService.createUser(data)
                 },
             }),
             linkToLogin: new Link({
@@ -97,4 +99,8 @@ export class Register extends Block {
     render(): HTMLElement {
         return this.compile(template, this.props);
     }
+   /* async submit(e): Promise<void> {
+        e.preventDefault();
+
+    }*/
 }

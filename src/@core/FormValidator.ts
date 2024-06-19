@@ -49,7 +49,7 @@ export class FormValidator {
                 console.log('Ошибки валидации:', errors);
             } else {
                 // Возвращаем объект с валидными данными формы
-                console.log('Все поля валидны:', result);
+                return result
             }
         } else {
             return 'Элемент формы не найден';

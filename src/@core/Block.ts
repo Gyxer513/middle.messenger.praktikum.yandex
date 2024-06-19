@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars';
-import { randomIdGenerator } from '@core/services/randomIdGenerator.ts';
+import { randomIdGenerator } from '@core/utils/randomIdGenerator.ts';
 import EventBus from './EventBus.ts';
 
 export type Props = {

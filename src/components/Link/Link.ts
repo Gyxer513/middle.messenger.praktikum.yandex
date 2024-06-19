@@ -7,11 +7,11 @@ interface ILinkProps {
   path: string;
   text: string;
   onClick?: (e: Event) => void;
-  isPrivate: boolean;
+  isPrivate?: boolean;
 }
 
 export class Link extends Block {
-    constructor({ path, text, isPrivate }: ILinkProps) {
+    constructor({ path, text, isPrivate = false }: ILinkProps) {
         super({
             path,
             text,

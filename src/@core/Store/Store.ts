@@ -1,13 +1,14 @@
 import EventBus from '@core/EventBus.ts';
 import { set }from '@core/utils'
 import {Indexed} from '@core/utils/merge.ts';
+import { TUserData } from '@core/api/services/user.ts';
 
 export enum StoreEvents {
   Updated = 'updated',
 }
 
 export interface IStoreData {
-  userData: any;
+  userData: TUserData;
 }
 
 const initialState = {

@@ -8,3 +8,7 @@ export type TUserData = {
   phone: string;
   avatar: string;
 }
+
+export class User {
+
+}

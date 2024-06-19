@@ -1,70 +1,99 @@
-enum METHODS {
+const enum HttpMethods {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
-  DELETE = 'DELETE'
+  DELETE = 'DELETE',
 }
 
-type TOptions = {
-  method: METHODS;
-  data?: any;
-  timeout?: number;
+type Options = {
+  method?: HttpMethods;
   headers?: Record<string, string>;
+  data?: Record<string, unknown> | FormData;
+  timeout?: number;
 };
 
-const toStringify = (data: Record<string, any>) => `?${new URLSearchParams(data).toString()}`;
+type HTTPMethod = (url: string, options: Options) => Promise<unknown>;
 
-type HTTPMethod = (url: string, options: TOptions) => Promise<unknown>;
+interface IHTTP {
+  get: HTTPMethod;
+  post: HTTPMethod;
+  put: HTTPMethod;
+  delete: HTTPMethod;
+  request: HTTPMethod;
+}
 
-class HTTPQuery {
-    get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+function queryStringify(data: Record<string, unknown>): string {
+  let result = '?';
 
-    put: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+  for (const [key, value] of Object.entries(data)) {
+    result += `${key}=${String(value)}&`;
+  }
 
-    post: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+  return result.slice(0, result.length - 1);
+}
 
-    delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
+class HttpQuery implements IHTTP {
+  baseUrl: string;
 
-    request = (
-        url: string,
-        options: TOptions = { method: METHODS.GET },
-        timeout = 5000,
-    ) => {
-        const { headers = {}, method, data } = options;
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
 
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open(
-        method as string,
-        method === METHODS.GET && !!data ? url + toStringify(data) : url,
-            );
+  get: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.GET });
 
-            Object.keys(headers).forEach((key) => {
-                xhr.setRequestHeader(key, headers[key]);
-            });
+  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.POST });
 
-            xhr.onload = () => {
-                resolve(xhr);
-            };
+  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.PUT });
 
-            xhr.onabort = reject;
-            xhr.onerror = reject;
-            xhr.ontimeout = reject;
-            xhr.timeout = timeout;
+  delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.DELETE });
 
-            if (method === METHODS.GET || !data) {
-                xhr.send();
-            } else {
-                xhr.send(data as XMLHttpRequestBodyInit);
-            }
-        });
-    };
+  request: HTTPMethod = (url, options) => {
+    const { method = HttpMethods.GET, headers = {}, data, timeout = 500 } = options;
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      const xhrUrl = this.baseUrl + url + (method === HttpMethods.GET && data && !(data instanceof FormData) ? `?${queryStringify(data)}` : '');
+
+      xhr.open(method, xhrUrl);
+
+      Object.keys(headers).forEach(key => {
+        xhr.setRequestHeader(key, headers[key]);
+      });
+
+      xhr.timeout = timeout;
+
+      xhr.onload = () => {
+        const responseData = xhr.response;
+
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(responseData);
+        } else {
+          reject(responseData);
+        }
+      };
+
+      xhr.onabort = () => reject(new Error('The request was aborted'));
+      xhr.onerror = () => reject(new Error('Network error'));
+      xhr.ontimeout = () => reject(new Error('Response timed out'));
+
+      if (method === HttpMethods.GET || !data) {
+        xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
+      } else {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(data));
+      }
+    });
+  };
 }
 
 class BaseQuery {
-  http: HTTPQuery;
+  http: HttpQuery ;
 
   constructor(APIBasePath: string) {
-    this.http = new HTTPQuery(`https://ya-praktikum.tech/api/v2${APIBasePath}`);
+    this.http = new HttpQuery(`https://ya-praktikum.tech/api/v2${APIBasePath}`);
   }
 }
+
+export default BaseQuery;
