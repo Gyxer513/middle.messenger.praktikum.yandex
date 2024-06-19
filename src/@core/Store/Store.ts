@@ -1,10 +1,9 @@
 import EventBus from '@core/EventBus.ts';
-import { set }from '@core/utils'
-import {Indexed} from '@core/utils/merge.ts';
+import { set } from '@core/utils';
 import { TUserData } from '@core/api/services/user.ts';
 
 export enum StoreEvents {
-  Updated = 'updated',
+  Updated = 'updated'
 }
 
 export interface IStoreData {
@@ -12,13 +11,13 @@ export interface IStoreData {
 }
 
 const initialState = {
- userData: {},
-}
+  userData: {}
+};
 
 class Store extends EventBus {
-  private state: Indexed;
+  state: IStoreData;
 
-  constructor(initialState) {
+  constructor(initialState: IStoreData) {
     super();
     this.state = initialState;
   }
@@ -35,4 +34,3 @@ class Store extends EventBus {
 }
 
 export default new Store(initialState);
-

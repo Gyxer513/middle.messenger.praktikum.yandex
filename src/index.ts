@@ -11,7 +11,7 @@ router.addRoute('/login', () => {
     router.render(new Pages.LoginPage({}));
 });
 
-router.addRoute('/profile', () => {
+router.addRoute('/settings', () => {
     router.render(new Pages.ProfilePage({}));
 }, true);
 

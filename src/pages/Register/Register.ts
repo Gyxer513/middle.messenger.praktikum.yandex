@@ -100,6 +100,10 @@ export class Register extends Block {
     });
   }
 
+  componentDidMount() {
+    return AuthService.getUserInfo()
+  }
+
   render(): HTMLElement {
     return this.compile(template, this.props);
   }

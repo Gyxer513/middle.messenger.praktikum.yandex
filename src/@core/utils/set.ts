@@ -1,4 +1,4 @@
-import merge, {Indexed, } from '@core/utils/merge.ts';
+import {Indexed, merge} from '@core/utils/merge.ts';
 
 export function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
   if (typeof object !== 'object' || object === null) {

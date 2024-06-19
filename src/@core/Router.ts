@@ -46,6 +46,7 @@ export default class Router {
 
     private onPopState(): void {
         const currentPath = window.location.pathname;
+        this.appElement.innerHTML = '';
         this.renderRoute(currentPath);
     }
 

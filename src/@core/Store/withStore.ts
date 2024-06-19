@@ -1,24 +1,28 @@
-import {IStoreData} from './Store.ts';
-import store, {StoreEvents} from './Store.ts'
+import { IStoreData } from './Store.ts';
+import store, { StoreEvents } from './Store.ts';
 import Block from '@core/Block.ts';
-import {isEqual} from '@core/utils';
+import { isEqual } from '@core/utils';
 
-export const withStore = (mapStateToProps: (state: IStoreData) => Record<string, unknown>) => (Component: typeof Block) => {
-  let state: Record<string, unknown>;
+export const withStore =
+  (mapStateToProps: (state: IStoreData) => Record<string, unknown>) =>
+  (Component: typeof Block) => {
+    let state: Record<string, unknown>;
+// @ts-ignore
+    return class extends Component {
+      constructor(props: Record<string, unknown>) {
+        state = mapStateToProps(store.getState());
 
-  return class extends Component {
-    constructor(props) {
-      state = mapStateToProps(store.getState());
+        super({ ...props, ...state });
+        store.on(StoreEvents.Updated, () => {
+          const newState = mapStateToProps(store.getState());
 
-      super({ ...props, ...state });
-
-      store.on(StoreEvents.Updated, () => {
-        const newState = mapStateToProps(store.getState());
-
-        if (!isEqual(state, newState)) {
-          this.setProps({ ...newState });
-        }
-      });
-    }
+          if (!isEqual(state, newState)) {
+            this.setProps({ ...newState });
+          }
+        });
+        this.dispatchComponentDidMount();
+      }
+    };
   };
-};
+
+export const withUserData = withStore(state => ({userData: state.userData}))

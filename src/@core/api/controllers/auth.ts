@@ -1,5 +1,5 @@
 import { TSignUpData } from '@core/api/services/auth.ts';
-import  BaseQuery  from '@core/HttpQuery.ts';
+import BaseQuery from '@core/HttpQuery.ts';
 
 export class Auth extends BaseQuery {
   constructor() {
@@ -7,11 +7,19 @@ export class Auth extends BaseQuery {
   }
 
   signUp(data: TSignUpData) {
-    return this.http.post('/signup', {data})
+    return this.http.post('/signup', { data });
   }
 
   signIn(data: TSignUpData) {
-    return this.http.post('/signin', {data})
+    return this.http.post('/signin', { data });
+  }
+
+  logout() {
+    return this.http.post('/logout', {});
+  }
+
+  getUserInfo() {
+    return this.http.get(`/user`, {});
   }
 }
 

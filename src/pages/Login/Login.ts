@@ -17,53 +17,57 @@ interface ILoginProps {
 }
 
 export class Login extends Block {
-    constructor(props: ILoginProps) {
-        super({
-            ...props,
-            loginInput: new Input({
-                class_name: 'input',
-                name: 'login',
-                type: 'text',
-                placeholder: 'Логин',
-                id: 'login',
-                disabled: false,
-            }),
+  constructor(props: ILoginProps) {
+    super({
+      ...props,
+      loginInput: new Input({
+        class_name: 'input',
+        name: 'login',
+        type: 'text',
+        placeholder: 'Логин',
+        id: 'login',
+        disabled: false
+      }),
 
-            passwordInput: new Input({
-                class_name: 'input',
-                name: 'password',
-                type: 'password',
-                placeholder: 'Пароль',
-                id: 'password',
-                disabled: false,
-            }),
+      passwordInput: new Input({
+        class_name: 'input',
+        name: 'password',
+        type: 'password',
+        placeholder: 'Пароль',
+        id: 'password',
+        disabled: false
+      }),
 
-            submitButton: new Button({
-                id: 'submitButton',
-                class_name: 'button button__main',
-                text: 'Войти',
-                type: 'submit',
-                onClick: (e: Event) => {
-                    e.preventDefault();
-                    const queryData = formHandler.handleSubmit('loginForm');
-                    if (queryData.isValid) {
-                        return AuthService.login(queryData.formData);
-                    }
-                },
-                submit: (e: Event) => {
-                    e.preventDefault();
-                    formHandler.handleSubmit('loginForm');
-                },
-            }),
+      submitButton: new Button({
+        id: 'submitButton',
+        class_name: 'button button__main',
+        text: 'Войти',
+        type: 'submit',
+        onClick: (e: Event) => {
+          e.preventDefault();
+          const queryData = formHandler.handleSubmit('loginForm');
+          if (queryData.isValid) {
+            return AuthService.login(queryData.formData);
+          }
+        },
+        submit: (e: Event) => {
+          e.preventDefault();
+          formHandler.handleSubmit('loginForm');
+        }
+      }),
 
-            linkToRegister: new Link({
-                path: '/sign-up',
-                text: 'Регистрация',
-            }),
-        });
-    }
+      linkToRegister: new Link({
+        path: '/sign-up',
+        text: 'Регистрация'
+      })
+    });
+  }
 
-    render(): HTMLElement {
-        return this.compile(template, this.props);
-    }
+  componentDidMount() {
+    console.log('Ура, заработало!')
+  }
+
+  render(): HTMLElement {
+    return this.compile(template, this.props);
+  }
 }

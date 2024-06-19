@@ -25,11 +25,23 @@ class Auth {
     try {
       await AuthController.signIn(data);
       router.setAuthenticationStatus(true);
-      router.navigateTo('/chats');
+      //   router.navigateTo('/chats');
     } catch (error) {
       console.warn('Произошла ошибка' + error);
     }
   }
-}
 
+  public async logout(): Promise<void> {
+    try {
+      await AuthController.logout();
+    } catch (error) {
+      console.warn('Произошла ошибка' + error);
+    }
+  }
+
+  public async getUserInfo() {
+    return await AuthController.getUserInfo();
+
+  }
+}
 export const AuthService = new Auth();

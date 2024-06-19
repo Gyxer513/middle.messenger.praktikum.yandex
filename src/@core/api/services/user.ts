@@ -7,8 +7,6 @@ export type TUserData = {
   email: string;
   phone: string;
   avatar: string;
-}
+} | {};
 
-export class User {
-
-}
+export class User {}
