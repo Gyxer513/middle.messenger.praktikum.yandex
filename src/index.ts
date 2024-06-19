@@ -15,7 +15,7 @@ router.addRoute('/profile', () => {
     router.render(new Pages.ProfilePage({}));
 }, true);
 
-router.addRoute('/register', () => {
+router.addRoute('/sign-up', () => {
     router.render(new Pages.RegisterPage({}));
 });
 

@@ -11,20 +11,20 @@ interface ILinkProps {
 }
 
 export class Link extends Block {
-    constructor({ path, text, isPrivate = false }: ILinkProps) {
-        super({
-            path,
-            text,
-            events: {
-                click: (e: Event) => {
-                  e.preventDefault();
-                  router.navigateTo(path, isPrivate)
-                }
-            },
-        });
-    }
+  constructor({ path, text, isPrivate = false }: ILinkProps) {
+    super({
+      path,
+      text,
+      events: {
+        click: (e: Event) => {
+          e.preventDefault();
+          router.navigateTo(path, isPrivate);
+        }
+      }
+    });
+  }
 
-    render(): HTMLElement {
-        return this.compile(template, this.props);
-    }
+  render(): HTMLElement {
+    return this.compile(template, this.props);
+  }
 }

@@ -3,6 +3,7 @@ import Block from '@core/Block.ts';
 import './login.scss';
 import { FormValidator } from '@core/FormValidator.ts';
 import { Button, Input, Link } from '@/components';
+import { AuthService } from '@core/api/services';
 
 const formHandler = new FormValidator();
 
@@ -44,7 +45,10 @@ export class Login extends Block {
                 type: 'submit',
                 onClick: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('loginForm');
+                    const queryData = formHandler.handleSubmit('loginForm');
+                    if (queryData.isValid) {
+                        return AuthService.login(queryData.formData);
+                    }
                 },
                 submit: (e: Event) => {
                     e.preventDefault();
@@ -53,7 +57,7 @@ export class Login extends Block {
             }),
 
             linkToRegister: new Link({
-                path: '/register',
+                path: '/sign-up',
                 text: 'Регистрация',
             }),
         });

@@ -2,7 +2,7 @@ const enum HttpMethods {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
-  DELETE = 'DELETE',
+  DELETE = 'DELETE'
 }
 
 type Options = {
@@ -14,7 +14,7 @@ type Options = {
 
 type HTTPMethod = (url: string, options: Options) => Promise<unknown>;
 
-interface IHTTP {
+interface IHttp {
   get: HTTPMethod;
   post: HTTPMethod;
   put: HTTPMethod;
@@ -32,27 +32,41 @@ function queryStringify(data: Record<string, unknown>): string {
   return result.slice(0, result.length - 1);
 }
 
-class HttpQuery implements IHTTP {
+class HttpQuery implements IHttp {
   baseUrl: string;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 
-  get: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.GET });
+  get: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: HttpMethods.GET });
 
-  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.POST });
+  post: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: HttpMethods.POST });
 
-  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.PUT });
+  put: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: HttpMethods.PUT });
 
-  delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: HttpMethods.DELETE });
+  delete: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: HttpMethods.DELETE });
 
   request: HTTPMethod = (url, options) => {
-    const { method = HttpMethods.GET, headers = {}, data, timeout = 500 } = options;
+    const {
+      method = HttpMethods.GET,
+      headers = {},
+      data,
+      timeout = 1000
+    } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      const xhrUrl = this.baseUrl + url + (method === HttpMethods.GET && data && !(data instanceof FormData) ? `?${queryStringify(data)}` : '');
+      const xhrUrl =
+        this.baseUrl +
+        url +
+        (method === HttpMethods.GET && data && !(data instanceof FormData)
+          ? `?${queryStringify(data)}`
+          : '');
 
       xhr.open(method, xhrUrl);
 
@@ -89,7 +103,7 @@ class HttpQuery implements IHTTP {
 }
 
 class BaseQuery {
-  http: HttpQuery ;
+  http: HttpQuery;
 
   constructor(APIBasePath: string) {
     this.http = new HttpQuery(`https://ya-praktikum.tech/api/v2${APIBasePath}`);
