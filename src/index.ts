@@ -41,7 +41,6 @@ router.addRoute('/500', () => {
     );
 });
 
-
 router.setNotFoundHandler(() => {
     console.log('404 page');
     router.render(new Pages.ErrorPage({ error_status: 404, text: 'Not Found' }));

@@ -4,6 +4,8 @@ import { template } from './profile.template.ts';
 import './profile.scss';
 import { FormValidator } from '@core/FormValidator.ts';
 import { AuthService } from '@core/api/services';
+import { withStore } from '@core/Store/withStore.ts';
+import { router } from '@/index.ts';
 
 const formHandler = new FormValidator();
 
@@ -106,20 +108,24 @@ export class Profile extends Block {
         text: 'Выйти',
         type: 'button',
         onClick: (e: Event) => {
-          console.log(e.target);
           return AuthService.logout();
         }
       })
     });
   }
 
-  componentDidMount() {
-    const userData = AuthService.getUserInfo();
-    return userData
+  componentDidMount= async () => {
+    if (router.getAuthenticatedStatus()) {
+      router.navigateTo('/')
+    }
   }
 
   render(): HTMLElement {
-    console.log('start')
+    console.log('component')
     return this.compile(template, this.props);
   }
 }
+
+const withUser = withStore((state) => ({
+  state: state.userData,
+}))

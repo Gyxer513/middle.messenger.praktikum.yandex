@@ -13,7 +13,7 @@ export default class Router {
     private notFoundHandler: RouteHandler | null = null;
     private static _instance: Router;
     private appElement: HTMLElement;
-    private isAuthenticated: boolean = false;
+    private isAuthenticated: boolean = true;
 
     constructor(appElementId: string) {
 
@@ -48,6 +48,10 @@ export default class Router {
         const currentPath = window.location.pathname;
         this.appElement.innerHTML = '';
         this.renderRoute(currentPath);
+    }
+
+    public getAuthenticatedStatus() {
+        return this.isAuthenticated;
     }
 
     // Управляемый редирект
@@ -92,6 +96,7 @@ export default class Router {
     // Меняем статус авторизации
     public setAuthenticationStatus(status: boolean): void {
         this.isAuthenticated = status;
+        console.log(this.isAuthenticated);
     }
 
     // Рендер компонента

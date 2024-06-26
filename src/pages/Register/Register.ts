@@ -4,6 +4,7 @@ import { FormValidator } from '@core/FormValidator.ts';
 import { Button, Input, Link } from '@/components';
 import { AuthService } from '@core/api/services';
 import { template } from './register.template.ts';
+import { router } from '@/index.ts';
 
 const formHandler = new FormValidator();
 
@@ -100,8 +101,11 @@ export class Register extends Block {
     });
   }
 
-  componentDidMount() {
-    return AuthService.getUserInfo()
+  componentDidMount = async () => {
+  await AuthService.fetchUser()
+   if (router.getAuthenticatedStatus()) {
+     router.navigateTo('/')
+   }
   }
 
   render(): HTMLElement {

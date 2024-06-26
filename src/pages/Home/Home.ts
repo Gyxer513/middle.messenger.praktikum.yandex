@@ -6,7 +6,7 @@ import { AuthService } from '@core/api/services';
 export class Home extends Block {
 
     componentDidMount() {
-        return AuthService.getUserInfo()
+        return AuthService.fetchUser()
     }
 
 

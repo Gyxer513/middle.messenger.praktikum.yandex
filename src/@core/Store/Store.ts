@@ -20,6 +20,7 @@ class Store extends EventBus {
   constructor(initialState: IStoreData) {
     super();
     this.state = initialState;
+    this.on(StoreEvents.Updated, () => null);
   }
 
   public getState() {
@@ -29,7 +30,7 @@ class Store extends EventBus {
 
   public setState(path: string, value: unknown): void {
     set(this.state, path, value);
-    this.emit(StoreEvents.Updated);
+    this.emit(StoreEvents.Updated, this.getState());
   }
 }
 
