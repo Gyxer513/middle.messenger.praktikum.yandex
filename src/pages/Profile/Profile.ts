@@ -114,10 +114,12 @@ export class Profile extends Block {
   }
 
   componentDidMount() {
-    return AuthService.getUserInfo();
+    const userData = AuthService.getUserInfo();
+    return userData
   }
 
   render(): HTMLElement {
+    console.log('start')
     return this.compile(template, this.props);
   }
 }
