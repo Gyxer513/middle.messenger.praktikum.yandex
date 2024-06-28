@@ -1,6 +1,7 @@
 import * as Pages from '@/pages/index.ts';
 import Router from '@core/Router.ts';
 import { AuthService } from '@core/api/services';
+import { Loader } from '@/components';
 
 export const router = new Router('app');
 
@@ -15,8 +16,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     router.addRoute('/settings', () => {
-        router.render(new Pages.ProfilePage({}));
-    }, true);
+        console.log(router.getIsLoadingStatus())
+        if (router.getIsLoadingStatus()) {
+            router.render(new Loader());
+        } else
+            router.render(new Pages.ProfilePage({}));
+    }, true, true);
 
     router.addRoute('/sign-up', () => {
         router.render(new Pages.RegisterPage({}));

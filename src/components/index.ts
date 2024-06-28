@@ -4,3 +4,4 @@ export { Avatar } from './Avatar';
 export { ChatItem } from './ChatItem';
 export { Chat } from './Chat';
 export { Link } from './Link';
+export { Loader } from './Loader';

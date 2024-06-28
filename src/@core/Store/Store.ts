@@ -13,7 +13,16 @@ export interface IStoreData {
 }
 
 const initialState = {
-  userData: {},
+  userData: {
+    avatar: "",
+    phone: "",
+    email: "",
+    login: "",
+    id: -1,
+    second_name: "",
+    first_name: "",
+    display_name: "",
+  },
   messages: {},
   chats: [],
 };

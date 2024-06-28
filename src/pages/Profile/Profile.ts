@@ -21,16 +21,24 @@ interface iProfileProps {
   submitButton?: Button;
   linkButton?: Button;
   exitButton?: Button;
+  userData?: {
+    email?: string;
+    login?: string;
+    first_name?: string;
+    second_name?: string;
+    display_name?: string;
+    phone?: string;
+    avatar?: string;
+  };
 }
-
-export class Profile extends Block {
+class Profile extends Block {
   constructor(props: iProfileProps) {
     super({
       ...props,
       profileAvatar: new Avatar({
         class: 'avatar__container',
-        src: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png',
-        alt: 'аватар'
+        src: `https://ya-praktikum.tech/api/v2/resources${props.userData.avatar}`,
+        alt:'аватар'
       }),
       emailInput: new Input({
         class_name: 'input input_profile input_border',
@@ -120,9 +128,15 @@ export class Profile extends Block {
     }
   }
 
+  protected componentDidUpdate(oldProps: Props, newProps: iProfileProps): boolean {
+    this.children.profileAvatar.setProps({...oldProps, newProps})
+  }
+
   render(): HTMLElement {
-    console.log('component')
     return this.compile(template, this.props);
   }
 }
 
+const withUserStore = withStore(state => ({ userData: { ...state.userData } }));
+
+export const ProfileWithStore = withUserStore(Profile);

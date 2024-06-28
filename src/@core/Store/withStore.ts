@@ -31,5 +31,3 @@ export const withStore =
         }
       };
     };
-
-export const withUserData = withStore(state => ({ userData: state.userData }));

@@ -1,4 +1,5 @@
 import Block from '@core/Block.ts';
+import {Loader} from '@/components';
 
 type RouteHandler = () => void;
 
@@ -6,6 +7,7 @@ interface IRoute {
   path: string;
   handler: RouteHandler;
   isPrivate: boolean;
+  requiresData?: boolean;
 }
 
 export default class Router {
@@ -14,6 +16,7 @@ export default class Router {
     private static _instance: Router;
     private appElement: HTMLElement;
     private isAuthenticated: boolean = true;
+    private isLoading: boolean = false;
 
     constructor(appElementId: string) {
 
@@ -30,13 +33,12 @@ export default class Router {
         if (Router._instance) {
             return Router._instance;
         }
-
         Router._instance = this;
     }
 
     // Добавляем роут в список
-    public addRoute(path: string, handler: RouteHandler, isPrivate: boolean = false): void {
-        this.routes.push({ path, handler, isPrivate });
+    public addRoute(path: string, handler: RouteHandler, isPrivate: boolean = false, requiresData: boolean = false): void {
+        this.routes.push({ path, handler, isPrivate, requiresData });
     }
 
     // Устанавливаем переключатель для неизвестной страницы
@@ -67,15 +69,27 @@ export default class Router {
     }
 
     // Дополнительный метод проверки приветная ссылка или нет
-    private renderRoute(path: string): void {
+    private async renderRoute(path: string): void {
         const route = this.routes.find(route => route.path === path);
+        console.log(route)
 
         if (route) {
             if (route.isPrivate && !this.isAuthenticated) {
                 alert('You are not authorized to view this page');
                 this.navigateTo('/');
             } else {
-                route.handler();
+                if (route.requiresData) {
+                    this.setLoading(true);
+                    try {
+                        await this.loadData(route.handler);
+                    } catch (error) {
+                        console.error('Error loading data:', error);
+                        this.redirectToNotFound();
+                    }
+                    this.setLoading(false);
+                } else {
+                    route.handler();
+                }
             }
         } else {
             this.redirectToNotFound();
@@ -93,10 +107,22 @@ export default class Router {
         }
     }
 
+    private setLoading(isLoading: boolean): void {
+        this.isLoading = isLoading;
+    }
+
+    getIsLoadingStatus() {
+        return this.isLoading;
+    }
+
     // Меняем статус авторизации
     public setAuthenticationStatus(status: boolean): void {
         this.isAuthenticated = status;
-        console.log(this.isAuthenticated);
+    }
+
+    // Асинхронная загрузка компонента
+    private async loadData(handler: RouteHandler): Promise<void> {
+        await handler();
     }
 
     // Рендер компонента
