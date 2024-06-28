@@ -5,24 +5,31 @@ import { isEqual } from '@core/utils';
 
 export const withStore =
   (mapStateToProps: (state: IStoreData) => Record<string, unknown>) =>
-  (Component: typeof Block) => {
-    let state: Record<string, unknown>;
-// @ts-ignore
-    return class extends Component {
-      constructor(props: Record<string, unknown>) {
-        state = mapStateToProps(store.getState());
+    (Component: typeof Block) => {
+      return class WithStore extends Component {
+        private state: Record<string, unknown>;
 
-        super({ ...props, ...state });
-        store.on(StoreEvents.Updated, () => {
+        constructor(props: Record<string, unknown>) {
+          const state = mapStateToProps(store.getState());
+          super({ ...props, ...state });
+
+          this.state = state;
+          store.on(StoreEvents.Updated, this.handleStoreUpdate);
+          this.dispatchComponentDidMount();
+        }
+
+        private handleStoreUpdate = () => {
           const newState = mapStateToProps(store.getState());
-
-          if (!isEqual(state, newState)) {
+          if (!isEqual(this.state, newState)) {
+            this.state = newState;
             this.setProps({ ...newState });
           }
-        });
-        this.dispatchComponentDidMount();
-      }
-    };
-  };
+        };
 
-export const withUserData = withStore(state => ({userData: state.userData}))
+        public componentWillUnmount() {
+          store.off(StoreEvents.Updated, this.handleStoreUpdate);
+        }
+      };
+    };
+
+export const withUserData = withStore(state => ({ userData: state.userData }));

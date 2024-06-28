@@ -43,14 +43,20 @@ export default abstract class Block {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  private _componentDidUpdate() {
-    if (this.componentDidUpdate()) {
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-    }
+  public dispatchComponentDidMount() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  componentDidUpdate() {
-    return true;
+  private _componentDidUpdate(oldProps: Props, newProps: Props) {
+    const response = this.componentDidUpdate(oldProps, newProps);
+    if (!response) {
+      return;
+    }
+    this._render();
+  }
+
+  protected componentDidUpdate(oldProps: Props, newProps: Props) {
+    return oldProps !== undefined && newProps !== undefined;
   }
 
   private _removeEvents() {
@@ -190,7 +196,4 @@ export default abstract class Block {
 
   abstract render(): HTMLElement;
 
-  public dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-  }
 }

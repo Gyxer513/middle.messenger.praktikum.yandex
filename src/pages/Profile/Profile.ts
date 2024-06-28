@@ -1,4 +1,4 @@
-import Block from '@core/Block.ts';
+import Block, { Props } from '@core/Block.ts';
 import { Avatar, Button, Input, Link } from '@/components';
 import { template } from './profile.template.ts';
 import './profile.scss';
@@ -115,7 +115,7 @@ export class Profile extends Block {
   }
 
   componentDidMount= async () => {
-    if (router.getAuthenticatedStatus()) {
+    if (!router.getAuthenticatedStatus()) {
       router.navigateTo('/')
     }
   }
@@ -126,6 +126,3 @@ export class Profile extends Block {
   }
 }
 
-const withUser = withStore((state) => ({
-  state: state.userData,
-}))

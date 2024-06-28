@@ -8,10 +8,14 @@ export enum StoreEvents {
 
 export interface IStoreData {
   userData: TUserData;
+  messages: Record<string, string>;
+  chats: Array<unknown>,
 }
 
 const initialState = {
-  userData: {}
+  userData: {},
+  messages: {},
+  chats: [],
 };
 
 class Store extends EventBus {
