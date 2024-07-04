@@ -37,7 +37,7 @@ export default abstract class Block {
   }
 
   private _registerEvents(eventBus: EventBus) {
-    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
+    eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
@@ -84,9 +84,12 @@ export default abstract class Block {
     this._addEvents();
   }
 
-  init() {
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  private _init() {
+    this.init()
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER)
+  }
+
+  protected init() {
   }
 
   private _componentDidMount() {
@@ -170,28 +173,44 @@ export default abstract class Block {
     return this.element!;
   }
 
-  compile(template: string, props: Props): HTMLElement {
-    const propsAndStubs = { ...props };
+  protected compile(template: (context: any) => string, context: any) {
+    const contextAndStubs = { ...context }
 
-    Object.entries(this.children).forEach(([key, child]) => {
-      propsAndStubs[key] = `<div data-id='id-${child.id}'></div>`;
-    });
+    Object.entries(this.children).forEach(([name, component]) => {
+      if (Array.isArray(component)) {
+        contextAndStubs[name] = component.map((child) => `<div data-id="${child.id}"></div>`)
+      } else {
+        contextAndStubs[name] = `<div data-id="${component.id}"></div>`
+      }
+    })
 
-    const fragment = document.createElement('template');
-    fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
+    const html = template(contextAndStubs)
 
-    if (!fragment.content.firstElementChild) {
-      throw new Error('Шаблон пуст');
+    const temp = document.createElement('template')
+
+    temp.innerHTML = html
+
+    const replaceStub = (component: Block) => {
+      const stub = temp.content.querySelector(`[data-id="${component.id}"]`)
+
+      if (!stub) {
+        return
+      }
+
+      component.getContent()?.append(...Array.from(stub.childNodes))
+
+      stub.replaceWith(component.getContent()!)
     }
 
-    Object.values(this.children).forEach(child => {
-      const stub = fragment.content.querySelector(`[data-id='id-${child.id}']`);
-      if (stub) {
-        stub.replaceWith(child.getContent() ?? document.createElement('div'));
+    Object.entries(this.children).forEach(([_, component]) => {
+      if (Array.isArray(component)) {
+        component.forEach(replaceStub)
+      } else {
+        replaceStub(component)
       }
-    });
+    })
 
-    return fragment.content.firstElementChild as HTMLElement;
+    return temp.content
   }
 
   abstract render(): HTMLElement;

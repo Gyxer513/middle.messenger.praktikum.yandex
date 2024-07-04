@@ -16,7 +16,6 @@ export default class Router {
     private static _instance: Router;
     private appElement: HTMLElement;
     private isAuthenticated: boolean = true;
-    private isLoading: boolean = false;
 
     constructor(appElementId: string) {
 
@@ -78,19 +77,8 @@ export default class Router {
                 alert('You are not authorized to view this page');
                 this.navigateTo('/');
             } else {
-                if (route.requiresData) {
-                    this.setLoading(true);
-                    try {
-                        await this.loadData(route.handler);
-                    } catch (error) {
-                        console.error('Error loading data:', error);
-                        this.redirectToNotFound();
-                    }
-                    this.setLoading(false);
-                } else {
                     route.handler();
                 }
-            }
         } else {
             this.redirectToNotFound();
         }
@@ -105,14 +93,6 @@ export default class Router {
         } else {
             console.log('Такого адреса нет или перенаправление не задано');
         }
-    }
-
-    private setLoading(isLoading: boolean): void {
-        this.isLoading = isLoading;
-    }
-
-    getIsLoadingStatus() {
-        return this.isLoading;
     }
 
     // Меняем статус авторизации

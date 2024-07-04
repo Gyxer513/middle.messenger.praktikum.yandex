@@ -133,10 +133,10 @@ class Profile extends Block {
   }
 
   render(): HTMLElement {
-    return this.compile(template, this.props);
+    return this.compile(template, {...this.props});
   }
 }
 
 const withUserStore = withStore(state => ({ userData: { ...state.userData } }));
 
-export const ProfileWithStore = withUserStore(Profile);
+export const ProfileWithStore = withUserStore(Profile)
