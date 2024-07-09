@@ -62,7 +62,7 @@ class Profile extends Block {
         name: 'first_name',
         id: 'first_name',
         placeholder: 'Имя',
-        value: 'Иван'
+        value: props.userData?.first_name
       }),
       secondNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -70,7 +70,7 @@ class Profile extends Block {
         name: 'second_name',
         id: 'second_name',
         placeholder: 'Фамилия',
-        value: 'Пирожков',
+        value: props.userData?.second_name,
         disabled: props.disabledInput
       }),
       displayNameInput: new Input({

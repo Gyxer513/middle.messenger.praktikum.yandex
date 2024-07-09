@@ -1,5 +1,7 @@
 import Handlebars from 'handlebars';
+
 import { randomIdGenerator } from '@core/utils/randomIdGenerator.ts';
+
 import EventBus from './EventBus.ts';
 
 export type Props = {
@@ -12,7 +14,7 @@ export default abstract class Block {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
-    FLOW_RENDER: 'flow:render'
+    FLOW_RENDER: 'flow:render',
   } as const;
 
   public id = randomIdGenerator();
@@ -37,26 +39,20 @@ export default abstract class Block {
   }
 
   private _registerEvents(eventBus: EventBus) {
-    eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
+    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  public dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-  }
-
-  private _componentDidUpdate(oldProps: Props, newProps: Props) {
-    const response = this.componentDidUpdate(oldProps, newProps);
-    if (!response) {
-      return;
+  private _componentDidUpdate() {
+    if (this.componentDidUpdate()) {
+      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
-    this._render();
   }
 
-  protected componentDidUpdate(oldProps: Props, newProps: Props) {
-    return oldProps !== undefined && newProps !== undefined;
+  componentDidUpdate() {
+    return true;
   }
 
   private _removeEvents() {
@@ -68,7 +64,7 @@ export default abstract class Block {
     Object.entries(events as Record<string, () => void>).forEach(
       ([event, listener]) => {
         this._element!.removeEventListener(event, listener);
-      }
+      },
     );
   }
 
@@ -84,19 +80,17 @@ export default abstract class Block {
     this._addEvents();
   }
 
-  private _init() {
-    this.init()
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER)
-  }
-
-  protected init() {
+  init() {
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   private _componentDidMount() {
     this.componentDidMount();
   }
 
-  public componentDidMount() {}
+  public componentDidMount() {
+
+  }
 
   private _addEvents() {
     const { events } = this.props as any;
@@ -107,7 +101,7 @@ export default abstract class Block {
     Object.entries(events as Record<string, () => void>).forEach(
       ([event, listener]) => {
         this._element!.addEventListener(event, listener);
-      }
+      },
     );
   }
 
@@ -155,7 +149,7 @@ export default abstract class Block {
       },
       deleteProperty() {
         throw new Error('Нет доступа');
-      }
+      },
     });
   }
 
@@ -173,46 +167,33 @@ export default abstract class Block {
     return this.element!;
   }
 
-  protected compile(template: (context: any) => string, context: any) {
-    const contextAndStubs = { ...context }
+  compile(template: string, props: Props): HTMLElement {
+    const propsAndStubs = { ...props };
 
-    Object.entries(this.children).forEach(([name, component]) => {
-      if (Array.isArray(component)) {
-        contextAndStubs[name] = component.map((child) => `<div data-id="${child.id}"></div>`)
-      } else {
-        contextAndStubs[name] = `<div data-id="${component.id}"></div>`
-      }
-    })
+    Object.entries(this.children).forEach(([key, child]) => {
+      propsAndStubs[key] = `<div data-id='id-${child.id}'></div>`;
+    });
 
-    const html = template(contextAndStubs)
+    const fragment = document.createElement('template');
+    fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
 
-    const temp = document.createElement('template')
-
-    temp.innerHTML = html
-
-    const replaceStub = (component: Block) => {
-      const stub = temp.content.querySelector(`[data-id="${component.id}"]`)
-
-      if (!stub) {
-        return
-      }
-
-      component.getContent()?.append(...Array.from(stub.childNodes))
-
-      stub.replaceWith(component.getContent()!)
+    if (!fragment.content.firstElementChild) {
+      throw new Error('Шаблон пуст');
     }
 
-    Object.entries(this.children).forEach(([_, component]) => {
-      if (Array.isArray(component)) {
-        component.forEach(replaceStub)
-      } else {
-        replaceStub(component)
+    Object.values(this.children).forEach((child) => {
+      const stub = fragment.content.querySelector(`[data-id='id-${child.id}']`);
+      if (stub) {
+        stub.replaceWith(child.getContent() ?? document.createElement('div'));
       }
-    })
+    });
 
-    return temp.content
+    return fragment.content.firstElementChild as HTMLElement;
   }
 
   abstract render(): HTMLElement;
 
+  public dispatchComponentDidMount() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  }
 }
