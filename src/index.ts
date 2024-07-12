@@ -1,19 +1,11 @@
 import * as Pages from '@/pages/index.ts';
 import Router from '@core/Router.ts';
 import { AuthService } from '@core/api/services';
-import * as Components from '@/components/index.ts';
-import { registerComponent } from '@core/RegisterComponent.ts';
 
 
 export const router = new Router('app');
 
 document.addEventListener("DOMContentLoaded", async () => {
-
-
-    Object.entries(Components).forEach(([name, template]) => {
-        console.log(name);
-        registerComponent(template, name)
-    })
 
     router.addRoute('/', () => {
         router.render(new Pages.HomePage({}));

@@ -5,7 +5,7 @@ export const template = `
     {{{ profileAvatar }}}
     <h2 class='login__title'>Иван</h2>
     <form class="profile__form" id="profileForm">
-    {{> Input class='input_profile input_border' placeholder='Почта' type='text' name='email' value='ddd'disabled='true' }}
+    {{{ emailInput }}}
     {{{ loginInput }}}
     {{{ firstNameInput }}}
     {{{  secondNameInput }}}

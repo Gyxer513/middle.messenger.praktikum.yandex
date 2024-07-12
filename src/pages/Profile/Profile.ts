@@ -37,7 +37,7 @@ class Profile extends Block {
       ...props,
       profileAvatar: new Avatar({
         class: 'avatar__container',
-        src: `https://ya-praktikum.tech/api/v2/resources${props.userData.avatar}`,
+        src: `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` || '',
         alt:'аватар'
       }),
       emailInput: new Input({
@@ -45,7 +45,7 @@ class Profile extends Block {
         name: 'email',
         type: 'text',
         id: 'email',
-        value: 'ivan-pirizjok@gmail.com',
+        value: props.userData?.email,
         placeholder: 'E-mail'
       }),
       loginInput: new Input({
@@ -54,7 +54,7 @@ class Profile extends Block {
         name: 'login',
         id: 'login',
         placeholder: 'Логин',
-        value: 'ivan336'
+        value: props.userData?.login,
       }),
       firstNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -79,7 +79,7 @@ class Profile extends Block {
         name: 'message',
         id: 'message',
         placeholder: 'Ник в чате',
-        value: 'Pirojok12'
+        value: props.userData?.display_name
       }),
       phoneNumberInput: new Input({
         class_name: 'input input_profile input_border',
@@ -87,7 +87,7 @@ class Profile extends Block {
         name: 'phone',
         id: 'phone',
         placeholder: 'Телефон',
-        value: '+7 999 123 55 13'
+        value: props.userData?.phone,
       }),
 
       // Кнопки
@@ -122,15 +122,26 @@ class Profile extends Block {
     });
   }
 
-  componentDidMount= async () => {
+  componentDidMount = () => {
     if (!router.getAuthenticatedStatus()) {
       router.navigateTo('/')
     }
+    this.updateChildProps(this.props.userData);
   }
 
-  protected componentDidUpdate(oldProps: Props, newProps: iProfileProps): boolean {
-    this.children.profileAvatar.setProps({...oldProps, newProps})
+
+  updateChildProps(userData: iProfileProps['userData']) {
+    if (userData) {
+      this.children.emailInput.setProps({ value: userData.email });
+      this.children.loginInput.setProps({ value: userData.login });
+      this.children.firstNameInput.setProps({ value: userData.first_name });
+      this.children.secondNameInput.setProps({ value: userData.second_name });
+      this.children.displayNameInput.setProps({ value: userData.display_name });
+      this.children.phoneNumberInput.setProps({ value: userData.phone });
+      this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}` });
+    }
   }
+
 
   render(): HTMLElement {
     return this.compile(template, {...this.props});

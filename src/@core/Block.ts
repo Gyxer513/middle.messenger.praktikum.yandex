@@ -9,7 +9,12 @@ export type Props = {
   events?: Record<string, (e: Event) => void>;
 };
 
+/**
+ * Абстрактный класс для создания блоков интерфейса.
+ */
+
 export default abstract class Block {
+  // События для жизненного цикла компонента
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -21,7 +26,6 @@ export default abstract class Block {
 
   private _element: HTMLElement | null = null;
 
-  // eslint-disable-next-line no-use-before-define
   protected children: Record<string, Block>;
 
   protected props: Props;
