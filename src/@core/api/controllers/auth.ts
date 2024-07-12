@@ -1,7 +1,7 @@
 import { TSignUpData } from '@core/api/services/auth.ts';
 import BaseQuery from '@core/HttpQuery.ts';
 
-export class Auth extends BaseQuery {
+class Auth extends BaseQuery {
   constructor() {
     super('/auth');
   }

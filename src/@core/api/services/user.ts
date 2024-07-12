@@ -9,4 +9,8 @@ export type TUserData = {
   avatar: string;
 } | {};
 
-export class User {}
+export class User {
+  public async updateUserData(): Promise<void> {
+
+  }
+}
