@@ -4,6 +4,7 @@ import './login.scss';
 import { FormValidator } from '@core/FormValidator.ts';
 import { Button, Input, Link } from '@/components';
 import { AuthService } from '@core/api/services';
+import { router } from '@/index.ts';
 
 const formHandler = new FormValidator();
 
@@ -64,7 +65,9 @@ export class Login extends Block {
   }
 
   componentDidMount() {
-    console.log('Ура, заработало!')
+    if (router.getAuthenticatedStatus()) {
+      router.navigateTo('/chats')
+    }
   }
 
   render(): HTMLElement {

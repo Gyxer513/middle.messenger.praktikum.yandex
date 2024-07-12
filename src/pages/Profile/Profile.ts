@@ -131,6 +131,7 @@ class Profile extends Block {
 
 
   updateChildProps(userData: iProfileProps['userData']) {
+    console.log(userData)
     if (userData) {
       this.children.emailInput.setProps({ value: userData.email });
       this.children.loginInput.setProps({ value: userData.login });

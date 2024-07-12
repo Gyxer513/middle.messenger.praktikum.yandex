@@ -14,7 +14,6 @@ export type Props = {
  */
 
 export default abstract class Block {
-  // События для жизненного цикла компонента
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
