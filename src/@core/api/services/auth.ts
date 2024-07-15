@@ -1,6 +1,7 @@
 import store from '@core/Store/Store.ts'
 import { router } from '@/index.ts';
 import { AuthController } from '@core/api/controllers';
+
 export type TSignUpData = {
   first_name?: string;
   second_name?: string;

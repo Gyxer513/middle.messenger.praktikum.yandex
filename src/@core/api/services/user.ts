@@ -1,3 +1,6 @@
+import { UserController } from '@core/api/controllers/user.ts';
+import { router } from '@/index.ts';
+
 export type TUserData = {
   id: number;
   login: string;
@@ -10,7 +13,15 @@ export type TUserData = {
 } | {};
 
 export class User {
-  public async updateUserData(): Promise<void> {
+  public async updateUserData(data: TUserData): Promise<void> {
+    try {
+      await UserController.changeData(data)
+      router.navigateTo('/chats')
 
+    } catch (error) {
+      console.warn(error)
+    }
   }
 }
+
+export const UserService = new User();

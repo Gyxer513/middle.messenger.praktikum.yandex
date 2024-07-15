@@ -6,6 +6,7 @@ import { FormValidator } from '@core/FormValidator.ts';
 import { AuthService } from '@core/api/services';
 import { withStore } from '@core/Store/withStore.ts';
 import { router } from '@/index.ts';
+import { UserService } from '@core/api/services/user.ts';
 
 const formHandler = new FormValidator();
 
@@ -76,8 +77,8 @@ class Profile extends Block {
       displayNameInput: new Input({
         class_name: 'input input_profile input_border',
         type: 'text',
-        name: 'message',
-        id: 'message',
+        name: 'display_name',
+        id: 'display_name',
         placeholder: 'Ник в чате',
         value: props.userData?.display_name
       }),
@@ -99,7 +100,10 @@ class Profile extends Block {
         type: 'submit',
         onClick: (e: Event) => {
           e.preventDefault();
-          formHandler.handleSubmit('profileForm');
+         const formValues = formHandler.handleSubmit('profileForm');
+         if (formValues.isValid) {
+           return UserService.updateUserData(formValues.formData)
+         }
         },
         submit: (e: Event) => {
           e.preventDefault();

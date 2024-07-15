@@ -9,6 +9,7 @@ export default class Validator {
         first_name: this.validateName,
         second_name: this.validateName,
         message: this.validateMessage,
+        display_name: this.validateDisplayName
     };
 
     public validate(fieldName: string, value: string): [boolean, string] {
@@ -80,5 +81,15 @@ export default class Validator {
             return [false, 'Сообщение не должно быть пустым.'];
         }
         return [true, 'Сообщение валидно.'];
+    }
+
+    private validateDisplayName(value: string): [boolean, string] {
+        if (value.length < 3) {
+            return [false, "Ник должен содержать минимум 3 символа."];
+        }
+        if (!/^[a-zA-Z0-9]+$/.test(value)) {
+            return [false, "Ник может содержать только буквы латинского алфавита и цифры."];
+        }
+        return [true, "Ник валиден."];
     }
 }

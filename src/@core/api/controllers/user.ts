@@ -7,7 +7,7 @@ export class User extends BaseQuery  {
     super('/user');
   }
   changeData(data: TUserData) {
-    return this.http.post('/profile', { data })
+    return this.http.put('/profile', { data })
   }
 }
 
