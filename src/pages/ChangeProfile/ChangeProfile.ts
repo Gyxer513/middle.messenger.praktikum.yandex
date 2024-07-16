@@ -41,7 +41,10 @@ class ChangeProfile extends Block {
       profileAvatar: new Avatar({
         class: 'avatar__container',
         src: `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` || '',
-        alt:'аватар'
+        alt:'аватар',
+        onChange: (data) => {
+          return UserService.changeAvatar(data)
+        }
       }),
       emailInput: new Input({
         class_name: 'input input_profile input_border',

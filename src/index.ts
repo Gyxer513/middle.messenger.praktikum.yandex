@@ -26,13 +26,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     router.addRoute('/change-password', () => {
-        console.log('change password page');
-        router.render(new Pages.ChangePassPage({}));
+        setTimeout(() => {
+            router.render(new Pages.ChangePassPage({}));
+        }, 500)
     }, true);
 
     router.addRoute('/chats', () => {
-        console.log('chats page');
-        router.render(new Pages.ChatsPage({}));
+        setTimeout(() => {
+            router.render(new Pages.ChatsPage({}));
+        },500)
     }, true);
 
     router.addRoute('/404', () => {

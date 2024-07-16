@@ -9,8 +9,10 @@ export class User extends BaseQuery  {
   public changeData(data: TUserData) {
     return this.http.put('/profile', { data })
   }
-  public updateAvatar(data: FormData) {
-    return this.http.put('/profile/avatar', { data })
+  public updateAvatar(file: File) {
+    const data = new FormData();
+    data.append('avatar', file);
+    return this.http.put('/profile/avatar', { data });
   }
 }
 

@@ -8,10 +8,16 @@ interface IAvatarProps {
   class: string;
   src: string;
   alt: string;
+  onChange: (file: File) => void;
 }
 export class Avatar extends Block {
     constructor(props: IAvatarProps) {
-        super(props);
+        super({ ...props,  onChange: props?.onChange,
+          events: { change: (e: InputEvent) => {
+            console.log('change', e);
+           this.props.onChange(e.target);
+          }
+          } });
     }
 
     render(): HTMLElement {

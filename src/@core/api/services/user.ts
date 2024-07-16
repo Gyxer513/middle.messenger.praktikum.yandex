@@ -17,7 +17,13 @@ export class User {
     try {
       await UserController.changeData(data)
       router.navigateTo('/chats')
-
+    } catch (error) {
+      console.warn(error)
+    }
+  }
+  public async changeAvatar(data: File): Promise<void> {
+    try {
+      await UserController.updateAvatar(data)
     } catch (error) {
       console.warn(error)
     }
