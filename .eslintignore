@@ -8,6 +8,6 @@ src/@core/*
 src/components/Avatar/Avatar.ts
 src/components/Chat/Chat.ts
 src/components/Input/Input.ts
-src/pages/Profile/Profile.ts
+src/pages/ChangeProfile/ChangeProfile.ts
 
 

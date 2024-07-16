@@ -15,7 +15,7 @@ export default class Router {
     private notFoundHandler: RouteHandler | null = null;
     private static _instance: Router;
     private appElement: HTMLElement;
-    private isAuthenticated: boolean = true;
+    private isAuthenticated: boolean = false;
 
     constructor(appElementId: string) {
 
@@ -35,7 +35,7 @@ export default class Router {
         Router._instance = this;
     }
 
-    // Добавляем роут в список
+    // Добавляем роут в список роутов
     public addRoute(path: string, handler: RouteHandler, isPrivate: boolean = false, requiresData: boolean = false): void {
         this.routes.push({ path, handler, isPrivate, requiresData });
     }
@@ -69,8 +69,8 @@ export default class Router {
 
     // Дополнительный метод проверки приветная ссылка или нет
     private async renderRoute(path: string): void {
+
         const route = this.routes.find(route => route.path === path);
-        console.log(route)
 
         if (route) {
             if (route.isPrivate && !this.isAuthenticated) {
@@ -98,11 +98,6 @@ export default class Router {
     // Меняем статус авторизации
     public setAuthenticationStatus(status: boolean): void {
         this.isAuthenticated = status;
-    }
-
-    // Асинхронная загрузка компонента
-    private async loadData(handler: RouteHandler): Promise<void> {
-        await handler();
     }
 
     // Рендер компонента

@@ -199,4 +199,5 @@ export default abstract class Block {
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
+
 }

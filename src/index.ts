@@ -16,8 +16,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     router.addRoute('/settings', () => {
+        setTimeout(() => {
             router.render(new Pages.ProfilePage({}));
-    }, true, true);
+        }, 500)
+    }, true);
 
     router.addRoute('/sign-up', () => {
         router.render(new Pages.RegisterPage({}));

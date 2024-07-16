@@ -1,7 +1,7 @@
-import Block, { Props } from '@core/Block.ts';
+import Block from '@core/Block.ts';
 import { Avatar, Button, Input, Link } from '@/components';
-import { template } from './profile.template.ts';
-import './profile.scss';
+import { template } from './changeProfile.template.ts';
+import './changeProfile.scss';
 import { FormValidator } from '@core/FormValidator.ts';
 import { AuthService } from '@core/api/services';
 import { withStore } from '@core/Store/withStore.ts';
@@ -22,6 +22,7 @@ interface iProfileProps {
   submitButton?: Button;
   linkButton?: Button;
   exitButton?: Button;
+  name: string;
   userData?: {
     email?: string;
     login?: string;
@@ -32,10 +33,11 @@ interface iProfileProps {
     avatar?: string;
   };
 }
-class Profile extends Block {
+class ChangeProfile extends Block {
   constructor(props: iProfileProps) {
     super({
       ...props,
+      title: props.userData?.first_name,
       profileAvatar: new Avatar({
         class: 'avatar__container',
         src: `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` || '',
@@ -135,7 +137,6 @@ class Profile extends Block {
 
 
   updateChildProps(userData: iProfileProps['userData']) {
-    console.log(userData)
     if (userData) {
       this.children.emailInput.setProps({ value: userData.email });
       this.children.loginInput.setProps({ value: userData.login });
@@ -144,6 +145,7 @@ class Profile extends Block {
       this.children.displayNameInput.setProps({ value: userData.display_name });
       this.children.phoneNumberInput.setProps({ value: userData.phone });
       this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}` });
+      this.setProps({ title: userData.first_name })
     }
   }
 
@@ -155,4 +157,4 @@ class Profile extends Block {
 
 const withUserStore = withStore(state => ({ userData: { ...state.userData } }));
 
-export const ProfileWithStore = withUserStore(Profile)
+export const ProfileWithStore = withUserStore(ChangeProfile)

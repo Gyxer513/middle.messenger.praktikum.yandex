@@ -6,8 +6,11 @@ export class User extends BaseQuery  {
   constructor() {
     super('/user');
   }
-  changeData(data: TUserData) {
+  public changeData(data: TUserData) {
     return this.http.put('/profile', { data })
+  }
+  public updateAvatar(data: FormData) {
+    return this.http.put('/profile/avatar', { data })
   }
 }
 
