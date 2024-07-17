@@ -2,6 +2,6 @@ export { Home as HomePage } from './Home';
 export { Error as ErrorPage } from './Error';
 export { Login as LoginPage } from './Login';
 export { ProfileWithStore as ProfilePage } from './ChangeProfile';
-export { ChangePass as ChangePassPage } from './ChangePass';
+export { ChangePassWithStore as ChangePassPage } from './ChangePass';
 export { Register as RegisterPage } from './Register';
 export { Chats as ChatsPage } from './Chats';

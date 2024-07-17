@@ -7,6 +7,7 @@ import { AuthService } from '@core/api/services';
 import { withStore } from '@core/Store/withStore.ts';
 import { router } from '@/index.ts';
 import { UserService } from '@core/api/services/user.ts';
+import { UserController } from '@core/api/controllers/user.ts';
 
 const formHandler = new FormValidator();
 
@@ -42,9 +43,9 @@ class ChangeProfile extends Block {
         class: 'avatar__container',
         src: `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` || '',
         alt:'аватар',
-        onChange: (data) => {
-          return UserService.changeAvatar(data)
-        }
+        events: {
+          change: (event: Event) => this.handleAvatarChange(event),
+        },
       }),
       emailInput: new Input({
         class_name: 'input input_profile input_border',
@@ -131,7 +132,8 @@ class ChangeProfile extends Block {
     });
   }
 
-  componentDidMount = () => {
+  async componentDidMount() {
+    await AuthService.fetchUser()
     if (!router.getAuthenticatedStatus()) {
       router.navigateTo('/')
     }
@@ -152,12 +154,24 @@ class ChangeProfile extends Block {
     }
   }
 
+  async handleAvatarChange(event: Event) {
+    event.preventDefault();
+
+    const input = event.target as HTMLInputElement;
+    const avatar = input.files ? input?.files[0] : null;
+
+    if (avatar) {
+      const updatedUserData = await UserController.updateAvatar(avatar);
+        this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`  });
+    }
+  }
+
 
   render(): HTMLElement {
     return this.compile(template, {...this.props});
   }
 }
 
-const withUserStore = withStore(state => ({ userData: { ...state.userData } }));
+export const withUserStore = withStore(state => ({ userData: { ...state.userData } }));
 
 export const ProfileWithStore = withUserStore(ChangeProfile)

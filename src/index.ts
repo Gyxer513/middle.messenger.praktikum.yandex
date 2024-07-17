@@ -16,10 +16,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     router.addRoute('/settings', () => {
-        setTimeout(() => {
-            router.render(new Pages.ProfilePage({}));
-        }, 500)
-    }, true);
+            router.render(new Pages.ProfilePage({}))
+    });
 
     router.addRoute('/sign-up', () => {
         router.render(new Pages.RegisterPage({}));
@@ -29,28 +27,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => {
             router.render(new Pages.ChangePassPage({}));
         }, 500)
-    }, true);
+    });
 
     router.addRoute('/chats', () => {
         setTimeout(() => {
             router.render(new Pages.ChatsPage({}));
         },500)
-    }, true);
+    });
 
     router.addRoute('/404', () => {
-        console.log('404 page');
         router.render(new Pages.ErrorPage({ error_status: 404, text: 'Not Found' }));
     });
 
     router.addRoute('/500', () => {
-        console.log('500 page');
         router.render(
           new Pages.ErrorPage({ error_status: 500, text: 'Server error' }),
         );
     });
 
     router.setNotFoundHandler(() => {
-        console.log('404 page');
         router.render(new Pages.ErrorPage({ error_status: 404, text: 'Not Found' }));
         history.pushState(null, '', '/404');
     });

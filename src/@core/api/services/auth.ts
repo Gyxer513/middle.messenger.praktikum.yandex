@@ -25,9 +25,9 @@ class Auth {
   public async login(data: Pick<TSignUpData, 'login' | 'password'>) {
     try {
       await AuthController.signIn(data);
-        router.setAuthenticationStatus(true);
         const userData = await AuthController.getUserInfo();
         store.setState('userData',  userData)
+      router.setAuthenticationStatus(true);
         router.navigateTo('/chats');
     } catch (error) {
       router.setAuthenticationStatus(false)
@@ -47,11 +47,9 @@ class Auth {
 
   public async fetchUser() {
     try {
-      console.log(router.getAuthenticatedStatus())
-      router.setAuthenticationStatus(true);
       const userData = await this.getUserInfo()
       store.setState('userData',  userData)
-      console.log(router.getAuthenticatedStatus())
+      router.setAuthenticationStatus(true);
     } catch (error) {
       router.setAuthenticationStatus(false)
       console.warn('Произошла ошибка ошибка авторизации');

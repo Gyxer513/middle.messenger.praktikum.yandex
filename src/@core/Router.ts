@@ -56,13 +56,8 @@ export default class Router {
     }
 
     // Управляемый редирект
-    public navigateTo(path: string, protectedRoute: boolean = false): void {
+    public navigateTo(path: string): void {
         this.appElement.innerHTML = '';
-        if (protectedRoute && !this.isAuthenticated) {
-            alert('You are not authorized to view this page');
-            path = '/';
-        }
-
         history.pushState(null, '', path);
         this.renderRoute(path);
     }

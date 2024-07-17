@@ -3,6 +3,8 @@ import './chats.scss';
 import Block from '@core/Block.ts';
 import { Chat } from '@/components/Chat/Chat.ts';
 import { ChatItem } from '@/components';
+import { AuthService } from '@core/api/services';
+import { router } from '@/index.ts';
 
 interface IChatProps {
   chatItem1?: ChatItem;
@@ -43,6 +45,13 @@ export class Chats extends Block {
             }),
             chat: new Chat({}),
         });
+    }
+
+    async componentDidMount() {
+        await AuthService.fetchUser()
+        if (!router.getAuthenticatedStatus()) {
+            router.navigateTo('/')
+        }
     }
 
     render(): HTMLElement {

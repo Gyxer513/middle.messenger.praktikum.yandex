@@ -4,6 +4,10 @@ import { FormValidator } from '@core/FormValidator.ts';
 import { Avatar, Button, Input } from '@/components';
 
 import { template } from './changePass.template.ts';
+import { AuthService } from '@core/api/services';
+import { router } from '@/index.ts';
+import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
+import { UserController } from '@core/api/controllers/user.ts';
 
 interface IChangePassProps {
   profileAvatar?: Avatar;
@@ -11,6 +15,9 @@ interface IChangePassProps {
   passwordInput?: Input;
   repeatPasswordInput?: Input;
   submitButton?: Button;
+    userData?: {
+        avatar?: string;
+    }
 }
 
 const formHandler = new FormValidator();
@@ -21,8 +28,11 @@ export class ChangePass extends Block {
             ...props,
             profileAvatar: new Avatar({
                 class: 'avatar__container',
-                src: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png',
+                src: `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` || '',
                 alt: 'аватар',
+                events: {
+                    change: (event: Event) => this.handleAvatarChange(event),
+                },
             }),
             oldPasswordInput: new Input({
                 class_name: 'input',
@@ -68,7 +78,36 @@ export class ChangePass extends Block {
         });
     }
 
+    async componentDidMount() {
+        await AuthService.fetchUser()
+        if (!router.getAuthenticatedStatus()) {
+            router.navigateTo('/')
+        }
+        this.updateChildProps(this.props.userData);
+    }
+
+    updateChildProps(userData) {
+        if (userData) {
+            this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}` });
+        }
+    }
+    async handleAvatarChange(event: Event) {
+        event.preventDefault();
+
+        const input = event.target as HTMLInputElement;
+        const avatar = input.files ? input?.files[0] : null;
+
+        if (avatar) {
+            const updatedUserData = await UserController.updateAvatar(avatar);
+            this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`  });
+        }
+    }
+
+
     render(): HTMLElement {
         return this.compile(template, this.props);
     }
 }
+
+
+    export const ChangePassWithStore = withUserStore(ChangePass)
