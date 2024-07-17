@@ -2,12 +2,11 @@ import './changePass.scss';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
 import { Avatar, Button, Input } from '@/components';
-
 import { template } from './changePass.template.ts';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
-import { UserController } from '@core/api/controllers/user.ts';
+import { UserService } from '@core/api/services/user.ts';
 
 interface IChangePassProps {
   profileAvatar?: Avatar;
@@ -68,7 +67,14 @@ export class ChangePass extends Block {
                 type: 'submit',
                 onClick: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('passwordForm');
+                    const formData = formHandler.handleSubmit('passwordForm');
+                    if (formData.isValid) {
+                        return UserService.changePass({
+                            oldPassword: formData.formData.old_password,
+                            newPassword: formData.formData.password
+                        })
+                    }
+
                 },
                 submit: (e: Event) => {
                     e.preventDefault();
@@ -98,7 +104,7 @@ export class ChangePass extends Block {
         const avatar = input.files ? input?.files[0] : null;
 
         if (avatar) {
-            const updatedUserData = await UserController.updateAvatar(avatar);
+            const updatedUserData = await UserService.changeAvatar(avatar);
             this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`  });
         }
     }

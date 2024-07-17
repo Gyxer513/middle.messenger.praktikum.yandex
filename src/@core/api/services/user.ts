@@ -1,4 +1,4 @@
-import { UserController } from '@core/api/controllers/user.ts';
+import { TPasswordData, UserController } from '@core/api/controllers/user.ts';
 import { router } from '@/index.ts';
 
 export type TUserData = {
@@ -13,6 +13,7 @@ export type TUserData = {
 } | {};
 
 export class User {
+
   public async updateUserData(data: TUserData): Promise<void> {
     try {
       await UserController.changeData(data)
@@ -21,11 +22,21 @@ export class User {
       console.warn(error)
     }
   }
-  public async changeAvatar(data: File): Promise<void> {
+  public async changeAvatar(file: File): Promise<void> {
     try {
-      await UserController.updateAvatar(data)
+      const data = new FormData();
+      data.append('avatar', file);
+      return UserController.updateAvatar(data)
     } catch (error) {
       console.warn(error)
+    }
+  }
+
+  public async changePass(data: TPasswordData): Promise<void> {
+    try {
+      await UserController.changePass(data)
+    } catch (error) {
+      console.warn('Произошла ошибка', error)
     }
   }
 }

@@ -7,7 +7,6 @@ import { AuthService } from '@core/api/services';
 import { withStore } from '@core/Store/withStore.ts';
 import { router } from '@/index.ts';
 import { UserService } from '@core/api/services/user.ts';
-import { UserController } from '@core/api/controllers/user.ts';
 
 const formHandler = new FormValidator();
 
@@ -161,7 +160,7 @@ class ChangeProfile extends Block {
     const avatar = input.files ? input?.files[0] : null;
 
     if (avatar) {
-      const updatedUserData = await UserController.updateAvatar(avatar);
+      const updatedUserData = await UserService.changeAvatar(avatar);
         this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`  });
     }
   }
