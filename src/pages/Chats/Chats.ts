@@ -2,16 +2,14 @@ import { template } from '@/pages/Chats/chats.template.ts';
 import './chats.scss';
 import Block from '@core/Block.ts';
 import { Chat } from '@/components/Chat/Chat.ts';
-import { ChatsList } from '@/components';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';
 import { withStore } from '@core/Store/withStore.ts';
 
 interface IChatProps {
-  chatItem1?: ChatsList;
-  chatItem2?: ChatsList;
-  chatItem3?: ChatsList;
+chats: any;
+userData: any;
 }
 
 export class Chats extends Block {
@@ -24,20 +22,22 @@ export class Chats extends Block {
 
     async componentDidMount() {
         await AuthService.fetchUser()
-        const catsData = await ChatsService.getChats()
+        await ChatsService.getChats()
         if (!router.getAuthenticatedStatus()) {
             router.navigateTo('/')
         }
-        console.log(catsData);
+        console.log(this.props.chats)
+        console.log(this.props.userData)
     }
 
     render(): HTMLElement {
-        return this.compile(template, this.props);
+        return this.compile(template, { ...this.props });
     }
 }
 
-const withChatsStore = withStore(state => {
-    chats: state.chats
-})
+export const withAllStore = withStore(state => ({
+    chats: state.chats,
+    userData: { ...state.userData }
+}));
 
-export const ChatsWithStore = withChatsStore(Chats)
+export const ChatsWithStore = withAllStore(Chats);

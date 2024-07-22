@@ -3,9 +3,11 @@ import store, { StoreEvents } from './Store.ts';
 import Block from '@core/Block.ts';
 import { isEqual } from '@core/utils';
 
+
 export const withStore =
   (mapStateToProps: (state: IStoreData) => Record<string, unknown>) =>
     (Component: typeof Block) => {
+      // @ts-expect-error
       return class WithStore extends Component {
         private state: Record<string, unknown>;
 
