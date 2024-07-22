@@ -5,6 +5,7 @@ import { Chat } from '@/components/Chat/Chat.ts';
 import { ChatItem } from '@/components';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
+import { ChatsService } from '@core/api/services/chats.ts';
 
 interface IChatProps {
   chatItem1?: ChatItem;
@@ -49,12 +50,16 @@ export class Chats extends Block {
 
     async componentDidMount() {
         await AuthService.fetchUser()
+        const catsData = await ChatsService.getChats()
         if (!router.getAuthenticatedStatus()) {
             router.navigateTo('/')
         }
+        console.log(catsData);
     }
 
     render(): HTMLElement {
         return this.compile(template, this.props);
     }
 }
+
+

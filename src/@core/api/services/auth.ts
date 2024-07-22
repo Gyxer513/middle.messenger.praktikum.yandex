@@ -12,6 +12,7 @@ export type TSignUpData = {
 };
 
 class Auth {
+
   public async createUser(data: TSignUpData) {
     try {
       await AuthController.signUp(data);
@@ -60,5 +61,6 @@ class Auth {
     return await AuthController.getUserInfo();
 
   }
+
 }
 export const AuthService = new Auth();
