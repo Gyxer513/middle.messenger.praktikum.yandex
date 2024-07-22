@@ -1,8 +1,9 @@
 // language=hbs
 export const template = `
+    {{#each items}}
 <div class="card">
     <div class="card__body">
-        <img class='card__image' alt='{{alt}}' src='{{src}}' />
+        <img class='card__image' alt='Аватар чата' src='{{src}}' />
         <div class="name__container">
           <h5 class="card__name">{{name}}</h5>
           <p class="card__message">{{message}}</p>
@@ -13,4 +14,5 @@ export const template = `
         <p class='{{counter_class}}'>{{counter_number}}</p>
     </div>
 </div>
+    {{/each}}
 `;

@@ -66,7 +66,7 @@ export class Login extends Block {
 
   componentDidMount() {
     if (router.getAuthenticatedStatus()) {
-      router.navigateTo('/chats')
+      router.navigateTo('/chats');
     }
   }
 

@@ -40,11 +40,13 @@ class ChangeProfile extends Block {
       title: props.userData?.first_name,
       profileAvatar: new Avatar({
         class: 'avatar__container',
-        src: `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` || '',
-        alt:'аватар',
+        src:
+          `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` ||
+          '',
+        alt: 'аватар',
         events: {
-          change: (event: Event) => this.handleAvatarChange(event),
-        },
+          change: (event: Event) => this.handleAvatarChange(event)
+        }
       }),
       emailInput: new Input({
         class_name: 'input input_profile input_border',
@@ -60,7 +62,7 @@ class ChangeProfile extends Block {
         name: 'login',
         id: 'login',
         placeholder: 'Логин',
-        value: props.userData?.login,
+        value: props.userData?.login
       }),
       firstNameInput: new Input({
         class_name: 'input input_profile input_border',
@@ -93,7 +95,7 @@ class ChangeProfile extends Block {
         name: 'phone',
         id: 'phone',
         placeholder: 'Телефон',
-        value: props.userData?.phone,
+        value: props.userData?.phone
       }),
 
       // Кнопки
@@ -105,10 +107,10 @@ class ChangeProfile extends Block {
         type: 'submit',
         onClick: (e: Event) => {
           e.preventDefault();
-         const formValues = formHandler.handleSubmit('profileForm');
-         if (formValues.isValid) {
-           return UserService.updateUserData(formValues.formData)
-         }
+          const formValues = formHandler.handleSubmit('profileForm');
+          if (formValues.isValid) {
+            return UserService.updateUserData(formValues.formData);
+          }
         },
         submit: (e: Event) => {
           e.preventDefault();
@@ -132,13 +134,12 @@ class ChangeProfile extends Block {
   }
 
   async componentDidMount() {
-    await AuthService.fetchUser()
+    await AuthService.fetchUser();
     if (!router.getAuthenticatedStatus()) {
-      router.navigateTo('/')
+      router.navigateTo('/');
     }
     this.updateChildProps(this.props.userData);
   }
-
 
   updateChildProps(userData: iProfileProps['userData']) {
     if (userData) {
@@ -148,8 +149,10 @@ class ChangeProfile extends Block {
       this.children.secondNameInput.setProps({ value: userData.second_name });
       this.children.displayNameInput.setProps({ value: userData.display_name });
       this.children.phoneNumberInput.setProps({ value: userData.phone });
-      this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}` });
-      this.setProps({ title: userData.first_name })
+      this.children.profileAvatar.setProps({
+        src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}`
+      });
+      this.setProps({ title: userData.first_name });
     }
   }
 
@@ -161,16 +164,19 @@ class ChangeProfile extends Block {
 
     if (avatar) {
       const updatedUserData = await UserService.changeAvatar(avatar);
-        this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`  });
+      this.children.profileAvatar.setProps({
+        src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData?.avatar}`
+      });
     }
   }
 
-
   render(): HTMLElement {
-    return this.compile(template, {...this.props});
+    return this.compile(template, { ...this.props });
   }
 }
 
-export const withUserStore = withStore(state => ({ userData: { ...state.userData } }));
+export const withUserStore = withStore(state => ({
+  userData: { ...state.userData }
+}));
 
-export const ProfileWithStore = withUserStore(ChangeProfile)
+export const ProfileWithStore = withUserStore(ChangeProfile);

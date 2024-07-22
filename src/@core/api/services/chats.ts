@@ -1,8 +1,7 @@
-import store from '@core/Store/Store.ts'
+import store from '@core/Store/Store.ts';
 import { ChatsController } from '@core/api/controllers/chats.ts';
 
 class Chats {
-
   public async getChats(): Promise<unknown> {
     try {
       const chats = await ChatsController.getChats();

@@ -1,4 +1,3 @@
-
 const enum HttpMethods {
   GET = 'GET',
   POST = 'POST',
@@ -7,14 +6,15 @@ const enum HttpMethods {
 }
 
 type Options = {
-  method: HttpMethods;
+  method?: HttpMethods;
   headers?: Record<string, string>;
   data?: Record<string, unknown> | FormData;
-  timeout?: number;
   withCredentials?: boolean;
+  timeout?: number;
+  retries?: number;
 };
 
-type HTTPMethod = (url: string, options?: Options) => Promise<unknown>;
+type HTTPMethod = (url: string, options: Options) => Promise<unknown>;
 
 interface IHttp {
   get: HTTPMethod;
@@ -41,14 +41,17 @@ class HttpQuery implements IHttp {
     this.request(this.baseUrl + url, { ...options, method: HttpMethods.PUT });
 
   delete: HTTPMethod = (url, options) =>
-    this.request(this.baseUrl + url, { ...options, method: HttpMethods.DELETE });
+    this.request(this.baseUrl + url, {
+      ...options,
+      method: HttpMethods.DELETE
+    });
 
   request: HTTPMethod = (
     url,
     options = {
       method: HttpMethods.GET,
-      timeout: 5000,
-    },
+      timeout: 5000
+    }
   ) =>
     new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -57,7 +60,7 @@ class HttpQuery implements IHttp {
         data,
         headers,
         timeout = 5000,
-        withCredentials = true,
+        withCredentials = true
       } = options;
 
       xhr.open(method, url);
@@ -70,7 +73,7 @@ class HttpQuery implements IHttp {
 
       xhr.timeout = timeout;
       xhr.withCredentials = withCredentials;
-      xhr.responseType = "json";
+      xhr.responseType = 'json';
 
       xhr.onreadystatechange = function onReadyStateChange() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -81,17 +84,17 @@ class HttpQuery implements IHttp {
           }
         }
       };
-      xhr.onabort = () => reject(new Error("This request has been rejected"));
-      xhr.ontimeout = () => reject(new Error("Request timed out"));
-      xhr.onerror = () => reject(new Error("Request error"));
+      xhr.onabort = () => reject(new Error('This request has been rejected'));
+      xhr.ontimeout = () => reject(new Error('Request timed out'));
+      xhr.onerror = () => reject(new Error('Request error'));
 
       if (method === HttpMethods.GET || !data) {
-        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send();
       } else if (data instanceof FormData) {
         xhr.send(data);
       } else {
-        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(data));
       }
     });

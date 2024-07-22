@@ -2,48 +2,22 @@ import { template } from '@/pages/Chats/chats.template.ts';
 import './chats.scss';
 import Block from '@core/Block.ts';
 import { Chat } from '@/components/Chat/Chat.ts';
-import { ChatItem } from '@/components';
+import { ChatsList } from '@/components';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';
+import { withStore } from '@core/Store/withStore.ts';
 
 interface IChatProps {
-  chatItem1?: ChatItem;
-  chatItem2?: ChatItem;
-  chatItem3?: ChatItem;
+  chatItem1?: ChatsList;
+  chatItem2?: ChatsList;
+  chatItem3?: ChatsList;
 }
 
 export class Chats extends Block {
     constructor(props: IChatProps) {
         super({
             ...props,
-            chatItem1: new ChatItem({
-                src: 'https://w7.pngwing.com/pngs/857/213/png-transparent-man-avatar-user-business-avatar-icon-thumbnail.png',
-                alt: 'avatar-cat',
-                name: 'Антон',
-                message: 'Привет',
-                time: '14:19',
-                counter_class: 'counter counter_enabled',
-                counter_number: 30,
-            }),
-            chatItem2: new ChatItem({
-                src: 'https://w7.pngwing.com/pngs/924/414/png-transparent-woman-illustration-user-profile-avatar-woman-icon-girl-avatar-face-fashion-girl-heroes-thumbnail.png',
-                alt: 'avatar-cat',
-                name: 'Ирина',
-                message: 'Идем на обед?',
-                time: '12:32',
-                counter_class: 'counter counter_enabled',
-                counter_number: 10,
-            }),
-            chatItem3: new ChatItem({
-                src: 'https://w7.pngwing.com/pngs/550/997/png-transparent-user-icon-foreigners-avatar-child-face-heroes-thumbnail.png',
-                alt: 'avatar-cat',
-                name: 'Кирилл',
-                message: 'Завтра все в силе?',
-                time: '18:15',
-                counter_class: 'counter counter_enabled',
-                counter_number: 132,
-            }),
             chat: new Chat({}),
         });
     }
@@ -62,4 +36,8 @@ export class Chats extends Block {
     }
 }
 
+const withChatsStore = withStore(state => {
+    chats: state.chats
+})
 
+export const ChatsWithStore = withChatsStore(Chats)
