@@ -7,9 +7,7 @@ export const template = `
           <a class="chats__link" href="/settings">Профиль ></a>
           <input class="chats__input" type="text" placeholder="Поиск">
         </div>
-        {{{ chatItem1 }}}
-        {{{ chatItem2 }}}
-        {{{ chatItem3 }}}
+        {{{ chatsList }}}
     </div>
     <div class="chats__message-box">
         {{{ chat }}}

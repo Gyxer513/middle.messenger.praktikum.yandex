@@ -5,17 +5,29 @@ import { Chat } from '@/components/Chat/Chat.ts';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';
-import { withStore } from '@core/Store/withStore.ts';
+import { ChatsList } from '@/components';
+import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
+import store from '@core/Store/Store.ts';
 
 interface IChatProps {
-chats: any;
-userData: any;
+userData?: {
+    email?: string;
+    login?: string;
+    first_name?: string;
+    second_name?: string;
+    display_name?: string;
+    phone?: string;
+    avatar?: string;
+};
+chatsList: ChatsList;
+chat: Chat;
 }
 
 export class Chats extends Block {
     constructor(props: IChatProps) {
         super({
             ...props,
+            chatsList: new ChatsList({ items: props.chats }),
             chat: new Chat({}),
         });
     }
@@ -26,8 +38,7 @@ export class Chats extends Block {
         if (!router.getAuthenticatedStatus()) {
             router.navigateTo('/')
         }
-        console.log(this.props.chats)
-        console.log(this.props.userData)
+        console.log(store.getState());
     }
 
     render(): HTMLElement {
@@ -35,9 +46,5 @@ export class Chats extends Block {
     }
 }
 
-export const withAllStore = withStore(state => ({
-    chats: state.chats,
-    userData: { ...state.userData }
-}));
 
-export const ChatsWithStore = withAllStore(Chats);
+export const ChatsWithStore = withUserStore(Chats);

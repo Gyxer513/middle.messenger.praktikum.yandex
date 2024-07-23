@@ -2,9 +2,10 @@ import Block from '@core/Block.ts';
 
 import { template } from './chatsList.template.ts';
 import './chatList.scss';
+import { withStore } from '@core/Store/withStore.ts';
 
 interface IChatItemProps {
-  src: string;
+  avatar: string;
   alt: string;
   name: string;
   message: string;
@@ -13,8 +14,10 @@ interface IChatItemProps {
   counter_number: number;
 }
 
+type TChatsListProps = {items: Array<IChatItemProps>}
+
 export class ChatsList extends Block {
-  constructor(props: IChatItemProps) {
+  constructor(props: TChatsListProps) {
     super({
       ...props
     });
@@ -24,3 +27,9 @@ export class ChatsList extends Block {
     return this.compile(template, this.props);
   }
 }
+
+export const withChatsStore = withStore(state => ({
+  items: state.chats
+}));
+
+export const ChatsListWithStore = withChatsStore(ChatsList);

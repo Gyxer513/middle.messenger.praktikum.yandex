@@ -1,1 +1,1 @@
-export { ChatsList } from './ChatsList.ts';
+export { ChatsListWithStore } from './ChatsList.ts';
