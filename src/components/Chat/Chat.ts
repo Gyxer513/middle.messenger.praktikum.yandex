@@ -36,3 +36,5 @@ export class Chat extends Block {
         return this.compile(template, this.props);
     }
 }
+
+

@@ -41,6 +41,8 @@ export class Chats extends Block {
         console.log(store.getState());
     }
 
+
+
     render(): HTMLElement {
         return this.compile(template, { ...this.props });
     }

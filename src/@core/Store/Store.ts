@@ -10,6 +10,8 @@ export interface IStoreData {
   userData: TUserData;
   messages: Record<string, string>;
   chats: Array<unknown>,
+  currentChat: number | null;
+  token: string | null;
 }
 
 const initialState = {
@@ -25,6 +27,8 @@ const initialState = {
   },
   messages: {},
   chats: [],
+  currentChat: null,
+  token: null,
 };
 
 class Store extends EventBus {
