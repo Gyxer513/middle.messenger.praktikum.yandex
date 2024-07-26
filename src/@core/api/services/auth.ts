@@ -48,8 +48,8 @@ class Auth {
   public async fetchUser() {
     try {
       const userData = await this.getUserInfo();
-      store.setState('userData', userData);
       router.setAuthenticationStatus(true);
+      store.setState('userData', userData);
     } catch (error) {
       router.setAuthenticationStatus(false);
       console.warn('Произошла ошибка ошибка авторизации');

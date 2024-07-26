@@ -30,14 +30,13 @@ export class ChatsList extends Block {
         click: (e) => {
           console.log(e.target.id);
           this.connectWebSocket(e.target.id);
-
         }
       }
     });
   }
 
   async connectWebSocket(chatId): Promise<void> {
-    const token = await ChatsService.getToken(chatId);
+    await ChatsService.getToken(chatId);
     WebSocketMessageService.connect({
       userId: store.getState().userData.id,
       chatId: chatId,

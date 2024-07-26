@@ -1,7 +1,7 @@
 import { template } from '@/pages/Chats/chats.template.ts';
 import './chats.scss';
 import Block from '@core/Block.ts';
-import { Chat } from '@/components/Chat/Chat.ts';
+import { Chat } from '@/components';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';

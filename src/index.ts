@@ -8,7 +8,7 @@ export const router = new Router('app');
 document.addEventListener("DOMContentLoaded", async () => {
 
     router.addRoute('/', () => {
-        router.render(new Pages.HomePage({}));
+        router.render(new Pages.HomePage());
     });
 
     router.addRoute('/login', () => {
@@ -24,15 +24,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     router.addRoute('/change-password', () => {
-        setTimeout(() => {
             router.render(new Pages.ChangePassPage({}));
-        }, 500)
     });
 
     router.addRoute('/chats', () => {
-        setTimeout(() => {
             router.render(new Pages.ChatsPage({}));
-        },500)
     });
 
     router.addRoute('/404', () => {

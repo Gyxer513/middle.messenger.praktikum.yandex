@@ -37,7 +37,8 @@ class Message {
 
   private _handleMassage(evt: MessageEvent) {
     const data = JSON.parse(evt.data);
-    if (Array.isArray(data)) {
+    store.setState('messages', data)
+/*    if (Array.isArray(data)) {
       if (!data.length) {
         store.setState({ messages: [] });
       } else if (data[0].id === 0) {
@@ -52,7 +53,7 @@ class Message {
     } else if (typeof data === 'object' && data.type === 'message') {
       const messages = [convertKeysToCamelCase(data), ...store.state.messages];
       store.setState({ messages });
-    }
+    }*/
   }
 
   private _handleError(evt: ErrorEvent) {
