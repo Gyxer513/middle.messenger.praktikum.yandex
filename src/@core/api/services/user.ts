@@ -1,8 +1,7 @@
 import { TPasswordData, UserController } from '@core/api/controllers/user.ts';
 import { router } from '@/index.ts';
 
-export type TUserData =
-  | {
+export type TUserData = {
       id: number;
       login: string;
       first_name: string;

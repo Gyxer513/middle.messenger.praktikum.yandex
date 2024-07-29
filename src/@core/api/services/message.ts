@@ -1,112 +1,89 @@
-import store from '@core/Store/Store.ts';
+export type MessageEventHandlers = {
+  onOpen?: (event: Event) => void;
+  onClose?: (event: CloseEvent) => void;
+  onMessage?: (event: MessageEvent) => void;
+  onError?: (event: Event) => void;
+};
 
-class Message {
-  private _ws: WebSocket;
-  private _userId: number;
-  private _chatId: number;
-  private _token: string;
-  private _ping: any;
+export class Message {
+  private ws: WebSocket | null = null;
+  private eventHandlers: MessageEventHandlers;
+  private url: string;
+  private ping: ReturnType<typeof setInterval> | null = null;
+  openPromise: Promise<void>;
 
-  constructor() {
-    this._handleOpen = this._handleOpen.bind(this);
-    this._handleMassage = this._handleMassage.bind(this);
-    this._handleError = this._handleError.bind(this);
-    this._handleClose = this._handleClose.bind(this);
-  }
+  private resolveOpenPromise!: () => void;
 
-  private _addEvents() {
-    this._ws.addEventListener('open', this._handleOpen);
-    this._ws.addEventListener('message', this._handleMassage);
-    this._ws.addEventListener('error', this._handleError);
-    this._ws.addEventListener('close', this._handleClose);
-  }
-
-  private _removeEvents() {
-    this._ws.removeEventListener('open', this._handleOpen);
-    this._ws.removeEventListener('message', this._handleMassage);
-    this._ws.removeEventListener('error', this._handleError);
-    this._ws.removeEventListener('close', this._handleClose);
-  }
-
-  private _handleOpen() {
-    this.getMessages({ offset: 0 });
-    this._ping = setInterval(() => {
-      this._ws.send('');
-    }, 10000);
-  }
-
-  private _handleMassage(evt: MessageEvent) {
-    const data = JSON.parse(evt.data);
-    store.setState('messages', data)
-/*    if (Array.isArray(data)) {
-      if (!data.length) {
-        store.setState({ messages: [] });
-      } else if (data[0].id === 0) {
-        store.setState({ messages: data.map((item) => convertKeysToCamelCase(item)) });
-      } else {
-        const messages = [
-          ...store.state.messages,
-          ...data.map((item) => convertKeysToCamelCase(item)),
-        ];
-        store.setState({ messages });
-      }
-    } else if (typeof data === 'object' && data.type === 'message') {
-      const messages = [convertKeysToCamelCase(data), ...store.state.messages];
-      store.setState({ messages });
-    }*/
-  }
-
-  private _handleError(evt: ErrorEvent) {
-    console.log('💬 _handleError', evt.message);
-  }
-
-  private _handleClose(evt: CloseEventInit) {
-    this._removeEvents();
-    if (evt.wasClean) {
-      console.log('Соединение закрыто без ошибок');
-    } else {
-      console.warn('Проблемы с подключением');
-    }
-    if (evt.code === 1006) {
-      this._reconnection();
-    }
-  }
-
-  private _reconnection() {
-    this.connect({
-      userId: this._userId,
-      chatId: this._chatId,
-      token: this._token,
+  constructor(url: string, eventHandlers: MessageEventHandlers) {
+    this.url = url;
+    this.eventHandlers = eventHandlers;
+    this.openPromise = new Promise(resolve => {
+      this.resolveOpenPromise = resolve as () => void;
     });
+
+    this._connect();
   }
 
-  public connect(options: any) {
-    this._userId = options.userId;
-    this._chatId = options.chatId;
-    this._token = options.token;
-    this._ws = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${options.userId}/${options.chatId}/${options.token}`);
-    this._addEvents();
+  public waitForOpen(): Promise<void> {
+    return this.openPromise;
   }
 
-  public getMessages(options: any) {
-    this._ws.send(JSON.stringify({
-      content: options.offset.toString(),
-      type: 'get old',
-    }));
+  private _connect(): void {
+    if (this.ws) {
+      throw new Error('Активное подключение сокета уже есть');
+    }
+
+    this.ws = new WebSocket(this.url);
+
+    this.ws.addEventListener('open', (event: Event) => {
+      if (this.eventHandlers.onOpen) {
+        this.eventHandlers.onOpen(event);
+      }
+      this.resolveOpenPromise();
+    });
+
+    this._setupPing();
+
+    if (this.eventHandlers.onOpen) {
+      this.ws.addEventListener('open', this.eventHandlers.onOpen);
+    }
+
+    if (this.eventHandlers.onMessage) {
+      this.ws.addEventListener('message', this.eventHandlers.onMessage);
+    }
+
+    if (this.eventHandlers.onError) {
+      this.ws.addEventListener('error', this.eventHandlers.onError);
+    }
+
+    if (this.eventHandlers.onClose) {
+      this.ws.addEventListener('close', this.eventHandlers.onClose);
+    }
   }
 
-  public leave() {
-    clearInterval(this._ping);
-    this._ws.close();
-    this._removeEvents();
+  public sendMessage(message: any): void {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      this.ws?.send(JSON.stringify(message));
+    } else {
+      console.error('WebSocket is not open. Cannot send message.');
+    }
   }
 
-  public sendMessage(message: string) {
-    this._ws.send(JSON.stringify({
-      content: message,
-      type: 'message',
-    }));
+  public close() {
+    if (this.ws) {
+      this.ws.close();
+    }
+
+    clearInterval(Number(this.ping));
+    this.ping = null;
+  }
+
+  private _setupPing() {
+    const data = {
+      type: 'ping',
+    };
+    this.ping = setInterval(() => {
+      this.ws?.send(JSON.stringify(data));
+    }, 30000);
   }
 }
-
-export const WebSocketMessageService = new Message()

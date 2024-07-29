@@ -3,8 +3,6 @@ import Block from '@core/Block.ts';
 import { template } from './chatsList.template.ts';
 import './chatList.scss';
 import { withStore } from '@core/Store/withStore.ts';
-import { WebSocketMessageService } from '@core/api/services/message.ts';
-import store from '@core/Store/Store.ts';
 import { ChatsService } from '@core/api/services';
 
 interface IChatItemProps {
@@ -37,13 +35,8 @@ export class ChatsList extends Block {
 
   async connectWebSocket(chatId): Promise<void> {
     await ChatsService.getToken(chatId);
-    WebSocketMessageService.connect({
-      userId: store.getState().userData.id,
-      chatId: chatId,
-      token: store.getState().token,
-    })
+    ChatsService.setActiveChat(chatId)
   }
-
 
 
   render(): HTMLElement {
