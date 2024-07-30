@@ -9,16 +9,9 @@ class Chats {
     console.error('Ошибка коннекта:', event);
   }
 
-  private _getActiveChatID() {
-    return store.getState().currentChatId;
-  }
-
-  private _setStoreChatsList(chatInfo: any) {
-    store.setState('chats', [...chatInfo]);
-  }
-
   private _setStoreActiveChat(chatInfo: any) {
     store.setState('currentChat', chatInfo);
+    store.setState('currentChatId', chatInfo.id);
   }
 
   private _handleMessage(event: MessageEvent): void {
@@ -30,12 +23,12 @@ class Chats {
       alert(`Получено сообщение с невалидными данными: ${error}`);
     }
 
-    if (data.isArray) {
+    if (Array.isArray(data)) {
       store.setState('activeChatMessages', data.reverse());
     }
 
     if (data.type === 'message') {
-      store.setState('activeChatMessages', data);
+      store.setState('activeChatMessages', [ ...store.getState().activeChatMessages, data]);
     }
   }
 
@@ -68,12 +61,8 @@ class Chats {
   }
 
   public async _connectToWS(chatId: number): Promise<void> {
-    console.log(chatId)
-    console.log(store.getState().userData.id);
     const userID = store.getState().userData?.id;
     const token = await this.getToken(chatId)
-console.log(`wss://ya-praktikum.tech/ws/chats/${userID}/${chatId.toString()}/${token}`)
-
     const WSUrl = `wss://ya-praktikum.tech/ws/chats/${userID}/${chatId.toString()}/${token}`;
     const handlers: any = {
       onMessage: this._handleMessage,
@@ -84,30 +73,20 @@ console.log(`wss://ya-praktikum.tech/ws/chats/${userID}/${chatId.toString()}/${t
 
 
   public async getChatInfo(chatId: number) {
-    const chats = await this.getChats();
-
-    console.log(chats)
-
-    return chats.find((chat: any) => chat.id === chatId) || {};
+    const chats = store.getState().chats;
+    console.log(chatId);
+    console.log(chats.find((chat: any) => chat.id == chatId))
+    return chats.find(chat => chat.id == chatId);
   }
 
   public async setActiveChat(chatId: number) {
       await this._connectToWS(chatId);
       await this.socket?.waitForOpen();
       this.getChatMessages(0);
-      const newActiveChat = this.getChatInfo(chatId);
+      const newActiveChat = await this.getChatInfo(chatId);
       this._setStoreActiveChat(newActiveChat);
     }
 
-  public async getChatsList() {
-    try {
-      const profileChats = JSON.parse(await this.getChats() as string);
-
-      this._setStoreChatsList(profileChats);
-    } catch (error) {
-      alert('Ошибка получения чатов: ' + error);
-    }
-  }
 }
 
 export const ChatsService = new Chats();

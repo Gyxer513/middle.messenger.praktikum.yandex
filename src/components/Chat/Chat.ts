@@ -10,12 +10,14 @@ const formValidator = new FormValidator();
 interface IChatProps {
   submitButton?: Button;
   messages: Array<any>;
+  chatId: number;
 }
 
 export class Chat extends Block {
     constructor(props: IChatProps) {
         super({
             ...props,
+            chatId: props.chatId ? props.chatId : 0,
             submitButton: new Button({
                 id: 'submitButton',
                 class_name: 'chat__send-button',
@@ -33,20 +35,14 @@ export class Chat extends Block {
         });
     }
 
-    dispatchComponentDidMount() {
-        console.log(this.props)
-    }
-    componentDidUpdate(): boolean {
-        console.log(this.props)
-    }
-
     render(): HTMLElement {
         return this.compile(template, this.props);
     }
 }
 
 const withMessages = withStore((state) => ({
-    messages: state.chats
+    messages: state.activeChatMessages,
+    chatId: state.currentChatId,
 }))
 
 export const ChatWithStore = withMessages(Chat);

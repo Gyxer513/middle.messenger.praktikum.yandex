@@ -1,9 +1,9 @@
 import Block from '@core/Block.ts';
-
 import { template } from './chatsList.template.ts';
 import './chatList.scss';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
+import store from '@core/Store/Store.ts';
 
 interface IChatItemProps {
   avatar: string;
@@ -36,6 +36,15 @@ export class ChatsList extends Block {
   async connectWebSocket(chatId): Promise<void> {
     await ChatsService.getToken(chatId);
     ChatsService.setActiveChat(chatId)
+  }
+
+  private setCurrentOutline(chatId) {
+    document.querySelector(`#${chatId}`)
+  }
+
+  async componentDidUpdate(): boolean {
+    console.log(store.getState())
+
   }
 
 

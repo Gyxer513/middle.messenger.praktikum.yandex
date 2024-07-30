@@ -3,8 +3,9 @@ export const template = `
     <section class="chat">
         <div class="chat__header">
         <img src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png" alt="аватар" class="chat__avatar">
-            <h4 class="chat__name">Иван</h4>
+            <h4 class="chat__name">Chat Id{{chatId}}</h4>
         </div>
+        <button>{{some}}</button>
         <div class="chat__container">
             {{#each messages}}
                 <div class="chat__message chat__sender">{{content}}</div>

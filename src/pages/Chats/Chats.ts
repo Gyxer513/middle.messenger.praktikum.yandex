@@ -7,7 +7,6 @@ import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';
 import { ChatsList } from '@/components';
 import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
-import store from '@core/Store/Store.ts';
 
 interface IChatProps {
 userData?: {
@@ -38,7 +37,6 @@ export class Chats extends Block {
         if (!router.getAuthenticatedStatus()) {
             router.navigateTo('/')
         }
-        console.log(store.getState());
     }
 
 
