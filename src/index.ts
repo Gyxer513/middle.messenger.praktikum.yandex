@@ -2,54 +2,67 @@ import * as Pages from '@/pages/index.ts';
 import Router from '@core/Router.ts';
 import { AuthService } from '@core/api/services';
 
+export const router = new Router('app', 'popup');
 
-export const router = new Router('app');
+document.addEventListener('DOMContentLoaded', async () => {
+  router.addRoute('/', () => {
+    router.render(new Pages.HomePage());
+  });
 
-document.addEventListener("DOMContentLoaded", async () => {
+  router.addRoute('/login', () => {
+    router.render(new Pages.LoginPage({}));
+  });
 
-    router.addRoute('/', () => {
-        router.render(new Pages.HomePage());
-    });
+  router.addRoute('/settings', () => {
+    router.render(new Pages.ProfilePage({}));
+  });
 
-    router.addRoute('/login', () => {
-        router.render(new Pages.LoginPage({}));
-    });
+  router.addRoute('/sign-up', () => {
+    router.render(new Pages.RegisterPage({}));
+  });
 
-    router.addRoute('/settings', () => {
-            router.render(new Pages.ProfilePage({}))
-    });
+  router.addRoute('/change-password', () => {
+    router.render(new Pages.ChangePassPage({}));
+  });
 
-    router.addRoute('/sign-up', () => {
-        router.render(new Pages.RegisterPage({}));
-    });
+  router.addRoute('/chats', () => {
+    router.render(new Pages.ChatsPage({}));
+  });
 
-    router.addRoute('/change-password', () => {
-            router.render(new Pages.ChangePassPage({}));
-    });
+  router.addRoute('/404', () => {
+    router.render(
+      new Pages.ErrorPage({ error_status: 404, text: 'Not Found' })
+    );
+  });
 
-    router.addRoute('/chats', () => {
-            router.render(new Pages.ChatsPage({}));
-    });
+  router.addRoute('/500', () => {
+    router.render(
+      new Pages.ErrorPage({ error_status: 500, text: 'Server error' })
+    );
+  });
 
-    router.addRoute('/404', () => {
-        router.render(new Pages.ErrorPage({ error_status: 404, text: 'Not Found' }));
-    });
+  router.setNotFoundHandler(() => {
+    router.render(
+      new Pages.ErrorPage({ error_status: 404, text: 'Not Found' })
+    );
+    history.pushState(null, '', '/404');
+  });
 
-    router.addRoute('/500', () => {
-        router.render(
-          new Pages.ErrorPage({ error_status: 500, text: 'Server error' }),
-        );
-    });
+  try {
+    await AuthService.fetchUser();
+  } catch (e) {
+    console.error(e);
+  }
+});
 
-    router.setNotFoundHandler(() => {
-        router.render(new Pages.ErrorPage({ error_status: 404, text: 'Not Found' }));
-        history.pushState(null, '', '/404');
-    });
+const dialog = document.getElementById('popup');
 
-    try {
-        await  AuthService.fetchUser()
-    } catch (e) {
-        console.error(e);
-    }
-})
+function closeOnBackDropClick({ currentTarget, target }) {
+  const dialog = currentTarget;
+  const isClickedOnBackDrop = target === dialog;
+  if (isClickedOnBackDrop) {
+    dialog.close();
+  }
+}
 
+dialog?.addEventListener('click', closeOnBackDropClick);

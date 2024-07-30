@@ -13,15 +13,23 @@ export default class Router {
   private notFoundHandler: RouteHandler | null = null;
   private static _instance: Router;
   private appElement: HTMLElement;
+  private popupElement: HTMLDialogElement;
   private isAuthenticated: boolean = false;
 
-  constructor(appElementId: string) {
+  constructor(appElementId: string, popupElementId: string) {
     // Находим root элемент
     const appElement = document.getElementById(appElementId);
     if (!appElement) {
       throw new Error(`Элемент с id "${appElementId}" не найден`);
     }
     this.appElement = appElement;
+
+    // Находим элемент попапа
+    const popupElement = document.getElementById(popupElementId) as  HTMLDialogElement;
+    if (!popupElement) {
+      throw new Error(`Элемент с id "${popupElementId}" не найден`);
+    }
+    this.popupElement = popupElement;
 
     window.addEventListener('popstate', this.onPopState.bind(this));
     window.addEventListener('load', this.onPopState.bind(this));
@@ -98,5 +106,20 @@ export default class Router {
   // Рендер компонента
   public render(component: Block): void {
     this.appElement!.appendChild(component.getContent());
+  }
+
+  // Открываем попап
+  public renderPopup(content:  Block): void {
+    this.popupElement.innerHTML = '';
+    this.popupElement.appendChild(content.getContent());
+    document.body.classList.add('scroll-lock')
+    this.popupElement.showModal()
+  }
+
+  // Закрываем попап
+  public closePopup(): void {
+    document.body.classList.remove('scroll-lock')
+    this.popupElement.close()
+    this.popupElement.innerHTML = '';
   }
 }

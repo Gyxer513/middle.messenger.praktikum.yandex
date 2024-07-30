@@ -114,3 +114,45 @@
   font-size: 10px;
   color: global.$error-color;
 }
+
+.avatar-container {
+  position: relative;
+  width: 47px;
+  height: 47px;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.upload-input {
+  display: none;
+}
+
+.upload-label {
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.avatar-container:hover .upload-overlay {
+  opacity: 1;
+}

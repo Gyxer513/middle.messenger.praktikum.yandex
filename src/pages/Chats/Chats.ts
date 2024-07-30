@@ -1,12 +1,13 @@
 import { template } from '@/pages/Chats/chats.template.ts';
 import './chats.scss';
 import Block from '@core/Block.ts';
-import { Chat } from '@/components';
+import { Button, Chat } from '@/components';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';
 import { ChatsList } from '@/components';
 import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
+import { Login } from '@/pages/Login';
 
 interface IChatProps {
 userData?: {
@@ -18,15 +19,25 @@ userData?: {
     phone?: string;
     avatar?: string;
 };
-chatsList: ChatsList;
-chat: Chat;
+chatsList: typeof ChatsList;
+chat: typeof Chat;
 }
 
 export class Chats extends Block {
     constructor(props: IChatProps) {
         super({
             ...props,
-            chatsList: new ChatsList({ items: props.chats }),
+            createChatButton: new Button({
+                id: 'createChatButton',
+                class_name: 'button button__main',
+                type: 'button',
+                text: 'Создать новый чат',
+                onClick: (e) => {
+                    e.preventDefault();
+                    router.renderPopup(new Login({}))
+                }
+            }),
+            chatsList: new ChatsList({ items: props.chat }),
             chat: new Chat({}),
         });
     }

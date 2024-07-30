@@ -1,9 +1,8 @@
 import Block from '@core/Block.ts';
-
 import { template } from './avatar.template.ts';
 import './avatar.scss';
 import '../../assets/images/avatar.jpg';
-import { UserController } from '@core/api/controllers/user.ts';
+
 
 interface IAvatarProps {
   class: string;
@@ -12,18 +11,16 @@ interface IAvatarProps {
   events?: Record<string, (e: Event) => void>;
 }
 export class Avatar extends Block {
-    constructor(props: IAvatarProps) {
-        super({ ...props,
-          events: {
-            ...props.events,
-        }
-        });
-    }
-
-
-
+  constructor(props: IAvatarProps) {
+    super({
+      ...props,
+      events: {
+        ...props.events
+      }
+    });
+  }
 
   render(): HTMLElement {
-        return this.compile(template, this.props);
-    }
+    return this.compile(template, this.props);
+  }
 }
