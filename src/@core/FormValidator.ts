@@ -3,7 +3,7 @@ import Validator from '@core/Validator.ts';
 interface IResult {
   isError: boolean;
   isValid: boolean;
-  formData: Record<string, string | number | string[]>;
+  formData: Record<string, string | number | string[]> ;
   errorMessage: string;
 }
 

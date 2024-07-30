@@ -127,6 +127,7 @@ class ChangeProfile extends Block {
         text: 'Выйти',
         type: 'button',
         onClick: (e: Event) => {
+          e.preventDefault();
           return AuthService.logout();
         }
       })
@@ -163,7 +164,7 @@ class ChangeProfile extends Block {
     const avatar = input.files ? input?.files[0] : null;
 
     if (avatar) {
-      const updatedUserData = await UserService.changeAvatar(avatar) as any;
+      const updatedUserData = (await UserService.changeAvatar(avatar)) as any;
       this.children.profileAvatar.setProps({
         src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData?.avatar}`
       });

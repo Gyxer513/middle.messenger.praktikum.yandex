@@ -8,7 +8,7 @@ export const template = `
         <button>{{some}}</button>
         <div class="chat__container">
             {{#each messages}}
-                <div class="chat__message chat__sender">{{content}}</div>
+                <div class="chat__message {{cls}}">{{content}}</div>
             {{/each}}
         </div>
         <form class="chat__input-container" id="chatForm">

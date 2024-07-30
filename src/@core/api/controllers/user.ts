@@ -1,5 +1,4 @@
 import BaseQuery from '@core/HttpQuery.ts';
-import { TUserData } from '@core/api/services/user.ts';
 
 export type TPasswordData = {
   oldPassword: string;
@@ -11,7 +10,7 @@ export class User extends BaseQuery {
     super('/user');
   }
 
-  public changeData(data: TUserData) {
+  public changeData(data:  Record<string, string | number | string[]>) {
     return this.http.put('/profile', { data });
   }
 

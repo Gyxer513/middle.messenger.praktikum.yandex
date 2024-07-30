@@ -8,7 +8,7 @@ export type MessageEventHandlers = {
 export class Message {
   private ws: WebSocket | null = null;
   private eventHandlers: MessageEventHandlers;
-  private url: string;
+  public url: string;
   private ping: ReturnType<typeof setInterval> | null = null;
   openPromise: Promise<void>;
 
@@ -80,7 +80,7 @@ export class Message {
 
   private _setupPing() {
     const data = {
-      type: 'ping',
+      type: 'ping'
     };
     this.ping = setInterval(() => {
       this.ws?.send(JSON.stringify(data));
