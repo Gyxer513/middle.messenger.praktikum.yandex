@@ -3,10 +3,10 @@ export const template = `
     <section class="chat">
         <div class="chat__header">
           {{{ chatAvatar }}}
-            </div>
             <h4 class="chat__name">Chat Id{{chatId}}</h4>
             {{{ deleteButton }}}
             {{{ handleUserButton }}}
+            </div>
         </div>
         
         <div class="chat__container">

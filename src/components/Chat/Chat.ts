@@ -21,13 +21,28 @@ export class Chat extends Block {
   constructor(props: IChatProps) {
     super({
       ...props,
+      deleteButton: new Button({
+        id: 'deleteButton',
+        class_name: 'button button__main',
+        text: 'Удалить чат',
+        type: 'button',
+        onClick: (e: Event) => {
+          e.preventDefault();
+        },
+      }),
+      handleUserButton: new Button({
+        id: 'deleteButton',
+        class_name: 'button button__main',
+        text: 'Пользователи',
+        type: 'button',
+        onClick: (e: Event) => {
+          e.preventDefault();
+        },
+      }),
       chatAvatar: new ChatAvatar({
         class: 'avatar__container',
         alt: 'аватар',
         size: 'small',
-        src:
-          `https://ya-praktikum.tech/api/v2/resources${props.chatAvatar}` ||
-          '',
         events: {
           change: (event: Event) => this.handleAvatarChange(event)
         }

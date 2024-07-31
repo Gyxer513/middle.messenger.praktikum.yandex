@@ -37,9 +37,6 @@ export class ChatsList extends Block {
    await ChatsService.setActiveChat(chatId);
   }
 
-  /*  private setCurrentOutline(chatId) {
-    document.getElementById(chatId)
-  }*/
 
   render(): HTMLElement {
     return this.compile(template, this.props);

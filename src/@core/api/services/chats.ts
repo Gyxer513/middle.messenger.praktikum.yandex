@@ -11,7 +11,6 @@ class Chats {
   }
 
   private _setStoreActiveChat(chatInfo: any) {
-    store.setState('currentChat', chatInfo);
     store.setState('currentChatId', chatInfo.id);
     store.setState('currentChatAvatar', `https://ya-praktikum.tech/api/v2/resources${chatInfo.avatar}`);
   }
