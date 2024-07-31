@@ -87,6 +87,15 @@ class Chats {
     const newActiveChat = await this.getChatInfo(chatId);
     this._setStoreActiveChat(newActiveChat);
   }
+
+  public async createNewChat(chatName: {title: string}) {
+    try {
+      await ChatsController.createChat(chatName);
+      await this.getChats();
+    } catch (error) {
+      console.error("Произошла ошибка при создании чата" + error)
+    }
+  }
 }
 
 export const ChatsService = new Chats();

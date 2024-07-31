@@ -9,7 +9,8 @@ export default class Validator {
         first_name: this.validateName,
         second_name: this.validateName,
         message: this.validateMessage,
-        display_name: this.validateDisplayName
+        display_name: this.validateDisplayName,
+        title: this.validateMessage
     };
 
     public validate(fieldName: string, value: string): [boolean, string] {

@@ -1,7 +1,7 @@
 import { template } from '@/pages/Chats/chats.template.ts';
 import './chats.scss';
 import Block from '@core/Block.ts';
-import { Button, Chat } from '@/components';
+import { Button, Chat, CreateChat } from '@/components';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';
@@ -34,7 +34,7 @@ export class Chats extends Block {
                 text: 'Создать новый чат',
                 onClick: (e) => {
                     e.preventDefault();
-                    router.renderPopup(new Login({}))
+                    router.renderPopup(new CreateChat())
                 }
             }),
             chatsList: new ChatsList({ items: props.chat }),
