@@ -1,7 +1,13 @@
 .avatar-container {
   position: relative;
-  width: 150px;
-  height: 150px;
+  &_medium {
+    width: 150px;
+    height: 150px;
+  }
+  &_small {
+    width: 47px;
+    height: 47px;
+  }
 }
 
 .avatar-image {

@@ -2,7 +2,7 @@ import { template } from './chat.template.ts';
 import './chat.scss';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Button } from '@/components';
+import { Button, ChatAvatar } from '@/components';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
 import { router } from '@/index.ts';
@@ -10,15 +10,28 @@ import { router } from '@/index.ts';
 const formValidator = new FormValidator();
 
 interface IChatProps {
+  chatAvatar?: typeof ChatAvatar;
   submitButton?: Button;
   messages: Array<any>;
   chatId: number;
+  currentAvatar: string;
 }
 
 export class Chat extends Block {
   constructor(props: IChatProps) {
     super({
       ...props,
+      chatAvatar: new ChatAvatar({
+        class: 'avatar__container',
+        alt: 'аватар',
+        size: 'small',
+        src:
+          `https://ya-praktikum.tech/api/v2/resources${props.chatAvatar}` ||
+          '',
+        events: {
+          change: (event: Event) => this.handleAvatarChange(event)
+        }
+      }),
       chatId: props.chatId ? props.chatId : 0,
       submitButton: new Button({
         id: 'submitButton',
@@ -41,6 +54,21 @@ export class Chat extends Block {
       })
     });
   }
+  private async handleAvatarChange(event: Event) {
+    event.preventDefault();
+
+    const input = event.target as HTMLInputElement;
+    const avatar = input.files ? input?.files[0] : null;
+
+    if (avatar) {
+      const updatedChatAvatar = (await ChatsService.changeAvatar(avatar)) as {
+        avatar: string;
+      };
+      this.children.chatAvatar.setProps({
+        src: `https://ya-praktikum.tech/api/v2/resources${updatedChatAvatar.avatar}`
+      });
+    }
+  }
 
   render(): HTMLElement {
     return this.compile(template, this.props);
@@ -49,7 +77,8 @@ export class Chat extends Block {
 
 const withMessages = withStore(state => ({
   messages: state.activeChatMessages,
-  chatId: state.currentChatId
+  chatId: state.currentChatId,
+  currentAvatar: state.currentChatAvatar
 }));
 
 export const ChatWithStore = withMessages(Chat);

@@ -11,6 +11,7 @@ export interface IStoreData {
   messages: Record<string, string>;
   chats: Array<unknown>,
   currentChat: any;
+  currentChatAvatar: string;
   token: string | null;
   currentChatId: number;
   activeChatMessages: Record<string, string>;
@@ -33,6 +34,7 @@ const initialState = {
   token: null,
   currentChatId: -1,
   activeChatMessages: {},
+  currentChatAvatar: "",
 };
 
 class Store extends EventBus {

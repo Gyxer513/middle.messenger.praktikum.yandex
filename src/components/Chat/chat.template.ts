@@ -2,12 +2,7 @@
 export const template = `
     <section class="chat">
         <div class="chat__header">
-            <div class="avatar-container" id="avatar-container">
-                <img src={{ src }} alt="Avatar" id="avatar-image" class="chat__avatar">
-                <div class="upload-overlay" id="upload-overlay">
-                    <input type="file" accept="image/*" id="upload-input" class="upload-input">
-                    <label for="upload-input" class="upload-label">Upload</label>
-                </div>
+          {{{ chatAvatar }}}
             </div>
             <h4 class="chat__name">Chat Id{{chatId}}</h4>
             {{{ deleteButton }}}

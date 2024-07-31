@@ -1,7 +1,7 @@
 import './changePass.scss';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Avatar, Button, Input } from '@/components';
+import { UserAvatar, Button, Input } from '@/components';
 import { template } from './changePass.template.ts';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
@@ -14,7 +14,7 @@ type TChangePassData = {
 };
 
 interface IChangePassProps {
-  profileAvatar?: Avatar;
+  profileAvatar?: typeof UserAvatar;
   oldPasswordInput?: Input;
   passwordInput?: Input;
   repeatPasswordInput?: Input;
@@ -30,12 +30,13 @@ export class ChangePass extends Block {
   constructor(props: IChangePassProps) {
     super({
       ...props,
-      profileAvatar: new Avatar({
+      profileAvatar: new UserAvatar({
         class: 'avatar__container',
         src:
           `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` ||
           '',
         alt: 'аватар',
+        size: 'medium',
         events: {
           change: (event: Event) => this.handleAvatarChange(event)
         }
@@ -106,7 +107,7 @@ export class ChangePass extends Block {
       });
     }
   }
-  async handleAvatarChange(event: Event) {
+  private async handleAvatarChange(event: Event) {
     event.preventDefault();
 
     const input = event.target as HTMLInputElement;

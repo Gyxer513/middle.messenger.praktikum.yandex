@@ -13,6 +13,7 @@ class Chats {
   private _setStoreActiveChat(chatInfo: any) {
     store.setState('currentChat', chatInfo);
     store.setState('currentChatId', chatInfo.id);
+    store.setState('currentChatAvatar', `https://ya-praktikum.tech/api/v2/resources${chatInfo.avatar}`);
   }
 
   private _handleMessage(event: MessageEvent): void {
@@ -29,10 +30,11 @@ class Chats {
     }
 
     if (data.type === 'message') {
-console.log(store.getState().activeChatMessages)
+      console.log(store.getState().activeChatMessages);
       store.setState('activeChatMessages', [
         // @ts-ignore
-        ...store.getState().activeChatMessages, {...data, cls: "chat__receiver"}
+        ...store.getState().activeChatMessages,
+        { ...data, cls: 'chat__receiver' }
       ]);
     }
   }
@@ -83,29 +85,44 @@ console.log(store.getState().activeChatMessages)
   }
 
   public async setActiveChat(chatId: number) {
-    await this._connectToWS(chatId);
-    await this.socket?.waitForOpen();
-    this.getChatMessages(0);
-    const newActiveChat = await this.getChatInfo(chatId);
-    this._setStoreActiveChat(newActiveChat);
+    const currChatId = store.getState().currentChatId;
+    if (currChatId != chatId) {
+      await this._connectToWS(chatId);
+      await this.socket?.waitForOpen();
+      this.getChatMessages(0);
+      const newActiveChat = await this.getChatInfo(chatId);
+      this._setStoreActiveChat(newActiveChat);
+    }
   }
 
-  public async createNewChat(chatName: {title: string}) {
+  public async createNewChat(chatName: { title: string }) {
     try {
       await ChatsController.createChat(chatName);
       await this.getChats();
     } catch (error) {
-      console.error("Произошла ошибка при создании чата" + error)
+      console.error('Произошла ошибка при создании чата' + error);
     }
   }
 
   public sendMessage(message: string) {
     const data: any = {
       type: 'message',
-      content: message,
+      content: message
     };
 
     this.socket?.sendMessage(data);
+  }
+
+  public async changeAvatar(file: File) {
+    try {
+      const data = new FormData();
+      const currentChatId = store.getState().currentChatId;
+      data.append('avatar', file);
+      data.append('chatId', String(currentChatId));
+      return ChatsController.updateAvatar(data);
+    } catch (error) {
+      console.warn(error);
+    }
   }
 }
 

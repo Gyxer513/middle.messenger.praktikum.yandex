@@ -1,5 +1,5 @@
 import Block from '@core/Block.ts';
-import { Avatar, Button, Input, Link } from '@/components';
+import { Button, Input, Link, UserAvatar } from '@/components';
 import { template } from './changeProfile.template.ts';
 import './changeProfile.scss';
 import { FormValidator } from '@core/FormValidator.ts';
@@ -11,7 +11,7 @@ import { UserService } from '@core/api/services/user.ts';
 const formHandler = new FormValidator();
 
 interface iProfileProps {
-  profileAvatar?: Avatar;
+  profileAvatar?: typeof UserAvatar;
   emailInput?: Input;
   loginInput?: Input;
   firstNameInput?: Input;
@@ -38,12 +38,10 @@ class ChangeProfile extends Block {
     super({
       ...props,
       title: props.userData?.first_name,
-      profileAvatar: new Avatar({
+      profileAvatar: new UserAvatar({
         class: 'avatar__container',
-        src:
-          `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` ||
-          '',
         alt: 'аватар',
+        size: 'medium',
         events: {
           change: (event: Event) => this.handleAvatarChange(event)
         }

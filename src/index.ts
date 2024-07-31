@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const dialog = document.getElementById('popup');
 
-function closeOnBackDropClick({ currentTarget, target }) {
-  const dialog = currentTarget;
-  const isClickedOnBackDrop = target === dialog;
+function closeOnBackDropClick(e: Event) {
+  const dialog = e.currentTarget as HTMLDialogElement;
+  const isClickedOnBackDrop = e.target === dialog;
   if (isClickedOnBackDrop) {
     dialog.close();
   }
