@@ -6,7 +6,12 @@ import { template } from './changePass.template.ts';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
-import { UserService } from '@core/api/services/user.ts';
+import { TUserData, UserService } from '@core/api/services/user.ts';
+
+type TChangePassData = {
+  old_password: string;
+  password: string;
+};
 
 interface IChangePassProps {
   profileAvatar?: Avatar;
@@ -14,106 +19,112 @@ interface IChangePassProps {
   passwordInput?: Input;
   repeatPasswordInput?: Input;
   submitButton?: Button;
-    userData?: {
-        avatar?: string;
-    }
+  userData?: {
+    avatar?: string;
+  };
 }
 
 const formHandler = new FormValidator();
 
 export class ChangePass extends Block {
-    constructor(props: IChangePassProps) {
-        super({
-            ...props,
-            profileAvatar: new Avatar({
-                class: 'avatar__container',
-                src: `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` || '',
-                alt: 'аватар',
-                events: {
-                    change: (event: Event) => this.handleAvatarChange(event),
-                },
-            }),
-            oldPasswordInput: new Input({
-                class_name: 'input',
-                name: 'old_password',
-                type: 'text',
-                placeholder: 'Введите старый пароль',
-                id: 'old_password',
-                disabled: false,
-            }),
-
-            passwordInput: new Input({
-                class_name: 'input',
-                name: 'password',
-                type: 'password',
-                placeholder: 'Новый пароль',
-                id: 'password',
-                disabled: false,
-            }),
-
-            repeatPasswordInput: new Input({
-                class_name: 'input',
-                name: 'repeat_password',
-                type: 'text',
-                placeholder: 'Повторите пароль',
-                id: 'repeat_password',
-                disabled: false,
-            }),
-
-            submitButton: new Button({
-                id: 'submitButton',
-                class_name: 'button button__main',
-                text: 'Сохранить',
-                type: 'submit',
-                onClick: (e: Event) => {
-                    e.preventDefault();
-                    const formData = formHandler.handleSubmit('passwordForm');
-                    if (formData.isValid) {
-                        return UserService.changePass({
-                            oldPassword: formData.formData.old_password,
-                            newPassword: formData.formData.password
-                        })
-                    }
-
-                },
-                submit: (e: Event) => {
-                    e.preventDefault();
-                    formHandler.handleSubmit('passwordForm');
-                },
-            }),
-        });
-    }
-
-    async componentDidMount() {
-        await AuthService.fetchUser()
-        if (!router.getAuthenticatedStatus()) {
-            router.navigateTo('/')
+  constructor(props: IChangePassProps) {
+    super({
+      ...props,
+      profileAvatar: new Avatar({
+        class: 'avatar__container',
+        src:
+          `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}` ||
+          '',
+        alt: 'аватар',
+        events: {
+          change: (event: Event) => this.handleAvatarChange(event)
         }
-        this.updateChildProps(this.props.userData);
-    }
+      }),
+      oldPasswordInput: new Input({
+        class_name: 'input',
+        name: 'old_password',
+        type: 'text',
+        placeholder: 'Введите старый пароль',
+        id: 'old_password',
+        disabled: false
+      }),
 
-    updateChildProps(userData) {
-        if (userData) {
-            this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}` });
+      passwordInput: new Input({
+        class_name: 'input',
+        name: 'password',
+        type: 'password',
+        placeholder: 'Новый пароль',
+        id: 'password',
+        disabled: false
+      }),
+
+      repeatPasswordInput: new Input({
+        class_name: 'input',
+        name: 'repeat_password',
+        type: 'text',
+        placeholder: 'Повторите пароль',
+        id: 'repeat_password',
+        disabled: false
+      }),
+
+      submitButton: new Button({
+        id: 'submitButton',
+        class_name: 'button button__main',
+        text: 'Сохранить',
+        type: 'submit',
+        onClick: (e: Event) => {
+          e.preventDefault();
+          const data = formHandler.handleSubmit('passwordForm');
+          const queryData = data.formData as TChangePassData;
+          if (data.isValid) {
+            return UserService.changePass({
+              oldPassword: queryData?.old_password,
+              newPassword: queryData?.password
+            });
+          }
+        },
+        submit: (e: Event) => {
+          e.preventDefault();
+          formHandler.handleSubmit('passwordForm');
         }
+      })
+    });
+  }
+
+  async componentDidMount() {
+    await AuthService.fetchUser();
+    if (!router.getAuthenticatedStatus()) {
+      router.navigateTo('/');
     }
-    async handleAvatarChange(event: Event) {
-        event.preventDefault();
+    this.updateChildProps(this.props.userData);
+  }
 
-        const input = event.target as HTMLInputElement;
-        const avatar = input.files ? input?.files[0] : null;
-
-        if (avatar) {
-            const updatedUserData = await UserService.changeAvatar(avatar);
-            this.children.profileAvatar.setProps({ src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`  });
-        }
+  updateChildProps(userData: TUserData) {
+    if (userData) {
+      this.children.profileAvatar.setProps({
+        src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}`
+      });
     }
+  }
+  async handleAvatarChange(event: Event) {
+    event.preventDefault();
 
+    const input = event.target as HTMLInputElement;
+    const avatar = input.files ? input?.files[0] : null;
 
-    render(): HTMLElement {
-        return this.compile(template, this.props);
+    if (avatar) {
+      const updatedUserData = (await UserService.changeAvatar(avatar)) as {
+        avatar: string;
+      };
+      this.children.profileAvatar.setProps({
+        src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`
+      });
     }
+  }
+
+  render(): HTMLElement {
+    return this.compile(template, this.props);
+  }
 }
 
-
-    export const ChangePassWithStore = withUserStore(ChangePass)
+export const ChangePassWithStore = withUserStore(ChangePass);

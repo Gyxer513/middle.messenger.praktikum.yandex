@@ -10,8 +10,10 @@ export const template = `
                 </div>
             </div>
             <h4 class="chat__name">Chat Id{{chatId}}</h4>
+            {{{ deleteButton }}}
+            {{{ handleUserButton }}}
         </div>
-        <button>{{some}}</button>
+        
         <div class="chat__container">
             {{#each messages}}
                 <div class="chat__message {{cls}}">{{content}}</div>

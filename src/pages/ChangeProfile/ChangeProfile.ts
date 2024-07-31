@@ -107,9 +107,13 @@ class ChangeProfile extends Block {
         type: 'submit',
         onClick: (e: Event) => {
           e.preventDefault();
-          const formValues = formHandler.handleSubmit('profileForm');
-          if (formValues.isValid) {
-            return UserService.updateUserData(formValues.formData);
+          const data = formHandler.handleSubmit('profileForm');
+          const queryData = data.formData as Record<
+            string,
+            string | number | string[]
+          >;
+          if (data.isValid) {
+            return UserService.updateUserData(queryData);
           }
         },
         submit: (e: Event) => {

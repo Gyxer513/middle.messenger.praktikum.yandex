@@ -29,9 +29,10 @@ class Chats {
     }
 
     if (data.type === 'message') {
+console.log(store.getState().activeChatMessages)
       store.setState('activeChatMessages', [
-        ...store.getState().activeChatMessages,
-        data
+        // @ts-ignore
+        ...store.getState().activeChatMessages, {...data, cls: "chat__receiver"}
       ]);
     }
   }
@@ -77,6 +78,7 @@ class Chats {
 
   public async getChatInfo(chatId: number) {
     const chats = store.getState().chats;
+    // @ts-ignore
     return chats.find(chat => chat.id == chatId);
   }
 
@@ -95,6 +97,15 @@ class Chats {
     } catch (error) {
       console.error("Произошла ошибка при создании чата" + error)
     }
+  }
+
+  public sendMessage(message: string) {
+    const data: any = {
+      type: 'message',
+      content: message,
+    };
+
+    this.socket?.sendMessage(data);
   }
 }
 

@@ -13,7 +13,9 @@ export type TUserData = {
 };
 
 export class User {
-  public async updateUserData(data:  Record<string, string | number | string[]>): Promise<void> {
+  public async updateUserData(
+    data: Record<string, string | number | string[]>
+  ): Promise<void> {
     try {
       await UserController.changeData(data);
       router.navigateTo('/chats');
