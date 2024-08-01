@@ -6,6 +6,8 @@ import { Button, ChatAvatar } from '@/components';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
 import { router } from '@/index.ts';
+import { ChatsController } from '@core/api/controllers/chats.ts';
+import store from '@core/Store/Store.ts';
 
 const formValidator = new FormValidator();
 
@@ -28,6 +30,8 @@ export class Chat extends Block {
         type: 'button',
         onClick: (e: Event) => {
           e.preventDefault();
+          const chatId = store.getState().currentChatId
+          return  ChatsService.deleteChat({chatId: chatId})
         },
       }),
       handleUserButton: new Button({
@@ -64,7 +68,12 @@ export class Chat extends Block {
         },
         submit: (e: Event) => {
           e.preventDefault();
-          formValidator.handleSubmit('chatForm');
+          const data = formValidator.handleSubmit('chatForm');
+          const queryData = data.formData as { message: string };
+          if (data.isValid) {
+            ChatsService.sendMessage(queryData.message);
+            router.closePopup();
+          }
         }
       })
     });

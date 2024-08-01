@@ -34,7 +34,7 @@ export class ChatsList extends Block {
 
   async connectWebSocket(chatId: number): Promise<void> {
     await ChatsService.getToken(chatId);
-   await ChatsService.setActiveChat(chatId);
+    await ChatsService.setActiveChat(chatId);
   }
 
 

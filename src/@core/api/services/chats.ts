@@ -57,6 +57,7 @@ class Chats {
   }
 
   public async getToken(id: number) {
+    console.log(id)
     try {
       const token = (await ChatsController.getToken(id)) as { token: string };
       store.setState('token', token.token);
@@ -121,6 +122,16 @@ class Chats {
       return ChatsController.updateAvatar(data);
     } catch (error) {
       console.warn(error);
+    }
+  }
+
+  public async deleteChat(data) {
+    try {
+      await ChatsController.deleteChat(data)
+      await this.getChats();
+      store.setState('activeChatMessages', [])
+    } catch (error) {
+      console.error('Произошла ошибка при удалении чата' + error)
     }
   }
 }

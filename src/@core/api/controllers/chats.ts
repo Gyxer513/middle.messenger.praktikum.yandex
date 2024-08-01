@@ -30,6 +30,10 @@ class Chats extends BaseQuery {
     return this.http.delete('/users', { data });
   }
 
+  deleteChat(data: { chatId: string }) {
+    return this.http.delete('', { data });
+  }
+
   public updateAvatar(data: FormData) {
     return this.http.put('/avatar', { data });
   }
