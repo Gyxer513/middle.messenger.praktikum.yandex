@@ -46,14 +46,11 @@ export class Login extends Block {
         type: 'submit',
         onClick: (e: Event) => {
           e.preventDefault();
-          const queryData = formHandler.handleSubmit('loginForm');
-          if (queryData.isValid) {
-            return AuthService.login(queryData.formData);
-          }
+          return this._sendLoginData();
         },
         submit: (e: Event) => {
           e.preventDefault();
-          formHandler.handleSubmit('loginForm');
+          return this._sendLoginData();
         }
       }),
 
@@ -62,6 +59,15 @@ export class Login extends Block {
         text: 'Регистрация'
       })
     });
+  }
+
+  private _sendLoginData() {
+    formHandler.handleSubmit('loginForm');
+    const data = formHandler.handleSubmit('loginForm');
+    const queryData = data.formData as any;
+    if (data.isValid) {
+      return AuthService.login(queryData);
+    }
   }
 
   componentDidMount() {

@@ -2,6 +2,7 @@ import store from '@core/Store/Store.ts';
 import { ChatsController } from '@core/api/controllers/chats.ts';
 import { Message } from '@core/api/services/message.ts';
 import { messageMixin } from '@core/utils/mixins.ts';
+import { TUserData } from '@core/api/services/user.ts';
 
 class Chats {
   socket: Message | null = null;
@@ -10,9 +11,15 @@ class Chats {
     console.error('Ошибка коннекта:', event);
   }
 
-  private _setStoreActiveChat(chatInfo: any) {
-    store.setState('currentChatId', chatInfo.id);
-    store.setState('currentChatAvatar', `https://ya-praktikum.tech/api/v2/resources${chatInfo.avatar}`);
+  private _setStoreCurrentUsers(currentUsers: TUserData[]): void {
+    store.setState('currentUsers', currentUsers);
+  }
+
+  private _setStoreActiveAvatar(chatInfo: any) {
+    store.setState(
+      'currentChatAvatar',
+      `https://ya-praktikum.tech/api/v2/resources${chatInfo.avatar}`
+    );
   }
 
   private _handleMessage(event: MessageEvent): void {
@@ -29,7 +36,6 @@ class Chats {
     }
 
     if (data.type === 'message') {
-      console.log(store.getState().activeChatMessages);
       store.setState('activeChatMessages', [
         // @ts-ignore
         ...store.getState().activeChatMessages,
@@ -57,7 +63,6 @@ class Chats {
   }
 
   public async getToken(id: number) {
-    console.log(id)
     try {
       const token = (await ChatsController.getToken(id)) as { token: string };
       store.setState('token', token.token);
@@ -91,7 +96,9 @@ class Chats {
       await this.socket?.waitForOpen();
       this.getChatMessages(0);
       const newActiveChat = await this.getChatInfo(chatId);
-      this._setStoreActiveChat(newActiveChat);
+      const currentUsers = await ChatsController.getCurrentChatUsers(chatId) as TUserData[];
+      this._setStoreCurrentUsers(currentUsers);
+      this._setStoreActiveAvatar(newActiveChat);
     }
   }
 
@@ -125,13 +132,13 @@ class Chats {
     }
   }
 
-  public async deleteChat(data) {
+  public async deleteChat(data: { chatId: number }) {
     try {
-      await ChatsController.deleteChat(data)
+      await ChatsController.deleteChat(data);
       await this.getChats();
-      store.setState('activeChatMessages', [])
+      store.setState('activeChatMessages', []);
     } catch (error) {
-      console.error('Произошла ошибка при удалении чата' + error)
+      console.error('Произошла ошибка при удалении чата' + error);
     }
   }
 }

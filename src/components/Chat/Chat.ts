@@ -2,11 +2,10 @@ import { template } from './chat.template.ts';
 import './chat.scss';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Button, ChatAvatar } from '@/components';
+import { Button, ChatAvatar, DeleteUsers } from '@/components';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
 import { router } from '@/index.ts';
-import { ChatsController } from '@core/api/controllers/chats.ts';
 import store from '@core/Store/Store.ts';
 
 const formValidator = new FormValidator();
@@ -23,7 +22,7 @@ export class Chat extends Block {
   constructor(props: IChatProps) {
     super({
       ...props,
-      deleteButton: new Button({
+      deleteChatButton: new Button({
         id: 'deleteButton',
         class_name: 'button button__main',
         text: 'Удалить чат',
@@ -34,11 +33,22 @@ export class Chat extends Block {
           return  ChatsService.deleteChat({chatId: chatId})
         },
       }),
+      deleteUsersButton: new Button({
+        id: 'deleteButton',
+        class_name: 'button button__main',
+        text: 'Удалить пользователей',
+        type: 'button',
+        onClick: (e: Event) => {
+            e.preventDefault();
+            router.renderPopup(new DeleteUsers({}))
+        },
+      }),
       handleUserButton: new Button({
         id: 'deleteButton',
         class_name: 'button button__main',
         text: 'Пользователи',
         type: 'button',
+        disabled: props.chatId < 0,
         onClick: (e: Event) => {
           e.preventDefault();
         },

@@ -7,7 +7,7 @@ export type ChatData = {
 export type THandleUsersData = {
   chatId: string;
   users: string[];
-}
+};
 
 class Chats extends BaseQuery {
   constructor() {
@@ -26,11 +26,15 @@ class Chats extends BaseQuery {
     return this.http.put('/users', { data });
   }
 
-  deleteChatUsers(data: THandleUsersData) {
+  getCurrentChatUsers(chatId: number) {
+    return this.http.get(`/${chatId}/users`, {});
+  }
+
+  deleteChatUser(data: THandleUsersData) {
     return this.http.delete('/users', { data });
   }
 
-  deleteChat(data: { chatId: string }) {
+  deleteChat(data: { chatId: number }) {
     return this.http.delete('', { data });
   }
 

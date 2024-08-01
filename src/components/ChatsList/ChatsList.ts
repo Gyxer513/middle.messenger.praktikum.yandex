@@ -24,9 +24,13 @@ export class ChatsList extends Block {
     super({
       ...props,
       events: {
-        click: (e: any) => {
+        click: (e: Event) => {
           e.preventDefault();
-         return this.connectWebSocket(e.target?.id);
+          const element = e.target as HTMLElement | null;
+          if (element && element.id) {
+            const id = +element.id as number;
+            return this.connectWebSocket(id);
+          }
         }
       }
     });
@@ -36,7 +40,6 @@ export class ChatsList extends Block {
     await ChatsService.getToken(chatId);
     await ChatsService.setActiveChat(chatId);
   }
-
 
   render(): HTMLElement {
     return this.compile(template, this.props);

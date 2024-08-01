@@ -4,7 +4,8 @@ export const template = `
         <div class="chat__header">
           {{{ chatAvatar }}}
             <h4 class="chat__name">Chat Id{{chatId}}</h4>
-            {{{ deleteButton }}}
+            {{{ deleteChatButton }}}
+            {{{ deleteUsersButton }}}
             {{{ handleUserButton }}}
             </div>
         </div>
