@@ -153,7 +153,19 @@ class Chats {
   }
 
   public async deleteUser(chatId: number, userId: number) {
-    await ChatsController.deleteChatUser({ chatId, users: [userId] });
+    try {
+      await ChatsController.deleteChatUser({ chatId, users: [userId] });
+    } catch (error) {
+      console.error('Произошла ошибка при удалении пользователя' + error);
+    }
+  }
+
+  public async addUser(chatId: number, userId: number) {
+    try {
+      await ChatsController.addChatUser({ chatId, users: [userId] });
+    } catch (error) {
+      console.error('Произошла ошибка при добавлении пользователя' + error);
+    }
   }
 }
 

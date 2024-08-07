@@ -1,5 +1,4 @@
 // language=hbs
-
 export const template = `
 <section class="chats__page">
     <div class="chats__box">

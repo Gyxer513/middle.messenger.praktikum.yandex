@@ -8,6 +8,7 @@ import { ChatsService } from '@core/api/services';
 
 interface IDeleteUsersProps {
   currentUsers: Array<TUserData>;
+  userList: boolean;
 }
 
 class DeleteUsers extends Block {
@@ -16,6 +17,7 @@ class DeleteUsers extends Block {
       ...props,
       currentUsersList: new UsersList({
         users: props.currentUsers,
+        text: 'Для отображения списка пользователей выберете чат или создайте его',
         onClick: (e: Event) => {
           e.preventDefault();
           const element = e.target as HTMLElement | null;

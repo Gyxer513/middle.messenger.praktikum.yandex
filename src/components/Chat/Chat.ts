@@ -2,7 +2,7 @@ import { template } from './chat.template.ts';
 import './chat.scss';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Button, ChatAvatar, DeleteUsers } from '@/components';
+import { AddUser, Button, ChatAvatar, DeleteUsers } from '@/components';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
 import { router } from '@/index.ts';
@@ -29,9 +29,9 @@ export class Chat extends Block {
         type: 'button',
         onClick: (e: Event) => {
           e.preventDefault();
-          const chatId = store.getState().currentChatId
-          return  ChatsService.deleteChat({chatId: chatId})
-        },
+          const chatId = store.getState().currentChatId;
+          return ChatsService.deleteChat({ chatId: chatId });
+        }
       }),
       deleteUsersButton: new Button({
         id: 'deleteButton',
@@ -39,11 +39,11 @@ export class Chat extends Block {
         text: 'Удалить пользователей',
         type: 'button',
         onClick: (e: Event) => {
-            e.preventDefault();
-            router.renderPopup(new DeleteUsers({}))
-        },
+          e.preventDefault();
+          router.renderPopup(new DeleteUsers({}));
+        }
       }),
-      handleUserButton: new Button({
+      addUserButton: new Button({
         id: 'deleteButton',
         class_name: 'button button__main',
         text: 'Пользователи',
@@ -51,7 +51,8 @@ export class Chat extends Block {
         disabled: props.chatId < 0,
         onClick: (e: Event) => {
           e.preventDefault();
-        },
+          router.renderPopup(new AddUser());
+        }
       }),
       chatAvatar: new ChatAvatar({
         class: 'avatar__container',

@@ -10,7 +10,8 @@ export default class Validator {
         second_name: this.validateName,
         message: this.validateMessage,
         display_name: this.validateDisplayName,
-        title: this.validateMessage
+        title: this.validateMessage,
+        searchData: this.validateMessage
     };
 
     public validate(fieldName: string, value: string): [boolean, string] {

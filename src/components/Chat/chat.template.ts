@@ -6,7 +6,7 @@ export const template = `
             <h4 class="chat__name">Chat Id{{chatId}}</h4>
             {{{ deleteChatButton }}}
             {{{ deleteUsersButton }}}
-            {{{ handleUserButton }}}
+            {{{ addUserButton }}}
             </div>
         </div>
         

@@ -1,5 +1,6 @@
 import { TPasswordData, UserController } from '@core/api/controllers/user.ts';
 import { router } from '@/index.ts';
+import store from '@core/Store/Store.ts';
 
 export type TUserData = {
   id: number;
@@ -36,8 +37,18 @@ export class User {
   public async changePass(data: TPasswordData): Promise<void> {
     try {
       await UserController.changePass(data);
+
     } catch (error) {
       console.warn('Произошла ошибка', error);
+    }
+  }
+
+  public async searchUser(name: string) {
+    try {
+      const result = await UserController.searchUser({ login: name });
+      store.setState('searchedUsers', result)
+    } catch (error) {
+      console.warn('Произошла ошибка при поиске пользователя', error);
     }
   }
 }

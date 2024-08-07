@@ -1,1 +1,1 @@
-export { UsersList } from './UsersList.ts'
+export { UsersList, UsersListWithSearchedUsers } from './UsersList.ts'

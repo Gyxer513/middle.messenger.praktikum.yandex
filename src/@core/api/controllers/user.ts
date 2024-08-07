@@ -5,6 +5,10 @@ export type TPasswordData = {
   newPassword: string;
 };
 
+export type TSearch = {
+  login: string;
+}
+
 export class User extends BaseQuery {
   constructor() {
     super('/user');
@@ -20,6 +24,10 @@ export class User extends BaseQuery {
 
   public changePass(data: TPasswordData) {
     return this.http.put('/password', { data });
+  }
+
+  public searchUser(data: TSearch) {
+    return this.http.post('/search', { data });
   }
 }
 
