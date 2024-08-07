@@ -1,0 +1,9 @@
+.userList {
+  &__item {
+    color: #007bff;
+  }
+  &__item:hover {
+    color: red;
+    cursor: pointer;
+  }
+}

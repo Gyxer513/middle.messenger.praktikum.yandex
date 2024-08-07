@@ -9,34 +9,32 @@ export enum StoreEvents {
 export interface IStoreData {
   userData: TUserData;
   messages: Record<string, string>;
-  chats: Array<unknown>,
-  currentChat: any;
+  chats: Array<unknown>;
   currentChatAvatar: string;
   token: string | null;
   currentChatId: number;
-  activeChatMessages: Record<string, string>;
+  activeChatMessages: Record<string, string> | {};
   currentUsers: Record<string, string>[];
 }
 
 const initialState = {
   userData: {
-    avatar: "",
-    phone: "",
-    email: "",
-    login: "",
+    avatar: '',
+    phone: '',
+    email: '',
+    login: '',
     id: -1,
-    second_name: "",
-    first_name: "",
-    display_name: "",
+    second_name: '',
+    first_name: '',
+    display_name: ''
   },
   messages: {},
   chats: [],
-  currentChat: null,
   token: null,
   currentChatId: -1,
   activeChatMessages: {},
-  currentChatAvatar: "",
-  currentUsers: [],
+  currentChatAvatar: '',
+  currentUsers: []
 };
 
 class Store extends EventBus {
@@ -55,7 +53,7 @@ class Store extends EventBus {
   public setState(path: string, value: unknown): void {
     set(this.state, path, value);
     this.emit(StoreEvents.Updated, this.getState());
-    console.log(this.state)
+    console.log(this.state);
   }
 }
 

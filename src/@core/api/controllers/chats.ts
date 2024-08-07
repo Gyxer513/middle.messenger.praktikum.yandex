@@ -5,8 +5,8 @@ export type ChatData = {
 };
 
 export type THandleUsersData = {
-  chatId: string;
-  users: string[];
+  chatId: number;
+  users: number[];
 };
 
 class Chats extends BaseQuery {
@@ -22,7 +22,7 @@ class Chats extends BaseQuery {
     return this.http.post('/', { data });
   }
 
-  addChatUsers(data: THandleUsersData) {
+  addChatUser(data: THandleUsersData) {
     return this.http.put('/users', { data });
   }
 
