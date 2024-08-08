@@ -9,7 +9,7 @@ export { Loader } from './Loader';
 export { CreateChat } from './Popups/CreateChat';
 export { DeleteUsersWithStore as DeleteUsers } from './Popups/DeleteUsers';
 export {
-  UsersList,
-  UsersListWithSearchedUsers as UserListWithStore
+    UsersList,
+    UsersListWithSearchedUsers as UserListWithStore,
 } from './UsersList';
 export { AddUser } from './Popups/AddUser';

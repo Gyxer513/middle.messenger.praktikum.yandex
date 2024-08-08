@@ -1,7 +1,7 @@
 import Block from '@core/Block.ts';
-import { template } from './link.template.ts';
 import './link.scss';
 import { router } from '@/index.ts';
+import { template } from './link.template.ts';
 
 interface ILinkProps {
   path: string;
@@ -11,20 +11,20 @@ interface ILinkProps {
 }
 
 export class Link extends Block {
-  constructor({ path, text }: ILinkProps) {
-    super({
-      path,
-      text,
-      events: {
-        click: (e: Event) => {
-          e.preventDefault();
-          router.navigateTo(path);
-        }
-      }
-    });
-  }
+    constructor({ path, text }: ILinkProps) {
+        super({
+            path,
+            text,
+            events: {
+                click: (e: Event) => {
+                    e.preventDefault();
+                    router.navigateTo(path);
+                },
+            },
+        });
+    }
 
-  render(): HTMLElement {
-    return this.compile(template, this.props);
-  }
+    render(): HTMLElement {
+        return this.compile(template, this.props);
+    }
 }

@@ -3,11 +3,11 @@ import { template } from './loader.template.ts';
 import './loader.scss';
 
 export class Loader extends Block {
-  constructor() {
-    super({});
-  }
+    constructor() {
+        super({});
+    }
 
-  render(): HTMLElement {
-    return this.compile(template, this.props);
-  }
+    render(): HTMLElement {
+        return this.compile(template, this.props);
+    }
 }

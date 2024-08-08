@@ -1,12 +1,13 @@
 import { template } from '@/pages/Chats/chats.template.ts';
 import './chats.scss';
 import Block from '@core/Block.ts';
-import { Button, Chat, CreateChat } from '@/components';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { ChatsService } from '@core/api/services/chats.ts';
-import { ChatsList } from '@/components';
 import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
+import {
+    ChatsList, Button, Chat, CreateChat,
+} from '@/components';
 
 interface IChatProps {
   userData?: {
@@ -23,35 +24,35 @@ interface IChatProps {
 }
 
 export class Chats extends Block {
-  constructor(props: IChatProps) {
-    super({
-      ...props,
-      createChatButton: new Button({
-        id: 'createChatButton',
-        class_name: 'button button__main',
-        type: 'button',
-        text: 'Создать новый чат',
-        onClick: e => {
-          e.preventDefault();
-          router.renderPopup(new CreateChat());
-        }
-      }),
-      chatsList: new ChatsList({ items: props.chat }),
-      chat: new Chat({})
-    });
-  }
-
-  async componentDidMount() {
-    await AuthService.fetchUser();
-    await ChatsService.getChats();
-    if (!router.getAuthenticatedStatus()) {
-      router.navigateTo('/');
+    constructor(props: IChatProps) {
+        super({
+            ...props,
+            createChatButton: new Button({
+                id: 'createChatButton',
+                class_name: 'button button__main',
+                type: 'button',
+                text: 'Создать новый чат',
+                onClick: (e) => {
+                    e.preventDefault();
+                    router.renderPopup(new CreateChat());
+                },
+            }),
+            chatsList: new ChatsList({ items: props.chat }),
+            chat: new Chat({}),
+        });
     }
-  }
 
-  render(): HTMLElement {
-    return this.compile(template, { ...this.props });
-  }
+    async componentDidMount() {
+        await AuthService.fetchUser();
+        await ChatsService.getChats();
+        if (!router.getAuthenticatedStatus()) {
+            router.navigateTo('/');
+        }
+    }
+
+    render(): HTMLElement {
+        return this.compile(template, { ...this.props });
+    }
 }
 
 export const ChatsWithStore = withUserStore(Chats);

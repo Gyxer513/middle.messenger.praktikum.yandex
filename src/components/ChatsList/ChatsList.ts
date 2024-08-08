@@ -1,8 +1,8 @@
 import Block from '@core/Block.ts';
-import { template } from './chatsList.template.ts';
 import './chatList.scss';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
+import { template } from './chatsList.template.ts';
 
 interface IChatItemProps {
   avatar: string;
@@ -20,35 +20,36 @@ type TChatsListProps = {
 };
 
 export class ChatsList extends Block {
-  constructor(props: TChatsListProps) {
-    super({
-      ...props,
-      events: {
-        click: (e: Event) => {
-          e.preventDefault();
-          const element = e.target as HTMLElement | null;
-          if (element && element.id) {
-            const id = +element.id as number;
-            return this.connectWebSocket(id);
-          }
-        }
-      }
-    });
-  }
+    constructor(props: TChatsListProps) {
+        super({
+            ...props,
+            events: {
+                click: (e: Event) => {
+                    e.preventDefault();
+                    const element = e.target as HTMLElement | null;
+                    if (element && element.id) {
+                        const id = +element.id as number;
+                        return this.connectWebSocket(id);
+                    }
+                    return 'ws Error';
+                },
+            },
+        });
+    }
 
-  async connectWebSocket(chatId: number): Promise<void> {
-    await ChatsService.getToken(chatId);
-    await ChatsService.setActiveChat(chatId);
-  }
+    async connectWebSocket(chatId: number): Promise<void> {
+        await ChatsService.getToken(chatId);
+        await ChatsService.setActiveChat(chatId);
+    }
 
-  render(): HTMLElement {
-    return this.compile(template, this.props);
-  }
+    render(): HTMLElement {
+        return this.compile(template, this.props);
+    }
 }
 
-export const withChatsStore = withStore(state => ({
-  items: state.chats,
-  currentChatId: state.chats
+export const withChatsStore = withStore((state) => ({
+    items: state.chats,
+    currentChatId: state.chats,
 }));
 
 export const ChatsListWithStore = withChatsStore(ChatsList);

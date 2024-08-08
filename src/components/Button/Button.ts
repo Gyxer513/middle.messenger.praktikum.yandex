@@ -13,29 +13,29 @@ type TButtonProps = {
 };
 
 export class Button extends Block {
-  constructor({
-    id,
-    text,
-    // eslint-disable-next-line no-use-before-define
-    class_name,
-    type = 'submit',
-    onClick,
-    submit
-  }: TButtonProps) {
-    super({
-      id,
-      text,
-      // eslint-disable-next-line no-use-before-define
-      class_name,
-      type,
-      events: {
-        click: onClick,
-        submit
-      }
-    });
-  }
+    constructor({
+        id,
+        text,
+        // eslint-disable-next-line no-use-before-define
+        class_name,
+        type = 'submit',
+        onClick,
+        submit,
+    }: TButtonProps) {
+        super({
+            id,
+            text,
+            // eslint-disable-next-line no-use-before-define
+            class_name,
+            type,
+            events: {
+                click: onClick,
+                submit,
+            },
+        });
+    }
 
-  render(): HTMLElement {
-    return this.compile(template, this.props);
-  }
+    render(): HTMLElement {
+        return this.compile(template, this.props);
+    }
 }
