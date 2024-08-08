@@ -4,6 +4,8 @@ import { Message } from '@core/api/services/message.ts';
 import { messageMixin } from '@core/utils/mixins.ts';
 import { TUserData } from '@core/api/services/user.ts';
 import { actionMixin } from '@core/utils/actionMixin.ts';
+import { BASE_URL } from '@core/utils/url';
+import { baseUrlMixin } from '@core/utils/baseUrlMixin.ts';
 
 type TChatMessage = {type: string; content: number | string}
 type TChatInfo = {avatar: string, messages: TChatMessage[]};
@@ -22,7 +24,7 @@ class Chats {
   private _setStoreActiveAvatar(chatInfo: TChatInfo) {
     store.setState(
       'currentChatAvatar',
-      `https://ya-praktikum.tech/api/v2/resources${chatInfo.avatar}`
+      `${BASE_URL}${chatInfo.avatar}`
     );
   }
 
@@ -59,7 +61,7 @@ class Chats {
   public async getChats() {
     try {
       const chats = await ChatsController.getChats();
-      store.setState('chats', chats);
+      store.setState('chats', baseUrlMixin(chats, BASE_URL));
     } catch (error) {
       console.warn('Произошла ошибка получения чатов' + error);
     }
@@ -103,7 +105,6 @@ class Chats {
 
   public async setActiveChat(chatId: number) {
     const currChatId = store.getState().currentChatId;
-    console.log(chatId);
     if (currChatId != chatId) {
       await this._connectToWS(chatId);
       await this.socket?.waitForOpen();

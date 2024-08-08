@@ -5,6 +5,7 @@ import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
 import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
 import { TUserData, UserService } from '@core/api/services/user.ts';
+import { BASE_URL } from '@core/utils/url.ts';
 import { template } from './changePass.template.ts';
 import { UserAvatar, Button, Input } from '@/components';
 
@@ -33,7 +34,7 @@ export class ChangePass extends Block {
             profileAvatar: new UserAvatar({
                 class: 'avatar__container',
                 src:
-          `https://ya-praktikum.tech/api/v2/resources${props.userData?.avatar}`
+          `${BASE_URL}${props.userData?.avatar}`
           || '',
                 alt: 'аватар',
                 size: 'medium',
@@ -104,7 +105,7 @@ export class ChangePass extends Block {
     updateChildProps(userData: TUserData) {
         if (userData) {
             this.children.profileAvatar.setProps({
-                src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}`,
+                src: `${BASE_URL}${userData.avatar}`,
             });
         }
     }
@@ -120,7 +121,7 @@ export class ChangePass extends Block {
         avatar: string;
       };
             this.children.profileAvatar.setProps({
-                src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData.avatar}`,
+                src: `${BASE_URL}${updatedUserData.avatar}`,
             });
         }
     }

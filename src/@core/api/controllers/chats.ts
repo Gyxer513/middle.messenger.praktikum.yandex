@@ -1,7 +1,9 @@
 import BaseQuery from '@core/HttpQuery.ts';
 
-export type ChatData = {
+export type TChatData = {
   title: string;
+  message?: string;
+  id?: number;
 };
 
 export type THandleUsersData = {
@@ -14,11 +16,12 @@ class Chats extends BaseQuery {
     super('/chats');
   }
 
-  getChats() {
-    return this.http.get('', {});
+  getChats(): Promise<TChatData[] | TChatData> {
+    const result = this.http.get('', {});
+    return result as Promise<TChatData[] | TChatData>
   }
 
-  createChat(data: ChatData) {
+  createChat(data: TChatData) {
     return this.http.post('/', { data });
   }
 

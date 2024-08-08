@@ -7,13 +7,14 @@ import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
 import { router } from '@/index.ts';
 import store from '@core/Store/Store.ts';
+import { BASE_URL } from '@core/utils/url'
 
 const formValidator = new FormValidator();
 
 interface IChatProps {
   chatAvatar?: typeof ChatAvatar;
   submitButton?: Button;
-  messages: Array<any>;
+  messages: Array<unknown>;
   chatId: number;
   currentAvatar: string;
 }
@@ -100,7 +101,7 @@ export class Chat extends Block {
         avatar: string;
       };
       this.children.chatAvatar.setProps({
-        src: `https://ya-praktikum.tech/api/v2/resources${updatedChatAvatar.avatar}`
+        src: `${BASE_URL}${updatedChatAvatar.avatar}`
       });
       await ChatsService.getChats()
     }

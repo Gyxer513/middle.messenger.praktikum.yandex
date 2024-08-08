@@ -7,6 +7,7 @@ import { AuthService } from '@core/api/services';
 import { withStore } from '@core/Store/withStore.ts';
 import { router } from '@/index.ts';
 import { TUserData, UserService } from '@core/api/services/user.ts';
+import { BASE_URL } from '@core/utils/url.ts';
 
 const formHandler = new FormValidator();
 
@@ -153,7 +154,7 @@ class ChangeProfile extends Block {
       this.children.displayNameInput.setProps({ value: userData.display_name });
       this.children.phoneNumberInput.setProps({ value: userData.phone });
       this.children.profileAvatar.setProps({
-        src: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}`
+        src: `${BASE_URL}${userData.avatar}`
       });
       this.setProps({ title: userData.first_name });
     }
@@ -168,7 +169,7 @@ class ChangeProfile extends Block {
     if (avatar) {
       const updatedUserData = (await UserService.changeAvatar(avatar)) as TUserData;
       this.children.profileAvatar.setProps({
-        src: `https://ya-praktikum.tech/api/v2/resources${updatedUserData?.avatar}`
+        src: `${BASE_URL}${updatedUserData?.avatar}`
       });
     }
   }

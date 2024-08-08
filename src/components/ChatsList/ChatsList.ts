@@ -3,6 +3,7 @@ import './chatList.scss';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
 import { template } from './chatsList.template.ts';
+import { BASE_URL } from '@core/utils/url.ts';
 
 interface IChatItemProps {
   avatar: string;
@@ -12,6 +13,7 @@ interface IChatItemProps {
   time: string;
   counter_class: string;
   counter_number: number;
+  BASE_URL: string;
 }
 
 type TChatsListProps = {
@@ -23,6 +25,7 @@ export class ChatsList extends Block {
     constructor(props: TChatsListProps) {
         super({
             ...props,
+            BASE_URL: BASE_URL,
             events: {
                 click: (e: Event) => {
                     e.preventDefault();
