@@ -2,8 +2,8 @@ import Block from '@core/Block.ts';
 import './chatList.scss';
 import { withStore } from '@core/Store/withStore.ts';
 import { ChatsService } from '@core/api/services';
-import { template } from './chatsList.template.ts';
 import { BASE_URL } from '@core/utils/url.ts';
+import { template } from './chatsList.template.ts';
 
 interface IChatItemProps {
   avatar: string;
@@ -25,7 +25,7 @@ export class ChatsList extends Block {
     constructor(props: TChatsListProps) {
         super({
             ...props,
-            BASE_URL: BASE_URL,
+            BASE_URL,
             events: {
                 click: (e: Event) => {
                     e.preventDefault();
