@@ -18,14 +18,14 @@ type TInputProps = {
 };
 
 export class Input extends Block {
-    constructor(props: TInputProps) {
-        super({
-            ...props,
-            events: { input: (e: Event) => formValidator.handleInputChange(e) },
-        });
-    }
+  constructor(props: TInputProps) {
+    super({
+      ...props,
+      events: { input: (e: Event) => formValidator.handleInputChange(e) }
+    });
+  }
 
-    render(): HTMLElement {
-        return this.compile(template, this.props);
-    }
+  render(): HTMLElement {
+    return this.compile(template, this.props);
+  }
 }

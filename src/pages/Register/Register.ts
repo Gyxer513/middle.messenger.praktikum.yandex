@@ -5,6 +5,7 @@ import { Button, Input, Link } from '@/components';
 import { AuthService } from '@core/api/services';
 import { template } from './register.template.ts';
 import { router } from '@/index.ts';
+import { TSignUpData } from '@core/api/services/auth.ts';
 
 const formHandler = new FormValidator();
 
@@ -81,16 +82,18 @@ export class Register extends Block {
         type: 'submit',
         onClick: (e: Event) => {
           e.preventDefault();
-          const queryData = formHandler.handleSubmit('profileForm');
-          if (queryData.isValid) {
-            return AuthService.createUser(queryData.formData);
+          const data = formHandler.handleSubmit('profileForm');
+          const queryData = data.formData as TSignUpData;
+          if (data.isValid) {
+            return AuthService.createUser(queryData);
           }
         },
         submit: (e: Event) => {
           e.preventDefault();
-          const queryData = formHandler.handleSubmit('profileForm');
-          if (queryData.isValid) {
-            return AuthService.createUser(queryData.formData);
+          const data = formHandler.handleSubmit('profileForm');
+          const queryData = data.formData as TSignUpData;
+          if (data.isValid) {
+            return AuthService.createUser(queryData);
           }
         }
       }),
@@ -102,11 +105,11 @@ export class Register extends Block {
   }
 
   componentDidMount = async () => {
-  await AuthService.fetchUser()
-   if (router.getAuthenticatedStatus()) {
-     router.navigateTo('/')
-   }
-  }
+    await AuthService.fetchUser();
+    if (router.getAuthenticatedStatus()) {
+      router.navigateTo('/');
+    }
+  };
 
   render(): HTMLElement {
     return this.compile(template, this.props);

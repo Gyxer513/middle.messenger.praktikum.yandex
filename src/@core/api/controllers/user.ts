@@ -7,14 +7,14 @@ export type TPasswordData = {
 
 export type TSearch = {
   login: string;
-}
+};
 
 export class User extends BaseQuery {
   constructor() {
     super('/user');
   }
 
-  public changeData(data:  Record<string, string | number | string[]>) {
+  public changeData(data: Record<string, string | number | string[]>) {
     return this.http.put('/profile', { data });
   }
 

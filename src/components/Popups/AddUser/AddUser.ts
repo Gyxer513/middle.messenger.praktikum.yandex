@@ -18,7 +18,7 @@ export class AddUser extends Block {
           const data = formValidator.handleSubmit('searchForm');
           const queryData = data.formData as { message: string };
           if (data.isValid) {
-          return  this._findAndAddUser(queryData.message);
+            return this._findAndAddUser(queryData.message);
           }
         }
       },
@@ -28,7 +28,7 @@ export class AddUser extends Block {
         onClick: (e: Event) => {
           e.preventDefault();
           const element = e.target as HTMLElement | null;
-          console.log(element)
+          console.log(element);
           if (element && element.id) {
             const chatId = store.getState().currentChatId;
             const id = +element.id as number;
@@ -45,7 +45,7 @@ export class AddUser extends Block {
 
   private async _findAndAddUser(userName: string): Promise<void> {
     await UserService.searchUser(userName);
-    router.renderPopup(new AddUser())
+    router.renderPopup(new AddUser());
   }
 
   render(): HTMLElement {

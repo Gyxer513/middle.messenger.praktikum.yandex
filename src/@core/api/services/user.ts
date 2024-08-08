@@ -37,7 +37,6 @@ export class User {
   public async changePass(data: TPasswordData): Promise<void> {
     try {
       await UserController.changePass(data);
-
     } catch (error) {
       console.warn('Произошла ошибка', error);
     }
@@ -46,7 +45,7 @@ export class User {
   public async searchUser(name: string) {
     try {
       const result = await UserController.searchUser({ login: name });
-      store.setState('searchedUsers', result)
+      store.setState('searchedUsers', result);
     } catch (error) {
       console.warn('Произошла ошибка при поиске пользователя', error);
     }

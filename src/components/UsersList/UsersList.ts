@@ -27,9 +27,8 @@ export class UsersList extends Block {
   }
 }
 
-
 const withSearchedUsersStore = withStore(state => ({
-  users: state.searchedUsers,
+  users: state.searchedUsers
 }));
 
 export const UsersListWithSearchedUsers = withSearchedUsersStore(UsersList);

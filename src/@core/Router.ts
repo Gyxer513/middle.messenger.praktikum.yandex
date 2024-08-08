@@ -25,7 +25,9 @@ export default class Router {
     this.appElement = appElement;
 
     // Находим элемент попапа
-    const popupElement = document.getElementById(popupElementId) as  HTMLDialogElement;
+    const popupElement = document.getElementById(
+      popupElementId
+    ) as HTMLDialogElement;
     if (!popupElement) {
       throw new Error(`Элемент с id "${popupElementId}" не найден`);
     }
@@ -55,7 +57,7 @@ export default class Router {
     this.notFoundHandler = handler;
   }
 
-  private onPopState(){
+  private onPopState() {
     const currentPath = window.location.pathname;
     this.appElement.innerHTML = '';
     this.renderRoute(currentPath);
@@ -73,7 +75,7 @@ export default class Router {
   }
 
   // Дополнительный метод проверки приветная ссылка или нет
-  private async renderRoute(path: string){
+  private async renderRoute(path: string) {
     const route = this.routes.find(route => route.path === path);
 
     if (route) {
@@ -109,17 +111,17 @@ export default class Router {
   }
 
   // Открываем попап
-  public renderPopup(content:  Block): void {
+  public renderPopup(content: Block): void {
     this.popupElement.innerHTML = '';
     this.popupElement.appendChild(content.getContent());
-    document.body.classList.add('scroll-lock')
-    this.popupElement.showModal()
+    document.body.classList.add('scroll-lock');
+    this.popupElement.showModal();
   }
 
   // Закрываем попап
   public closePopup(): void {
-    document.body.classList.remove('scroll-lock')
-    this.popupElement.close()
+    document.body.classList.remove('scroll-lock');
+    this.popupElement.close();
     this.popupElement.innerHTML = '';
   }
 }

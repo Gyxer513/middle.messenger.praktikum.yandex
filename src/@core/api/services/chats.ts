@@ -40,7 +40,7 @@ class Chats {
     }
 
     if (data.type === 'message') {
-      const currentMessages = store.getState().activeChatMessages
+      const currentMessages = store.getState().activeChatMessages;
       if (Array.isArray(currentMessages)) {
         store.setState('activeChatMessages', [
           ...currentMessages,
@@ -99,13 +99,15 @@ class Chats {
 
   public async setActiveChat(chatId: number) {
     const currChatId = store.getState().currentChatId;
-    console.log(chatId)
+    console.log(chatId);
     if (currChatId != chatId) {
       await this._connectToWS(chatId);
       await this.socket?.waitForOpen();
       this.getChatMessages(0);
       const newActiveChat = await this.getChatInfo(chatId);
-      const currentUsers = await ChatsController.getCurrentChatUsers(chatId) as TUserData[];
+      const currentUsers = (await ChatsController.getCurrentChatUsers(
+        chatId
+      )) as TUserData[];
       this._setCurrentChatId(chatId);
       this._setStoreCurrentUsers(currentUsers);
       this._setStoreActiveAvatar(newActiveChat);

@@ -18,7 +18,7 @@ export default abstract class Block {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
-    FLOW_RENDER: 'flow:render',
+    FLOW_RENDER: 'flow:render'
   } as const;
 
   public id = randomIdGenerator();
@@ -67,7 +67,7 @@ export default abstract class Block {
     Object.entries(events as Record<string, () => void>).forEach(
       ([event, listener]) => {
         this._element!.removeEventListener(event, listener);
-      },
+      }
     );
   }
 
@@ -91,9 +91,7 @@ export default abstract class Block {
     this.componentDidMount();
   }
 
-  public componentDidMount() {
-
-  }
+  public componentDidMount() {}
 
   private _addEvents() {
     const { events } = this.props as any;
@@ -104,7 +102,7 @@ export default abstract class Block {
     Object.entries(events as Record<string, () => void>).forEach(
       ([event, listener]) => {
         this._element!.addEventListener(event, listener);
-      },
+      }
     );
   }
 
@@ -152,7 +150,7 @@ export default abstract class Block {
       },
       deleteProperty() {
         throw new Error('Нет доступа');
-      },
+      }
     });
   }
 
@@ -184,7 +182,7 @@ export default abstract class Block {
       throw new Error('Шаблон пуст');
     }
 
-    Object.values(this.children).forEach((child) => {
+    Object.values(this.children).forEach(child => {
       const stub = fragment.content.querySelector(`[data-id='id-${child.id}']`);
       if (stub) {
         stub.replaceWith(child.getContent() ?? document.createElement('div'));
@@ -199,5 +197,4 @@ export default abstract class Block {
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
-
 }

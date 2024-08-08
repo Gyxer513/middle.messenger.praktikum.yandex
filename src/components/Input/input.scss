@@ -3,7 +3,7 @@
 .container {
   position: relative;
 
-   .input {
+  .input {
     width: 280px;
     height: 45px;
     background: global.$main-background;
@@ -35,7 +35,7 @@
     }
   }
 
-   div {
+  div {
     font-size: 0.9em;
     color: global.$secondary-text-color;
     position: absolute;

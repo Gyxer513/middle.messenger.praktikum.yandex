@@ -1,1 +1,1 @@
-export { ProfileWithStore } from './ChangeProfile.ts'
+export { ProfileWithStore } from './ChangeProfile.ts';

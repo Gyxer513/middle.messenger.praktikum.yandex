@@ -1,1 +1,1 @@
-export {Loader} from "./Loader.ts";
+export { Loader } from './Loader.ts';

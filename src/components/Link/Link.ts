@@ -11,14 +11,14 @@ interface ILinkProps {
 }
 
 export class Link extends Block {
-  constructor({ path, text, isPrivate = false }: ILinkProps) {
+  constructor({ path, text }: ILinkProps) {
     super({
       path,
       text,
       events: {
         click: (e: Event) => {
           e.preventDefault();
-          router.navigateTo(path, isPrivate);
+          router.navigateTo(path);
         }
       }
     });

@@ -1,1 +1,1 @@
-export { DeleteUsersWithStore } from './DeleteUsers.ts'
+export { DeleteUsersWithStore } from './DeleteUsers.ts';
