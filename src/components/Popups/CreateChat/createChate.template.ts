@@ -1,7 +1,7 @@
 // language=hbs
 export const template = `
-<section class='createChat'>
-  <form class="createChat__form" id="createChatForm">
+<section class='create-chat'>
+  <form class="create-chat__form" id="createChatForm">
       <h1>Введите название нового чата</h1>
       {{{ chatNameInput }}}
       {{{ submitButton }}}
