@@ -102,6 +102,7 @@ export class Chat extends Block {
       this.children.chatAvatar.setProps({
         src: `https://ya-praktikum.tech/api/v2/resources${updatedChatAvatar.avatar}`
       });
+      await ChatsService.getChats()
     }
   }
 

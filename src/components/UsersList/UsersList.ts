@@ -6,7 +6,7 @@ import './userList.scss';
 
 type TUserListProps = {
   users?: Array<TUserData>;
-  onClick: any;
+  onClick: (event: MouseEvent) => void;
   handleData?: boolean;
   text: string;
 };

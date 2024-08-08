@@ -3,6 +3,10 @@ import { ChatsController } from '@core/api/controllers/chats.ts';
 import { Message } from '@core/api/services/message.ts';
 import { messageMixin } from '@core/utils/mixins.ts';
 import { TUserData } from '@core/api/services/user.ts';
+import { actionMixin } from '@core/utils/actionMixin.ts';
+
+type TChatMessage = {type: string; content: number | string}
+type TChatInfo = {avatar: string, messages: TChatMessage[]};
 
 class Chats {
   socket: Message | null = null;
@@ -12,10 +16,10 @@ class Chats {
   }
 
   private _setStoreCurrentUsers(currentUsers: TUserData[]): void {
-    store.setState('currentUsers', currentUsers);
+    store.setState('currentUsers', actionMixin(currentUsers, 'Удалить'));
   }
 
-  private _setStoreActiveAvatar(chatInfo: any) {
+  private _setStoreActiveAvatar(chatInfo: TChatInfo) {
     store.setState(
       'currentChatAvatar',
       `https://ya-praktikum.tech/api/v2/resources${chatInfo.avatar}`
@@ -62,7 +66,7 @@ class Chats {
   }
 
   public getChatMessages(count: number) {
-    const data: any = {
+    const data: TChatMessage  = {
       type: 'get old',
       content: count
     };
@@ -104,7 +108,7 @@ class Chats {
       await this._connectToWS(chatId);
       await this.socket?.waitForOpen();
       this.getChatMessages(0);
-      const newActiveChat = await this.getChatInfo(chatId);
+      const newActiveChat = await this.getChatInfo(chatId) as TChatInfo;
       const currentUsers = (await ChatsController.getCurrentChatUsers(
         chatId
       )) as TUserData[];
@@ -124,7 +128,7 @@ class Chats {
   }
 
   public sendMessage(message: string) {
-    const data: any = {
+    const data: TChatMessage = {
       type: 'message',
       content: message
     };

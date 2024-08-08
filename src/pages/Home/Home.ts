@@ -8,7 +8,7 @@ export class Home extends Block {
     constructor() {
         super({
             linkToLogin: new Link({
-                path: '/login',
+                path: '/',
                 text: 'Вход',
             }),
             linkToRegister: new Link({
@@ -24,7 +24,7 @@ export class Home extends Block {
                 text: 'Поменять пароль',
             }),
             linkToChats: new Link({
-                path: '/chats',
+                path: '/messenger',
                 text: 'Чаты',
             }),
             linkToError500: new Link({

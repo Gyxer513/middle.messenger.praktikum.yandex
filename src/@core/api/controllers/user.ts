@@ -1,4 +1,5 @@
 import BaseQuery from '@core/HttpQuery.ts';
+import { TUserData } from '@core/api/services/user.ts';
 
 export type TPasswordData = {
   oldPassword: string;
@@ -26,8 +27,9 @@ export class User extends BaseQuery {
     return this.http.put('/password', { data });
   }
 
-  public searchUser(data: TSearch) {
-    return this.http.post('/search', { data });
+  public searchUser(data: TSearch): Promise<Array<TUserData> | TUserData> {
+    const result = this.http.post('/search', { data } );
+    return result as Promise<Array<TUserData> | TUserData>;
   }
 }
 

@@ -5,11 +5,11 @@ import { AuthService } from '@core/api/services';
 export const router = new Router('app', 'popup');
 
 document.addEventListener('DOMContentLoaded', async () => {
-    router.addRoute('/', () => {
+    router.addRoute('/home', () => {
         router.render(new Pages.HomePage());
     });
 
-    router.addRoute('/login', () => {
+    router.addRoute('/', () => {
         router.render(new Pages.LoginPage({}));
     });
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         router.render(new Pages.ChangePassPage({}));
     });
 
-    router.addRoute('/chats', () => {
+    router.addRoute('/messenger', () => {
         router.render(new Pages.ChatsPage({}));
     });
 

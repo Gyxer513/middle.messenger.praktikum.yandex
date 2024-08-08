@@ -4,6 +4,7 @@ import './login.scss';
 import { FormValidator } from '@core/FormValidator.ts';
 import { AuthService } from '@core/api/services';
 import { router } from '@/index.ts';
+import { TSignUpData } from '@core/api/services/auth.ts';
 import { Button, Input, Link } from '@/components';
 
 const formHandler = new FormValidator();
@@ -64,7 +65,7 @@ export class Login extends Block {
     private _sendLoginData() {
         formHandler.handleSubmit('loginForm');
         const data = formHandler.handleSubmit('loginForm');
-        const queryData = data.formData as any;
+        const queryData = data.formData as TSignUpData;
         if (data.isValid) {
             return AuthService.login(queryData);
         }
@@ -73,7 +74,7 @@ export class Login extends Block {
 
     componentDidMount() {
         if (router.getAuthenticatedStatus()) {
-            router.navigateTo('/chats');
+            router.navigateTo('/messenger');
         }
     }
 
