@@ -45,9 +45,9 @@ export default class Validator {
   }
 
   private validateLogin(value: string): [boolean, string] {
-    // Правило для логина: минимум 5 символов, только буквы и цифры
-    if (value.length < 5) {
-      return [false, 'Логин должен содержать минимум 5 символов.'];
+    // Правило для логина: минимум 2 символов, только буквы и цифры
+    if (value.length < 2) {
+      return [false, 'Логин должен содержать минимум 2 символов.'];
     }
     if (!/^[a-zA-Z0-9]+$/.test(value)) {
       return [false, 'Логин может содержать только латинские буквы и цифры.'];

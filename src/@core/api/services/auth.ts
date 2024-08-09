@@ -11,6 +11,10 @@ export type TSignUpData = {
   phone?: string;
 };
 
+interface ICustomError extends Error {
+  reason?: string;
+}
+
 class Auth {
   public async createUser(data: TSignUpData) {
     try {
@@ -29,9 +33,14 @@ class Auth {
       store.setState('userData', userData);
       router.setAuthenticationStatus(true);
       router.navigateTo('/chats');
-    } catch (error) {
-      router.setAuthenticationStatus(false);
-      console.warn('Произошла ошибка' + error);
+    } catch (error: unknown) {
+      const err = error as ICustomError;
+      if (err.reason === "User already in system") {
+        router.navigateTo('/messenger');
+      } else {
+        router.setAuthenticationStatus(false);
+        console.warn('Произошла ошибка' + error);
+      }
     }
   }
 
