@@ -2,7 +2,7 @@
 export const template = `
     <section class='profile__page'>
         {{{ profileAvatar }}}
-        <form class="profile__form" id="passwordForm">
+        <form class="profile-form" id="passwordForm">
             {{{ oldPasswordInput }}}
             {{{ passwordInput }}}
             {{{ repeatPasswordInput }}}

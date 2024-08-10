@@ -1,1 +1,1 @@
-export { Login } from './Login.ts';
+export { Login } from '@/pages/Login/Login.ts';

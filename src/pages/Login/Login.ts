@@ -1,9 +1,11 @@
 import { template } from '@/pages/Login/login.template.ts';
 import Block from '@core/Block.ts';
 import './login.scss';
-import { router } from '@/index.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Button, Input } from '@/components';
+import { AuthService } from '@core/api/services';
+import { router } from '@/index.ts';
+import { TSignUpData } from '@core/api/services/auth.ts';
+import { Button, Input, Link } from '@/components';
 
 const formHandler = new FormValidator();
 
@@ -45,25 +47,35 @@ export class Login extends Block {
                 type: 'submit',
                 onClick: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('loginForm');
+                    return this._sendLoginData();
                 },
                 submit: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('loginForm');
+                    return this._sendLoginData();
                 },
             }),
 
-            linkButton: new Button({
-                id: 'linkButton',
-                class_name: 'button button__main button__transparent',
-                text: 'Зарегистрироваться',
-                type: 'button',
-                onClick: (e: Event) => {
-                    console.log(e.target);
-                    router.navigateTo('/register');
-                },
+            linkToRegister: new Link({
+                path: '/sign-up',
+                text: 'Регистрация',
             }),
         });
+    }
+
+    private _sendLoginData() {
+        formHandler.handleSubmit('loginForm');
+        const data = formHandler.handleSubmit('loginForm');
+        const queryData = data.formData as TSignUpData;
+        if (data.isValid) {
+            return AuthService.login(queryData);
+        }
+        return 'Ok';
+    }
+
+    componentDidMount() {
+        if (router.getAuthenticatedStatus()) {
+            router.navigateTo('/messenger');
+        }
     }
 
     render(): HTMLElement {

@@ -1,16 +1,28 @@
 import './changePass.scss';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Avatar, Button, Input } from '@/components';
-
+import { AuthService } from '@core/api/services';
+import { router } from '@/index.ts';
+import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
+import { TUserData, UserService } from '@core/api/services/user.ts';
+import { BASE_URL } from '@core/utils/url.ts';
 import { template } from './changePass.template.ts';
+import { UserAvatar, Button, Input } from '@/components';
+
+type TChangePassData = {
+  old_password: string;
+  password: string;
+};
 
 interface IChangePassProps {
-  profileAvatar?: Avatar;
+  profileAvatar?: typeof UserAvatar;
   oldPasswordInput?: Input;
   passwordInput?: Input;
   repeatPasswordInput?: Input;
   submitButton?: Button;
+  userData?: {
+    avatar?: string;
+  };
 }
 
 const formHandler = new FormValidator();
@@ -19,10 +31,16 @@ export class ChangePass extends Block {
     constructor(props: IChangePassProps) {
         super({
             ...props,
-            profileAvatar: new Avatar({
+            profileAvatar: new UserAvatar({
                 class: 'avatar__container',
-                src: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png',
+                src:
+          `${BASE_URL}${props.userData?.avatar}`
+          || '',
                 alt: 'аватар',
+                size: 'medium',
+                events: {
+                    change: (event: Event) => this.handleAvatarChange(event),
+                },
             }),
             oldPasswordInput: new Input({
                 class_name: 'input',
@@ -58,7 +76,15 @@ export class ChangePass extends Block {
                 type: 'submit',
                 onClick: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('passwordForm');
+                    const data = formHandler.handleSubmit('passwordForm');
+                    const queryData = data.formData as TChangePassData;
+                    if (data.isValid) {
+                        return UserService.changePass({
+                            oldPassword: queryData?.old_password,
+                            newPassword: queryData?.password,
+                        });
+                    }
+                    return 'Ok';
                 },
                 submit: (e: Event) => {
                     e.preventDefault();
@@ -68,7 +94,41 @@ export class ChangePass extends Block {
         });
     }
 
+    async componentDidMount() {
+        await AuthService.fetchUser();
+        if (!router.getAuthenticatedStatus()) {
+            router.navigateTo('/');
+        }
+        this.updateChildProps(this.props.userData);
+    }
+
+    updateChildProps(userData: TUserData) {
+        if (userData) {
+            this.children.profileAvatar.setProps({
+                src: `${BASE_URL}${userData.avatar}`,
+            });
+        }
+    }
+
+    private async handleAvatarChange(event: Event) {
+        event.preventDefault();
+
+        const input = event.target as HTMLInputElement;
+        const avatar = input.files ? input?.files[0] : null;
+
+        if (avatar) {
+            const updatedUserData = (await UserService.changeAvatar(avatar)) as {
+        avatar: string;
+      };
+            this.children.profileAvatar.setProps({
+                src: `${BASE_URL}${updatedUserData.avatar}`,
+            });
+        }
+    }
+
     render(): HTMLElement {
         return this.compile(template, this.props);
     }
 }
+
+export const ChangePassWithStore = withUserStore(ChangePass);

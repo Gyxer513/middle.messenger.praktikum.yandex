@@ -3,7 +3,7 @@
 export const template = `
 <section class='profile__page'>
     {{{ profileAvatar }}}
-    <h2 class='login__title'>Иван</h2>
+    <h2 class='login__title'>{{ title }}</h2>
     <form class="profile__form" id="profileForm">
     {{{ emailInput }}}
     {{{ loginInput }}}
@@ -13,7 +13,7 @@ export const template = `
     {{{ phoneNumberInput }}}
       {{{ submitButton }}}
     <div class="profile__button-box">
-      {{{ linkButton }}}
+      {{{ linkToChangePass }}}
       {{{ exitButton  }}}
     </div>
   </form>

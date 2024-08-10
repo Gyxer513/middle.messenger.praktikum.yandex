@@ -1,72 +1,127 @@
 import Block from '@core/Block.ts';
-
 type RouteHandler = () => void;
 
 interface IRoute {
   path: string;
   handler: RouteHandler;
+  isPrivate: boolean;
+  requiresData?: boolean;
 }
 
 export default class Router {
-    private routes: IRoute[] = [];
+  private routes: IRoute[] = [];
+  private notFoundHandler: RouteHandler | null = null;
+  private static _instance: Router;
+  private appElement: HTMLElement;
+  private popupElement: HTMLDialogElement;
+  private isAuthenticated: boolean = false;
 
-    private notFoundHandler: RouteHandler | null = null;
-
-    private appElement: HTMLElement;
-
-    constructor(appElementId: string) {
+  constructor(appElementId: string, popupElementId: string) {
     // Находим root элемент
-        const appElement = document.getElementById(appElementId);
-        if (!appElement) {
-            throw new Error(`Элемент с id "${appElementId}" не найден`);
-        }
-        this.appElement = appElement;
-
-        window.addEventListener('popstate', this.onPopState.bind(this));
-        window.addEventListener('load', this.onPopState.bind(this));
+    const appElement = document.getElementById(appElementId);
+    if (!appElement) {
+      throw new Error(`Элемент с id "${appElementId}" не найден`);
     }
+    this.appElement = appElement;
 
-    // Добавляем роут в список
-    public addRoute(path: string, handler: RouteHandler): void {
-        this.routes.push({ path, handler });
+    // Находим элемент попапа
+    const popupElement = document.getElementById(
+      popupElementId
+    ) as HTMLDialogElement;
+    if (!popupElement) {
+      throw new Error(`Элемент с id "${popupElementId}" не найден`);
     }
+    this.popupElement = popupElement;
 
-    // Устанавливаем переключатель для неизвестной страницы
-    public setNotFoundHandler(handler: RouteHandler): void {
-        this.notFoundHandler = handler;
+    window.addEventListener('popstate', this.onPopState.bind(this));
+    window.addEventListener('load', this.onPopState.bind(this));
+
+    if (Router._instance) {
+      return Router._instance;
     }
+    Router._instance = this;
+  }
 
-    // Проверяем изменение хэша
-    private onPopState(): void {
-        const currentPath = window.location.pathname;
-        const route = this.routes.find((route) => route.path === currentPath);
+  // Добавляем роут в список роутов
+  public addRoute(
+    path: string,
+    handler: RouteHandler,
+    isPrivate: boolean = false,
+    requiresData: boolean = false
+  ): void {
+    this.routes.push({ path, handler, isPrivate, requiresData });
+  }
 
-        if (route) {
-            route.handler();
-        } else {
-            this.redirectToNotFound();
-        }
+  // Устанавливаем переключатель для неизвестной страницы
+  public setNotFoundHandler(handler: RouteHandler): void {
+    this.notFoundHandler = handler;
+  }
+
+  private onPopState() {
+    const currentPath = window.location.pathname;
+    this.appElement.innerHTML = '';
+    this.renderRoute(currentPath);
+  }
+
+  public getAuthenticatedStatus() {
+    return this.isAuthenticated;
+  }
+
+  // Управляемый редирект
+  public navigateTo(path: string) {
+    this.appElement.innerHTML = '';
+    history.pushState(null, '', path);
+    this.renderRoute(path);
+  }
+
+  // Дополнительный метод проверки приветная ссылка или нет
+  private async renderRoute(path: string) {
+    const route = this.routes.find(route => route.path === path);
+
+    if (route) {
+      if (route.isPrivate && !this.isAuthenticated) {
+        alert('You are not authorized to view this page');
+        this.navigateTo('/');
+      } else {
+        route.handler();
+      }
+    } else {
+      this.redirectToNotFound();
     }
+  }
 
-    // Управляемый редирект
-    public navigateTo(path: string): void {
-        history.pushState(null, '', path);
-        this.onPopState();
-        location.reload();
+  // Инициализация редиректа на 404
+  public redirectToNotFound(): void {
+    if (this.notFoundHandler) {
+      this.notFoundHandler();
+      history.pushState(null, '', '/404');
+    } else {
+      console.log('Такого адреса нет или перенаправление не задано');
     }
+  }
 
-    // Инициализация редиректа на 404
-    public redirectToNotFound(): void {
-        if (this.notFoundHandler) {
-            this.notFoundHandler();
-            history.pushState(null, '', '/404');
-        } else {
-            console.log('Такого адреса нет или перенаправление не задано');
-        }
-    }
+  // Меняем статус авторизации
+  public setAuthenticationStatus(status: boolean): void {
+    this.isAuthenticated = status;
+  }
 
-    // Рендер компонента
-    public render(component: Block): void {
+  // Рендер компонента
+  public render(component: Block): void {
     this.appElement!.appendChild(component.getContent());
-    }
+  }
+
+  // Открываем попап
+  public renderPopup(content: Block): void {
+    this.popupElement.innerHTML = '';
+    this.popupElement.appendChild(content.getContent());
+    document.body.classList.add('scroll-lock');
+    this.popupElement.showModal();
+  }
+
+  // Закрываем попап
+  public closePopup(): void {
+    document.body.classList.remove('scroll-lock');
+    this.popupElement.close();
+    this.popupElement.innerHTML = '';
+  }
 }

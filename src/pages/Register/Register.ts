@@ -1,10 +1,11 @@
 import './register.scss';
-import { router } from '@/index.ts';
 import Block from '@core/Block.ts';
 import { FormValidator } from '@core/FormValidator.ts';
-import { Button, Input } from '@/components';
-
+import { AuthService } from '@core/api/services';
+import { router } from '@/index.ts';
+import { TSignUpData } from '@core/api/services/auth.ts';
 import { template } from './register.template.ts';
+import { Button, Input, Link } from '@/components';
 
 const formHandler = new FormValidator();
 
@@ -81,25 +82,36 @@ export class Register extends Block {
                 type: 'submit',
                 onClick: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('profileForm');
+                    const data = formHandler.handleSubmit('profileForm');
+                    const queryData = data.formData as TSignUpData;
+                    if (data.isValid) {
+                        return AuthService.createUser(queryData);
+                    }
+                    return 'Ok';
                 },
                 submit: (e: Event) => {
                     e.preventDefault();
-                    formHandler.handleSubmit('profileForm');
+                    const data = formHandler.handleSubmit('profileForm');
+                    const queryData = data.formData as TSignUpData;
+                    if (data.isValid) {
+                        return AuthService.createUser(queryData);
+                    }
+                    return 'Ok';
                 },
             }),
-            linkButton: new Button({
-                id: 'linkButton',
-                class_name: 'button button__main button__transparent',
+            linkToLogin: new Link({
+                path: '/login',
                 text: 'Войти',
-                type: 'button',
-                onClick: (e: Event) => {
-                    console.log(e.target);
-                    router.navigateTo('/login');
-                },
             }),
         });
     }
+
+    componentDidMount = async () => {
+        await AuthService.fetchUser();
+        if (router.getAuthenticatedStatus()) {
+            router.navigateTo('/');
+        }
+    };
 
     render(): HTMLElement {
         return this.compile(template, this.props);

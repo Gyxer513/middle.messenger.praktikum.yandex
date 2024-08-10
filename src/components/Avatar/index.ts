@@ -1,1 +1,1 @@
-export { Avatar } from './Avatar.ts';
+export { AvatarWithUserStore, AvatarWithChatsStore } from './Avatar.ts';

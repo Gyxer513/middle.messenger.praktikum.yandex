@@ -14,7 +14,7 @@
 
 ...Здесь будет описание...
 
-[Ссылка на сайт прокета](https://gyxer-online-chat.netlify.app)
+[Ссылка на сайт прокета](https://cheery-horse-e591f9.netlify.app)
 
 ## Установка
 

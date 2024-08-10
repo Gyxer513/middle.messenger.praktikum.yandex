@@ -1,51 +1,58 @@
 import { template } from '@/pages/Chats/chats.template.ts';
 import './chats.scss';
 import Block from '@core/Block.ts';
-import { Chat } from '@/components/Chat/Chat.ts';
-import { ChatItem } from '@/components';
+import { AuthService } from '@core/api/services';
+import { router } from '@/index.ts';
+import { ChatsService } from '@core/api/services/chats.ts';
+import { withUserStore } from '@/pages/ChangeProfile/ChangeProfile.ts';
+import {
+    ChatsList, Button, Chat, CreateChat,
+} from '@/components';
 
 interface IChatProps {
-  chatItem1?: ChatItem;
-  chatItem2?: ChatItem;
-  chatItem3?: ChatItem;
+  userData?: {
+    email?: string;
+    login?: string;
+    first_name?: string;
+    second_name?: string;
+    display_name?: string;
+    phone?: string;
+    avatar?: string;
+  };
+  chatsList: typeof ChatsList;
+  chat: typeof Chat;
 }
 
 export class Chats extends Block {
     constructor(props: IChatProps) {
         super({
             ...props,
-            chatItem1: new ChatItem({
-                src: 'https://w7.pngwing.com/pngs/857/213/png-transparent-man-avatar-user-business-avatar-icon-thumbnail.png',
-                alt: 'avatar-cat',
-                name: 'Антон',
-                message: 'Привет',
-                time: '14:19',
-                counter_class: 'counter counter_enabled',
-                counter_number: 30,
+            createChatButton: new Button({
+                id: 'createChatButton',
+                class_name: 'button button__main',
+                type: 'button',
+                text: 'Создать новый чат',
+                onClick: (e) => {
+                    e.preventDefault();
+                    router.renderPopup(new CreateChat());
+                },
             }),
-            chatItem2: new ChatItem({
-                src: 'https://w7.pngwing.com/pngs/924/414/png-transparent-woman-illustration-user-profile-avatar-woman-icon-girl-avatar-face-fashion-girl-heroes-thumbnail.png',
-                alt: 'avatar-cat',
-                name: 'Ирина',
-                message: 'Идем на обед?',
-                time: '12:32',
-                counter_class: 'counter counter_enabled',
-                counter_number: 10,
-            }),
-            chatItem3: new ChatItem({
-                src: 'https://w7.pngwing.com/pngs/550/997/png-transparent-user-icon-foreigners-avatar-child-face-heroes-thumbnail.png',
-                alt: 'avatar-cat',
-                name: 'Кирилл',
-                message: 'Завтра все в силе?',
-                time: '18:15',
-                counter_class: 'counter counter_enabled',
-                counter_number: 132,
-            }),
+            chatsList: new ChatsList({ items: props.chat }),
             chat: new Chat({}),
         });
     }
 
+    async componentDidMount() {
+        await AuthService.fetchUser();
+        await ChatsService.getChats();
+        if (!router.getAuthenticatedStatus()) {
+            router.navigateTo('/');
+        }
+    }
+
     render(): HTMLElement {
-        return this.compile(template, this.props);
+        return this.compile(template, { ...this.props });
     }
 }
+
+export const ChatsWithStore = withUserStore(Chats);
