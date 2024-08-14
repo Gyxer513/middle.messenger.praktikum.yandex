@@ -14,16 +14,13 @@
     "stylelint": "npx stylelint \"**/*.scss\" --fix",
     "eslint": "eslint \"**/*.{ts,js}\" --fix"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run dev"
-   //   "pre-push": "npm run other command"
-    }
-  },
   "devDependencies": {
+    "@types/chai": "^4.3.17",
     "@types/express": "^4.17.21",
+    "@types/mocha": "^10.0.7",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.11.0",
+    "chai": "^5.1.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -31,6 +28,7 @@
     "eslint-plugin-import": "^2.29.1",
     "globals": "^15.0.0",
     "husky": "^9.1.4",
+    "mocha": "^10.7.3",
     "prettier": "^3.2.5",
     "sass": "^1.75.0",
     "stylelint": "^16.6.1",
