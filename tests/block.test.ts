@@ -1,11 +1,12 @@
+/* eslint-disable */
 import Block from '../src/@core/Block';
 
 // Создаем простой класс для тестирования, наследуя его от Block
-class TestBlock extends Block
-{
+class TestBlock extends Block {
     constructor(props: {content: string}) {
-        super({...props});
+        super({ ...props });
     }
+
     render(): HTMLElement {
         return this.compile('<div>{{content}}</div>', this.props);
     }
@@ -34,12 +35,10 @@ describe('Block', () => {
         expect(element.innerHTML).toBe('Updated Content');
     });
 
-
     it('должен вызывать componentDidMount после монтирования', () => {
         const componentDidMountSpy = jest.spyOn(testBlock, 'componentDidMount');
         testBlock.dispatchComponentDidMount();
 
         expect(componentDidMountSpy).toHaveBeenCalled();
     });
-
 });

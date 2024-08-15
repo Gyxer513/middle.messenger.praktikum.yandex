@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Router from '../src/@core/Router';
 import Block from '../src/@core/Block';
 
@@ -23,10 +24,10 @@ describe('Router', () => {
     });
 
     test('Должен корректно добавить роуты в роутер', () => {
-        document.body.innerHTML = `<dialog id="popup"></dialog>`;
+        document.body.innerHTML = '<dialog id="popup"></dialog>';
 
         expect(() => new Router('non-existing-id', 'popup')).toThrowError(
-            'Элемент с id "non-existing-id" не найден'
+            'Элемент с id "non-existing-id" не найден',
         );
     });
 
@@ -34,7 +35,7 @@ describe('Router', () => {
         const handler = jest.fn();
         router.addRoute('/test', handler, false, false);
 
-        const routes = (router as any).routes;
+        const { routes } = (router as any);
         expect(routes.length).toBe(1);
         expect(routes[0].path).toBe('/test');
         expect(routes[0].handler).toBe(handler);
@@ -59,11 +60,10 @@ describe('Router', () => {
         expect(window.location.pathname).toBe('/test');
     });
 
-
     test('Должен корректно открыть и закрыть попап', () => {
         class TestBlock extends Block {
             render(): HTMLElement {
-               return  this.compile(`<h1>For test</h1>`, this.props)
+                return this.compile('<h1>For test</h1>', this.props);
             }
         }
 

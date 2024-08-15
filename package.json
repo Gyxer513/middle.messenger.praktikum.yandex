@@ -13,12 +13,8 @@
     "start": "tsc && vite build --emptyOutDir  && vite --port 3000 && eslint . --ext .js,.ts --fix",
     "stylelint": "npx stylelint \"**/*.scss\" --fix",
     "eslint": "eslint \"**/*.{ts,js}\" --fix",
-    "test": "ts-node --transpile-only ./node_modules/jest/bin/jest.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
+    "test": "ts-node --transpile-only ./node_modules/jest/bin/jest.js",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/chai": "^4.3.17",
