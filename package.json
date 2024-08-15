@@ -51,5 +51,10 @@
     "stylelint-config-recommended-scss": "^14.0.0",
     "stylelint-scss": "^6.3.0",
     "vite-plugin-handlebars": "^2.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all test eslint stylelint"
+    }
   }
 }
