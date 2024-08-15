@@ -6,6 +6,7 @@ const config: Config = {
     testEnvironment: 'jsdom',
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
+        '^@core/(.*)$': '<rootDir>/src/@core/$1',
     },
     transform: {
         '^.+\\.ts$': 'ts-jest',
