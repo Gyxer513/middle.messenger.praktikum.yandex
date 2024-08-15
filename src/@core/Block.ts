@@ -1,7 +1,5 @@
 import Handlebars from 'handlebars';
-
-import { randomIdGenerator } from '@core/utils/randomIdGenerator.ts';
-
+import randomIdGenerator from './utils/randomIdGenerator.ts';
 import EventBus from './EventBus.ts';
 
 export type Props = {
@@ -27,7 +25,7 @@ export default abstract class Block {
 
   protected children: Record<string, Block>;
 
-  protected props: Props;
+  public props: Props;
 
   private eventBus: () => EventBus;
 
