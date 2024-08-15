@@ -14,7 +14,7 @@
     "stylelint": "npx stylelint \"**/*.scss\" --fix",
     "eslint": "eslint \"**/*.{ts,js}\" --fix",
     "test": "ts-node --transpile-only ./node_modules/jest/bin/jest.js",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/chai": "^4.3.17",
