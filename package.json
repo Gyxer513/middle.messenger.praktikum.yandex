@@ -46,6 +46,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "handlebars": "^4.7.8",
+    "mocha": "^10.7.3",
     "stylelint-config-recommended-scss": "^14.0.0",
     "stylelint-scss": "^6.3.0",
     "vite-plugin-handlebars": "^2.0.0"
