@@ -11,3 +11,5 @@ export const randomIdGenerator = (length: number = 10) => {
 
   return randomId;
 };
+
+export default randomIdGenerator;

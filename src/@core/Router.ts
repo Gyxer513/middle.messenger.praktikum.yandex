@@ -11,7 +11,6 @@ interface IRoute {
 export default class Router {
   private routes: IRoute[] = [];
   private notFoundHandler: RouteHandler | null = null;
-  private static _instance: Router;
   private appElement: HTMLElement;
   private popupElement: HTMLDialogElement;
   private isAuthenticated: boolean = false;
@@ -35,11 +34,6 @@ export default class Router {
 
     window.addEventListener('popstate', this.onPopState.bind(this));
     window.addEventListener('load', this.onPopState.bind(this));
-
-    if (Router._instance) {
-      return Router._instance;
-    }
-    Router._instance = this;
   }
 
   // Добавляем роут в список роутов

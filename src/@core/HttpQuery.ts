@@ -1,4 +1,6 @@
-const enum HttpMethods {
+import { BASE_URL } from '@core/utils/url.ts';
+
+export const enum HttpMethods {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
@@ -104,8 +106,9 @@ class BaseQuery {
   http: HttpQuery;
 
   constructor(APIBasePath: string) {
-    this.http = new HttpQuery(`https://ya-praktikum.tech/api/v2${APIBasePath}`);
+    this.http = new HttpQuery(`${BASE_URL}${APIBasePath}`);
   }
+
 }
 
 export default BaseQuery;
